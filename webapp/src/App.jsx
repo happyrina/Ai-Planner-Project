@@ -6,7 +6,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { ProfileProvider } from "./context/ProfileContext";
 function App() {
   return (
-    <>
+  <>
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <ProfileProvider>
         <RecoilRoot>

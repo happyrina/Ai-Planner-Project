@@ -6,7 +6,16 @@ import { useRecoilState } from "recoil";
 import { goalIdState, modeState } from "../atoms";
 
 const SendGoal = async (goal, event, method, goalId) => {
-  console.log(event, method);
+  const formData = new FormData();
+  formData.append("title", goal.title);
+  formData.append("startDatetime", goal.startDatetime);
+  formData.append("endDatetime", "none");
+  formData.append("location", goal.location);
+  formData.append("content", goal.content);
+  if (goal.photoUrl) {
+    formData.append("image", goal.photoUrl, goal.photoUrl.name);
+  }
+try{
   const tokenstring = document.cookie;
   const token = tokenstring.split("=")[1];
   const url = goalId
@@ -17,17 +26,18 @@ const SendGoal = async (goal, event, method, goalId) => {
     url: url,
     headers: {
       "Access-Control-Allow-Origin": "*",
+      "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${token}`,
     },
-    data: {
-      title: goal.title,
-      startDatetime: goal.startDatetime,
-      endDatetime: "none",
-      location: goal.location,
-      content: goal.content,
-    },
+    data: formData,
     withCredentials: false,
-  }).then((response) => console.log(response));
+  }).then((response) => {
+  if (response.status === 200) {
+    alert("성공")
+  }console.log(response)})}
+  catch (error) {
+    console.error("An error occurred while updating profile:", error);
+  };
 };
 
 function Goal() {
@@ -79,6 +89,10 @@ function Goal() {
   const ContentHandler = (e) => {
     sestGoalinfo({ ...goalinfo, content: e.target.value });
   };
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]
+    sestGoalinfo({...goalinfo, photoUrl:file})
+  }
 
   useEffect(() => {
     getGoalData(goalId);
@@ -89,12 +103,15 @@ function Goal() {
       const method = "PUT";
       const event = "update";
       console.log(goalinfo);
-      SendGoal(goalinfo, event, method, goalId).then(navigate("/home"));
+      SendGoal(goalinfo, event, method, goalId).then(alert("성공")).then(
+        navigate("/home"));
     } else {
       const method = "POST";
       const event = "create";
       console.log(goalinfo);
-      SendGoal(goalinfo, event, method).then(navigate("/home"));
+      SendGoal(goalinfo, event, method).then(
+        alert("성공")).then(
+        navigate("/home"));
     }
   };
 
@@ -153,7 +170,7 @@ function Goal() {
           />{" "}
         </div>
         <div className={styles.Tag}>사진</div>
-        <input type="file" value={photoUrl} />
+        <input type="file" onChange={handleImageChange}/>
         <div className={styles.Tag}>완료</div>
         <div style={{ width: "100%" }}>
           <div className={styles.Tag}>

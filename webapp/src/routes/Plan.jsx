@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { goalState } from "../atoms";
 import axios from "axios";
+import format from 'date-fns/format';
 import { useState } from "react";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from "@mui/x-date-pickers";
@@ -50,7 +51,7 @@ function Plan() {
   };
   const TitleHandler = (e) => {
     setPlaninfo({ ...planinfo, title: e.target.value })
-    console.log(edate, etime);
+    console.log(format(edate, "yyyy-MM-dd"), etime);
   };
   const startDatetimeHandler = (e) => {
     setPlaninfo({ ...planinfo, startDatetime: e.target.value });

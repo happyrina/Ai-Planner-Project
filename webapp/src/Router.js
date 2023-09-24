@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Signup from "./routes/Signup";
 import Todo from "./routes/Todo";
-import Login from "./routes/Login"
+import LoginPage from "./routes/LoginPage"
 import Home from "./routes/Home"
 import Plan from "./routes/Plan"
 import Goal from "./routes/Goal"
@@ -13,6 +13,7 @@ function Router() {
   return (
     <BrowserRouter>
       <Routes >
+        <Route path="/" element={<LoginPage />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/home" element={<Home />} />
         <Route path="/todo" element={<Todo />} />
@@ -20,8 +21,7 @@ function Router() {
         <Route path="/goal" element={<Goal />} />
         <Route path="/profile" element={<ProfilePhotoEdit />} />
         {/* <Route path="/main" element={<MainPage />} /> */}
-        {/* <Route path="/planlist" element={<PlanListPage />} /> */}
-        <Route path="/" element={<Login />} />
+        <Route path="/planlist" element={<PlanListPage />} />
       </Routes>
     </BrowserRouter>
   );
