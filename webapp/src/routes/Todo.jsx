@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import Selectop from "../components/Select";
 import axios from "axios";
-import styles from "../css/Todo.module.css";
+import styles from "../css/FormStyle.module.css";
 import { useRecoilValue } from "recoil";
 import { goalState } from "../atoms";
 import { useState } from "react";

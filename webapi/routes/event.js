@@ -12,6 +12,8 @@ const app = express();
 const AWS_REGION = 'ap-northeast-2';
 const s3Client = new S3Client({ region: AWS_REGION });
 const dynamodbClient = new DynamoDBClient({ region: AWS_REGION });
+const { format } = require('date-fns')
+
 // 쿠키 파서 및 다른 미들웨어 설정
 app.use(cors());
 app.use(express.json());
@@ -569,30 +571,30 @@ app.get("/event/read/:event_id", requireLogin, async (req, res) => {
 });
 
 // 선택한 목표의 정보를 가져오는 함수
-// async function getGoalById(goalId) {
-//   try {
-//     const params = {
-//       TableName: 'Event', // 목표 정보를 저장하는 테이블 이름
-//       Key: {
-//         'EventId': { S: goalId }, // 가져올 목표의 ID
-//       },
-//     };
-//     const goalData = await dynamodbClient.send(new GetItemCommand(params));
-//     if (!goalData.Item) {
-//       // 목표를 찾을 수 없을 때 에러 처리
-//       return null;
-//     }
-//     // 목표 정보를 반환
-//     return {
-//       event_id: goalData.Item.EventId.S,
-//       title: goalData.Item.Title.S,
-//       // 여기에 필요한 다른 목표 정보를 추가할 수 있습니다.
-//     };
-//   } catch (error) {
-//     console.error('목표 정보를 가져오는 중 오류가 발생했습니다:', error);
-//     throw error; // 오류를 호출한 쪽으로 다시 전파
-//   }
-// }
+async function getGoalById(goalId) {
+  try {
+    const params = {
+      TableName: 'Event', // 목표 정보를 저장하는 테이블 이름
+      Key: {
+        'EventId': { S: goalId }, // 가져올 목표의 ID
+      },
+    };
+    const goalData = await dynamodbClient.send(new GetItemCommand(params));
+    if (!goalData.Item) {
+      // 목표를 찾을 수 없을 때 에러 처리
+      return null;
+    }
+    // 목표 정보를 반환
+    return {
+      event_id: goalData.Item.EventId.S,
+      title: goalData.Item.Title.S,
+      // 여기에 필요한 다른 목표 정보를 추가할 수 있습니다.
+    };
+  } catch (error) {
+    console.error('목표 정보를 가져오는 중 오류가 발생했습니다:', error);
+    throw error; // 오류를 호출한 쪽으로 다시 전파
+  }
+}
 // 11) 일정 수정
 // 12) 일정 수정 (일부 필드만 업데이트)
 // 12) Update an event
@@ -706,13 +708,19 @@ app.get("/event/readByDate/:date", requireLogin, async (req, res) => {
   const user = req.user;
   const date = req.params.date; // 클라이언트에서 전달된 날짜
   // 날짜 범위를 설정합니다. 여기서는 날짜 범위를 해당 날짜의 00:00:00부터 23:59:59까지로 가정합니다.
+  let currentDate = new Date(date)
+  const tomorrow = format(new Date(currentDate.setDate(currentDate.getDate() + 1)), "yyyy-MM-dd HH:mm:ss")
+  currentDate = format(new Date(date), "yyyy-MM-dd HH:mm:ss")
+
+  console.log(currentDate, tomorrow)
   const params = {
     TableName: 'Event',
-    FilterExpression: 'UserId = :userId AND EventType = :eventType AND StartDatetime <= :date AND EndDatetime >= :date',
+    FilterExpression: 'UserId = :userId AND EventType = :eventType AND StartDatetime >= :first AND EndDatetime < :second',
     ExpressionAttributeValues: {
       ':userId': { S: user.user_id },
       ':eventType': { S: 'Event' },
-      ':date': { S: date },
+      ':first': { S: currentDate },
+      ':second': { S: tomorrow }
     }
   };
   try {

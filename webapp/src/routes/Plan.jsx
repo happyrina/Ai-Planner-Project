@@ -1,10 +1,12 @@
-import styles from "../css/Plan.module.css";
+import styles from "../css/FormStyle.module.css";
 import Selectop from "../components/Select";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { goalState } from "../atoms";
 import axios from "axios";
 import { useState } from "react";
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { TimePicker } from "@mui/x-date-pickers";
 
 function Plan() {
   const selectedgoal = useRecoilValue(goalState);
@@ -18,6 +20,10 @@ function Plan() {
     content: "",
   };
   const [planinfo, setPlaninfo] = useState(planState);
+  const [stime, setStime] = useState(null);
+  const [etime, setEtime] = useState(null);
+  const [sdate, setSdate] = useState(null);
+  const [edate, setEdate] = useState(null);
   const { title, endDatetime, startDatetime, location, goal, content } =
     planinfo;
 
@@ -43,13 +49,15 @@ function Plan() {
     }).then((response) => console.log(response));
   };
   const TitleHandler = (e) => {
-    setPlaninfo({ ...planinfo, title: e.target.value });
+    setPlaninfo({ ...planinfo, title: e.target.value })
+    console.log(edate, etime);
   };
   const startDatetimeHandler = (e) => {
     setPlaninfo({ ...planinfo, startDatetime: e.target.value });
   };
   const endDatetimeHandler = (e) => {
     setPlaninfo({ ...planinfo, endDatetime: e.target.value });
+      console.log(e.target.value)
   };
   const LocationHandler = (e) => {
     setPlaninfo({ ...planinfo, location: e.target.value });
@@ -89,7 +97,7 @@ function Plan() {
           <button className={styles.Btn}>
             <Link to="/todo">할일</Link>
           </button>
-          <button className={styles.Selected}>
+          <button className={styles.selected}>
             <Link to="/plan">일정</Link>
           </button>
           <div></div>
@@ -107,22 +115,29 @@ function Plan() {
           ></input>
         </div>
         <div className={styles.Tag}>시작</div>
-        <div className={styles.Tag}>
+        <div className={styles.TimeWrapper}>
           <input
-            className={styles.Input}
+            className={styles.InputHalf}
             value={startDatetime}
             onChange={startDatetimeHandler}
             type="date"
           ></input>
-        </div>
+            <TimePicker 
+            value={stime}
+            onChange={(time) => {setStime(time)
+            console.log(stime)}}/>
+        </div>  
         <div className={styles.Tag}>종료</div>
-        <div className={styles.Tag}>
-          <input
-            className={styles.Input}
-            value={endDatetime}
-            onChange={endDatetimeHandler}
-            type="date"
-          ></input>
+        <div className={styles.TimeWrapper}>
+        <DatePicker 
+        value={edate}
+        onChange={(date)=>{setEdate(date)}}
+        label="날짜" />
+          <TimePicker 
+            label="시간"
+            value={etime}
+            onChange={(time) => {setEtime(time)
+            console.log(etime)}}/>
         </div>
         <div className={styles.Tag}>목표</div>
         <div className={styles.Tag}>
