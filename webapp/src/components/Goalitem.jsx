@@ -5,7 +5,7 @@ import { useRecoilState } from "recoil";
 import { goalIdState, modeState } from "../atoms";
 import { useNavigate } from "react-router-dom";
 
-function Goalitem({ goaltitle, goalperiod, event_id }) {
+function Goalitem({ goaltitle, goalperiod, event_id, photoUrl }) {
   const navigate = useNavigate();
   const [goalId, setGoalId] = useRecoilState(goalIdState);
   const [mode, setMode] = useRecoilState(modeState);
@@ -16,7 +16,7 @@ function Goalitem({ goaltitle, goalperiod, event_id }) {
   };
   return (
     <GoalContainer onClick={goalUpdateHandler}>
-      <Img src={omg} alt="goal"></Img>
+      <Img src={photoUrl || omg} alt="goal"></Img>
       <span className="title">{goaltitle}</span>
       <span className="period">{goalperiod}</span>
     </GoalContainer>
@@ -28,6 +28,7 @@ export default Goalitem;
 const Img = styled.img`
   width: 150px;
   height: 146px;
+  object-fit: cover;
   border-radius: 5px;
   background-color: transparent;
   border: none;
