@@ -9,13 +9,13 @@ function Goalitem({ goaltitle, goalperiod, event_id, photoUrl }) {
   const navigate = useNavigate();
   const [goalId, setGoalId] = useRecoilState(goalIdState);
   const [mode, setMode] = useRecoilState(modeState);
-  const goalUpdateHandler = () => {
+  const movetoDetailHandler = () => {
     setMode("update");
     setGoalId(event_id);
-    navigate("/goal");
+    navigate("/planlist", { state: { event_id } });
   };
   return (
-    <GoalContainer onClick={goalUpdateHandler}>
+    <GoalContainer onClick={movetoDetailHandler}>
       <Img src={photoUrl || omg} alt="goal"></Img>
       <span className="title">{goaltitle}</span>
       <span className="period">{goalperiod}</span>

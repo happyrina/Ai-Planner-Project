@@ -51,6 +51,7 @@ function ProfilePhotoEdit() {
     }
 
     fetchUserProfile();
+    console.log(profileImage);
     setImageURL(profileImage);
   }, [profileImage]);
 
@@ -106,6 +107,7 @@ function ProfilePhotoEdit() {
     try {
       const tokenstring = document.cookie;
       const token = tokenstring.split("=")[1];
+
       const response = await axios({
         method: "PUT",
         url: "http://3.39.153.9:3000/account/profile",
