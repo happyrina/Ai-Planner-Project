@@ -26,7 +26,7 @@ function ProfilePhotoEdit() {
         await axios({
           method: "POST",
           url: "http://3.39.153.9:3000/account/profile",
-          withCredentials: false,
+          withCredentials: false, // 쿠키를 사용하므로 true로 설정
           headers: {
             "Access-Control-Allow-Origin": "*",
             Authorization: `Bearer ${token}`,
@@ -51,7 +51,6 @@ function ProfilePhotoEdit() {
     }
 
     fetchUserProfile();
-    console.log(profileImage);
     setImageURL(profileImage);
   }, [profileImage]);
 
@@ -107,7 +106,6 @@ function ProfilePhotoEdit() {
     try {
       const tokenstring = document.cookie;
       const token = tokenstring.split("=")[1];
-
       const response = await axios({
         method: "PUT",
         url: "http://3.39.153.9:3000/account/profile",

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../styles/NavBar.module.css";
+import styles from "../styles/Navbar.module.css";
 import calendaricon from "../assets/calendaricon.svg";
 import homeicon from "../assets/homeicon.svg";
 import chatboticon from "../assets/chatboticon.svg";

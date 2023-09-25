@@ -17,8 +17,8 @@ function Goalitem({ goaltitle, goalperiod, event_id, photoUrl }) {
   return (
     <GoalContainer onClick={movetoDetailHandler}>
       <Img src={photoUrl || omg} alt="goal"></Img>
-      <span className="title">{goaltitle}</span>
-      <span className="period">{goalperiod}</span>
+      <div className="title">{goaltitle}</div>
+      <div className="period">{goalperiod}</div>
     </GoalContainer>
   );
 }
@@ -43,13 +43,14 @@ const GoalContainer = styled(motion.div)`
   align-items: center;
   margin: 12px 0px;
   padding: 0px 15px;
-  span.title {
+  div.title {
+    margin: 2px 0;
     font-weight: 600;
     font-size: 16px;
   }
-  span.period {
+  div.period {
     padding: 0;
-    margin: 0;
+    margin: 2px 0;
     font-weight: 600;
     font-size: 14px;
     color: #7e7e7e;

@@ -112,97 +112,101 @@ export default function Home() {
   };
   return (
     <Background>
-      <Container className="first">
-        <SmallContainer>
-          <Link to={"/profile"}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="1em"
-              viewBox="0 0 512 512"
-              style={{ fill: "#6d6c69", }}
-            >
-              <path d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z" />
-            </svg>
-          </Link>
-        </SmallContainer>
-        <Index1>
-          <ProfileImageSection>
-            <ImageCircle
-              style={imageURL ? { backgroundImage: `url(${imageURL})` } : {}}
-            >
-              {!imageURL && <span>+</span>}
-            </ImageCircle>
-          </ProfileImageSection>
-          <Profile>
-            <strong>{name}</strong>
-            <br />@ {info}
-          </Profile>
-        </Index1>
-        <ProfileMsg>{bio}</ProfileMsg>
-      </Container>
-      <Container>
-        <Index2>
-          <SBtn style={{ paddingLeft: "13px" }} onClick={doneHandler}>
-            지금 진행중
-          </SBtn>
-          <SBtn onClick={doneHandler} className="last">
-            완료
-          </SBtn>
-          <div> </div>
-          <SBtn className="black">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="1em"
-              viewBox="0 0 448 512"
-              style={{ fill: "#fffce5", height: "20" }}
-            >
-              <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
-            </svg>
-            <Link to={"/goal"}> 추가</Link>
-          </SBtn>
-        </Index2>
-        <Slider>
-          <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
-            <Row
-              variants={rowVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              transition={{ type: "tween", duration: 0.5 }}
-              key={index}
-            >
-              {done === false &&
-                goalList.length > 0 &&
-                goalList
-                  .slice(offset * index, offset * index + offset)
-                  .map((goal) => (
-                    <Goalitem
-                      key={shortid.generate()}
-                      variants={BoxVariants}
-                      goaltitle={goal["title"]}
-                      goalperiod={goal["startDatetime"]}
-                      event_id={goal["event_id"]}
-                      photoUrl={goal["photoUrl"]}
-                      whileHover="hover"
-                      initial="normal"
-                      transition={{ type: "tween" }}
-                    ></Goalitem>
-                  ))}
-            </Row>
-          </AnimatePresence>
-          <StyledButton onClick={increaseIndex}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="1em"
-              viewBox="0 0 384 512"
-              style={{ fill: "#ffd952" }}
-            >
-              <path d="M3.4 81.7c-7.9 15.8-1.5 35 14.3 42.9L280.5 256 17.7 387.4C1.9 395.3-4.5 414.5 3.4 430.3s27.1 22.2 42.9 14.3l320-160c10.8-5.4 17.7-16.5 17.7-28.6s-6.8-23.2-17.7-28.6l-320-160c-15.8-7.9-35-1.5-42.9 14.3z" />
-            </svg>
-          </StyledButton>
-        </Slider>
-        <NavBar />
-      </Container>
+      <BigContainer>
+        <Container className="first">
+          <SmallContainer>
+            <Link to={"/profile"}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="1em"
+                viewBox="0 0 512 512"
+                style={{ fill: "#6d6c69" }}
+              >
+                <path d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z" />
+              </svg>
+            </Link>
+          </SmallContainer>
+          <Index1>
+            <ProfileImageSection>
+              <ImageCircle
+                style={imageURL ? { backgroundImage: `url(${imageURL})` } : {}}
+              >
+                {!imageURL && <span>+</span>}
+              </ImageCircle>
+            </ProfileImageSection>
+            <Profile>
+              <strong>{name}</strong>
+              <br />@ {info}
+            </Profile>
+          </Index1>
+          <ProfileMsg>{bio}</ProfileMsg>
+        </Container>
+        <Container>
+          <Index2>
+            <SBtn style={{ paddingLeft: "13px" }} onClick={doneHandler}>
+              지금 진행중
+            </SBtn>
+            <SBtn onClick={doneHandler} className="last">
+              완료
+            </SBtn>
+            <div> </div>
+            <SBtn className="black">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="1em"
+                viewBox="0 0 448 512"
+                style={{ fill: "#fffce5", height: "20" }}
+              >
+                <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
+              </svg>
+              <Link to={"/goal"}> 추가</Link>
+            </SBtn>
+          </Index2>
+          <Slider>
+            <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
+              <Row
+                variants={rowVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                transition={{ type: "tween", duration: 0.5 }}
+                key={index}
+              >
+                {done === false &&
+                  goalList.length > 0 &&
+                  goalList
+                    .slice(offset * index, offset * index + offset)
+                    .map((goal) => (
+                      <Goalitem
+                        key={shortid.generate()}
+                        variants={BoxVariants}
+                        goaltitle={goal["title"]}
+                        goalperiod={goal["startDatetime"]}
+                        event_id={goal["event_id"]}
+                        photoUrl={goal["photoUrl"]}
+                        whileHover="hover"
+                        initial="normal"
+                        transition={{ type: "tween" }}
+                      ></Goalitem>
+                    ))}
+              </Row>
+            </AnimatePresence>
+            <StyledButton onClick={increaseIndex}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="1em"
+                viewBox="0 0 384 512"
+                style={{ fill: "#ffd952" }}
+              >
+                <path d="M3.4 81.7c-7.9 15.8-1.5 35 14.3 42.9L280.5 256 17.7 387.4C1.9 395.3-4.5 414.5 3.4 430.3s27.1 22.2 42.9 14.3l320-160c10.8-5.4 17.7-16.5 17.7-28.6s-6.8-23.2-17.7-28.6l-320-160c-15.8-7.9-35-1.5-42.9 14.3z" />
+              </svg>
+            </StyledButton>
+          </Slider>
+          <div>
+            <NavBar />
+          </div>
+        </Container>
+      </BigContainer>
     </Background>
   );
 }
@@ -211,12 +215,24 @@ const StyledButton = styled.button`
   display: inline;
   position: absolute;
   bottom: 315px;
-  right: 20px;
+  right: 12px;
   background-color: transparent;
   border: none;
   &:hover {
     cursor: pointer;
   }
+`;
+
+const BigContainer = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
 `;
 const Img = styled.img`
   width: 100px;
@@ -270,29 +286,30 @@ const Background = styled.div`
   height: 100vh;
   padding: 0px;
   display: flex;
-  /* align-items: stretch; */
-
+  align-items: center;
   justify-content: center;
-  background-color: #fce8a6;
-  flex-direction: column;
-  position: relative;
   overflow: hidden;
+  margin: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.15);
 `;
 
 const Container = styled.div`
+  flex-grow: 1;
   position: relative;
   padding: 10px 0px;
-  height: 600px;
+  height: 100vh;
   display: flex;
   margin-top: 0px;
   width: auto;
   background-color: white;
   flex-direction: column;
   &.first {
+    width: 375px;
     padding: 20px 20px;
     margin-bottom: 0px;
-    height: 250px;
+    height:300px;
     background: rgb(195,34,145);
+    position: sticky;
 background: linear-gradient(195deg, rgba(195,34,145,0.4654209339985994) 0%, rgba(253,216,45,0.4514153317577031) 100%);
 `;
 const SmallContainer = styled.div`
@@ -330,6 +347,7 @@ const Index2 = styled.div`
   background-color: none;
   border-radius: 0px;
   padding-right: 10px;
+  margin: 5px 0;
   div {
     padding: 0px;
     margin: 0px;

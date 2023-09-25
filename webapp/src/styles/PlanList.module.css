@@ -46,7 +46,6 @@
   padding-right: 15px;
 }
 
-
 .schedule {
   width: 100%;
   display: flex;
@@ -63,11 +62,9 @@
 .addButton {
   align-self: flex-end;
   width: 100px;
-
 }
 
 .blue-button {
-    align-self: flex-end;
-    width: 100px;
-
+  align-self: flex-end;
+  width: 100px;
 }

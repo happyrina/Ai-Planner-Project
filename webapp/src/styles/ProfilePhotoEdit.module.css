@@ -33,9 +33,9 @@
 }
 
 .profilecompleteBtn {
-  background-color: rgb(0, 183, 255);
+  background-color: #6cd3ff;
   border: none;
-  border-radius: 50px;
+  border-radius: 5px;
   color: white;
   padding: 10px 10px;
   cursor: pointer;
@@ -55,7 +55,7 @@
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  border: 2px solid rgb(0, 175, 41);
+  border: 2px solid #6cd3ff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -92,32 +92,18 @@
   height: 100px;
   resize: none;
 }
-.profileinputBox {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: left;
-  & div {
-    width: 100%;
-  }
-}
 
 .profilephotoBtn {
   width: 100px;
   margin-top: 25px;
   margin-right: 30px;
-  padding: 6px;
-  cursor: pointer;
-  border: 1px solid rgb(222, 220, 220);
+  padding: 8px;
+  border: 1px solid gray;
   border-radius: 5px;
   font-size: 13px;
-  &:last-child {
-    margin-top: 10px;
-  }
 }
 
 .logoutBtn {
-  cursor: pointer;
   width: 300px;
   margin-top: 80px;
   padding: 10px;
@@ -126,10 +112,17 @@
   font-size: 15px;
   margin-bottom: 30px;
   background-color: rgb(240, 240, 240);
+  margin-left: 3px;
+}
+
+.profileinputBox {
+  position: relative;
+  left: 35px;
+  top: 10px;
 }
 
 .profileinputBox h6 {
-  margin-left: 30px;
+  margin-left: 10px;
   margin-bottom: 10px;
   text-align: left;
 }
