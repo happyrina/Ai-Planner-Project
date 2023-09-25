@@ -4,9 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { goalState } from "../atoms";
 import axios from "axios";
-import format from 'date-fns/format';
+import format from "date-fns/format";
 import { useState } from "react";
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers";
 
 function Plan() {
@@ -50,15 +50,15 @@ function Plan() {
     }).then((response) => console.log(response));
   };
   const TitleHandler = (e) => {
-    setPlaninfo({ ...planinfo, title: e.target.value })
-    console.log(format(edate, "yyyy-MM-dd"), etime);
+    setPlaninfo({ ...planinfo, title: e.target.value });
+    console.log(format(edate, "yyyy-MM-dd"), format(etime, "hh:mm"));
   };
   const startDatetimeHandler = (e) => {
     setPlaninfo({ ...planinfo, startDatetime: e.target.value });
   };
   const endDatetimeHandler = (e) => {
     setPlaninfo({ ...planinfo, endDatetime: e.target.value });
-      console.log(e.target.value)
+    console.log(e.target.value);
   };
   const LocationHandler = (e) => {
     setPlaninfo({ ...planinfo, location: e.target.value });
@@ -117,28 +117,39 @@ function Plan() {
         </div>
         <div className={styles.Tag}>시작</div>
         <div className={styles.TimeWrapper}>
-          <input
-            className={styles.InputHalf}
-            value={startDatetime}
-            onChange={startDatetimeHandler}
-            type="date"
-          ></input>
-            <TimePicker 
+          <DatePicker
+            value={sdate}
+            onChange={(date) => {
+              setSdate(date);
+            }}
+            label="날짜"
+          />
+          <TimePicker
+            label="시간"
             value={stime}
-            onChange={(time) => {setStime(time)
-            console.log(stime)}}/>
-        </div>  
+            onChange={(time) => {
+              setStime(time);
+              console.log(stime);
+            }}
+          />
+        </div>
         <div className={styles.Tag}>종료</div>
         <div className={styles.TimeWrapper}>
-        <DatePicker 
-        value={edate}
-        onChange={(date)=>{setEdate(date)}}
-        label="날짜" />
-          <TimePicker 
+          <DatePicker
+            value={edate}
+            onChange={(date) => {
+              setEdate(date);
+            }}
+            label="날짜"
+          />
+          <TimePicker
             label="시간"
             value={etime}
-            onChange={(time) => {setEtime(time)
-            console.log(etime)}}/>
+            onChange={(time) => {
+              setEtime(time);
+              console.log(etime);
+            }}
+          />
         </div>
         <div className={styles.Tag}>목표</div>
         <div className={styles.Tag}>

@@ -12,11 +12,11 @@ function LoginPage() {
   const [pw, setPw] = useState();
   const navigate = useNavigate();
   const onChangeId = function (e) {
-    setId(e.target.value)
-  }
+    setId(e.target.value);
+  };
   const onChangePw = function (e) {
-    setPw(e.target.value)
-  }
+    setPw(e.target.value);
+  };
 
   useEffect(() => {
     if (localStorage.getItem("id") !== null) {
@@ -30,23 +30,25 @@ function LoginPage() {
   const onSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post("http://3.39.153.9:3000/account/login", {
-        user_id: id,
-        password: pw,
-      }, {
-        withCredentials: false,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
+      const response = await axios.post(
+        "http://3.39.153.9:3000/account/login",
+        {
+          user_id: id,
+          password: pw,
         },
-      });
-      
+        {
+          withCredentials: false,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      );
+
       if (response.data !== null) {
-        console.log(response)
         const info = id;
         setInfo(info);
         const setCookie = response.data.token;
         navigate("/home");
-        console.log(info);
         document.cookie = `token=${setCookie}`;
       } else {
         alert("올바르지 않은 회원정보입니다.");
@@ -55,18 +57,13 @@ function LoginPage() {
       console.error("An error occurred:", error);
     }
   };
-  
 
   return (
     <Background>
       <Container onSubmit={onSubmit}>
         <Img src={omg} alt="adorable"></Img>
         <Title>Copple</Title>
-        <Input
-          placeholder="ID"
-          value={id}
-          onChange={onChangeId}
-        ></Input>
+        <Input placeholder="ID" value={id} onChange={onChangeId}></Input>
         <Input
           type="password"
           placeholder="Password"

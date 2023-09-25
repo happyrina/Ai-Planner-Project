@@ -36,39 +36,56 @@ function Signup() {
   return (
     <Background>
       <Container onSubmit={handleSubmit(onSubmit)}>
-        <Title>Sign Up</Title>
-        <input
-          className="username"
-          placeholder="Name"
-          {...register("UserName", { required: "Please write your name" })}
-        />
-        <input
-          className="userid"
-          placeholder="ID"
-          {...register("UserId", { required: "Please write your id" })}
-        />
-        <input
-          className="password"
-          type="password"
-          placeholder="Password"
-          autoComplete="off"
-          {...register("Password", { required: "Please write password" })}
-        />
-        <input
-          className="password"
-          type="password"
-          placeholder="PasswordCheck"
-          autoComplete="off"
-          {...register("PasswordCheck", { required: "Please write password" })}
-        />
-        <Button type="submit">Sign up</Button>
+        <Tag style={{ marginBottom: "20px" }}>
+          <Title>회원가입</Title>
+        </Tag>
+        <Tag>이름</Tag>
+        <Tag>
+          <input
+            className="username"
+            placeholder="Name"
+            {...register("UserName", { required: "Please write your name" })}
+          />
+        </Tag>
+        <Tag>아이디</Tag>
+        <Tag>
+          <input
+            className="userid"
+            placeholder="ID"
+            {...register("UserId", { required: "Please write your id" })}
+          />
+        </Tag>
+        <Tag>비밀번호</Tag>
+        <Tag>
+          <input
+            className="password"
+            type="password"
+            placeholder="Password"
+            autoComplete="off"
+            {...register("Password", { required: "Please write password" })}
+          />
+        </Tag>
+        <Tag>비밀번호 확인</Tag>
+        <Tag>
+          <input
+            className="password"
+            type="password"
+            placeholder="PasswordCheck"
+            autoComplete="off"
+            {...register("PasswordCheck", {
+              required: "Please write password",
+            })}
+          />
+        </Tag>
+        <Button type="submit">회원가입</Button>
+        <Button style={{ marginTop: "40px" }}>
+          <Link to="/">Home</Link>
+        </Button>
       </Container>
-      <ButtonBig>
-        <Link to="/">Home</Link>
-      </ButtonBig>
-      <Find>
+
+      {/* <Find>
         <Link to="/find">Forgot your id/password?</Link>
-      </Find>
+      </Find> */}
     </Background>
   );
 }
@@ -80,94 +97,87 @@ const Background = styled.div`
   height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
-  background-color: #fce8a6;
-  flex-direction: column;
-  border-radius: 10px;
-  margin: 10px auto;
-`;
-const Container = styled.form`
-  box-shadow: 1px 2px #e4e3df;
-  padding: 30px 0px;
-  display: flex;
-  width: 320px;
+  text-align: left;
   background-color: white;
-  align-items: center;
-  justify-content: space-between;
   flex-direction: column;
-  gap: 12px;
-  border-radius: 15px;
-  margin: 25px 0px;
-  margin-bottom: 5px;
+  margin: 0px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.15);
+`;
+const Tag = styled.div`
+  font-style: bold;
+  width: 98%;
+  text-align: start;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 6px 7px;
+  text-align: left;
   input {
-    width: 220px;
-    padding-left: 20px;
+    width: 100%;
     height: 45px;
-    border: 1.5px solid #aeaa96;
-    border-radius: 10px;
-    margin: 17px 0px;
-    outline: none;
-
-    font-style: normal;
-    font-weight: 500;
+    margin-bottom: 10px;
+    color: rgba(0, 0, 0, 0.596);
+    border: 1.2px solid #9d9d9d;
+    border-radius: 4px;
+    padding: 8px 10px;
+    margin-bottom: 13px;
+    caret-color: #9d9d9d;
     font-size: 15px;
-    color: #363636;
-
-    &::placeholder {
-      color: #d5d4d1;
-    }
-
-    &:hover {
-      border: 1px solid black;
-    }
-
     &:focus {
-      color: #363636;
-      border: 1px solid #f4c905;
+      outline: none;
     }
   }
 `;
-const Title = styled.h1`
-  color: #aeaa96;
-  font-size: 30px;
-  text-align: center;
-  font-weight: 530px;
+const Container = styled.form`
+  width: 375px;
+  height: 100vh;
+  padding: 1.2rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  
+  }
+`;
+const Title = styled.h3`
+  color: black;
+  font-size: 20px;
+  text-align: left;
+  font-weight: 600px;
   display: block;
   margin-top: 0px;
-  margin-bottom: 25px;
   padding: 0px;
 `;
 const Button = styled.button`
-  width: 155px;
-
-  height: 50px;
-  background-color: white;
-  border-radius: 12px;
-  border: 1.5px solid #d5d4d1;
+  width: 95%;
+  height: 45px;
+  background-color: #7ef0ff;
+  border-radius: 4px;
+  border: none;
   font-size: 15px;
-  font-weight: 400px;
-  margin: 30px 0;
-  margin-bottom: 15px;
-  color: #cccbc7;
-  padding: 7px 7px;
+  font-weight: 600;
+  margin-top: 80px;
+  color: black;
+  padding: 12px 7px;
+
   &:hover {
     cursor: pointer;
     border: none;
-    background-color: #f9e092;
+    background-color: #00a6ed;
     color: white;
   }
   a {
-    color: #cccbc7;
+    color: black;
     text-decoration: none;
+    &:hover {
+      color: white;
+    }
   }
 `;
 const ButtonBig = styled.button`
   box-shadow: 1px 2px #e4e3df;
   letter-spacing: 1px;
   width: 320px;
-  height: 65px;
+  height: 55px;
   padding: 15px;
-  margin-top: 5px;
   background-color: white;
   border-radius: 15px;
   border: none;
