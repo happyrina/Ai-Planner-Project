@@ -21,7 +21,7 @@ function Router() {
         <Route path="/goal" element={<Goal />} />
         <Route path="/planlist/:event_id" element={<PlanListPage />} />
         <Route path="/profile" element={<ProfilePhotoEdit />} />
-        {/* <Route path="/main" element={<MainPage />} /> */}
+        <Route path="/main" element={<MainPage />} />
         <Route path="/planlist" element={<PlanListPage />} />
       </Routes>
     </BrowserRouter>

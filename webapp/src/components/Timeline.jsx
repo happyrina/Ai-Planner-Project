@@ -1,132 +1,238 @@
-// import React, { useState, useEffect } from "react";
-// import styles from "../styles/Timeline.module.css";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import axios from "axios";
+import styles from "../styles/Timeline.module.css";
 
-// const Timeline = ({ eventsProp = [] }) => {
-//   const [hour, setHour] = useState("00");
-//   const [minute, setMinute] = useState("00");
-//   const [title, setTitle] = useState("");
-//   const [events, setEvents] = useState(
-//     Array.isArray(eventsProp) ? eventsProp : []
-//   );
+const Timeline = ({ eventsProp = [] }) => {
+  const [events, setEvents] = useState(
+    Array.isArray(eventsProp) ? eventsProp : []
+  );
+  const [showOptionsIndex, setShowOptionsIndex] = useState(null);
+  const [editIndex, setEditIndex] = useState(null);
+  const [page, setPage] = useState(1);
+  const [editingTitles, setEditingTitles] = useState({});
+  const [sortedEvents, setSortedEvents] = useState([]);
+  const observer = useRef();
 
-//   const [showOptionsIndex, setShowOptionsIndex] = useState(null);
-//   const [editIndex, setEditIndex] = useState(null);
+  const lastEventRef = useCallback((node) => {
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) setPage((prevPage) => prevPage + 1);
+    });
+    if (node) observer.current.observe(node);
+  }, []);
 
-//   const addEvent = () => {
-//     if (title.trim()) {
-//       const newEvent = {
-//         event_id: new Date().toISOString(),
-//         startDatetime: `2023-09-19T${hour}:${minute}:00`,
-//         title,
-//       };
+  const deleteEvent = async (index, eventId) => {
+    if (window.confirm("이 이벤트를 정말로 삭제하시겠습니까?")) {
+      try {
+        const tokenString = document.cookie;
+        const token = tokenString.split("=")[1];
 
-//       setEvents((prevEvents) => [...prevEvents, newEvent]);
-//       setTitle("");
-//       setHour("00");
-//       setMinute("00");
-//     }
-//   };
+        const response = await axios.delete(
+          `http://3.39.153.9:3000/event/delete/${eventId}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-//   const deleteEvent = (index) => {
-//     if (window.confirm("이 이벤트를 정말로 삭제하시겠습니까?")) {
-//       const newEvents = [...events];
-//       newEvents.splice(index, 1);
-//       setEvents(newEvents);
-//       setShowOptionsIndex(null);
-//     }
-//   };
+        const newEvents = [...events];
+        console.log(newEvents);
+        newEvents.splice(index, 1);
+        setEvents(newEvents);
+        setShowOptionsIndex(null);
+      } catch (error) {
+        console.error("Could not delete event", error);
+      }
+    }
+  };
 
-//   const updateEvent = (index, newTitle) => {
-//     const newEvents = [...events];
-//     newEvents[index].title = newTitle;
-//     setEvents(newEvents);
-//   };
+  const updateEvent = async (index, newTitle) => {
+    try {
+      const tokenstring = document.cookie;
+      const token = tokenstring.split("=")[1];
 
-//   const finishEditing = (index, newTitle) => {
-//     if (newTitle.trim() && newTitle !== events[index].title) {
-//       updateEvent(index, newTitle);
-//     }
-//     setEditIndex(null);
-//   };
+      const eventToUpdate = events[index];
 
-//   useEffect(() => {
-//     if (Array.isArray(eventsProp)) setEvents(eventsProp);
-//   }, [eventsProp]);
+      const updatedEvent = {
+        ...eventToUpdate,
+        title: newTitle,
+      };
 
-//   const currentTime = new Date().toISOString();
-//   const sortedEvents = [...events]
-//     .filter((e) => e.startDatetime && e.startDatetime >= currentTime)
-//     .sort((a, b) => a.startDatetime.localeCompare(b.startDatetime));
+      await axios.put(
+        `http://3.39.153.9:3000/event/update/${updatedEvent.event_id}`,
+        updatedEvent,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-//   return (
-//     <div className={styles.app}>
-//       <ul className={styles["event-list"]}>
-//         {sortedEvents.map((event, index) => (
-//           <li
-//             key={event.event_id}
-//             className={styles["event-item"]}
-//             style={{ backgroundColor: `hsl(${(index * 50) % 360}, 100%, 85%)` }}
-//           >
-//             <span className={styles["event-time"]}>
-//               {event.startDatetime.split("T")[1]?.slice(0, 5)}
-//             </span>
-//             {editIndex === index ? (
-//               <input
-//                 className={styles["edit-input"]}
-//                 value={event.title}
-//                 onChange={(e) => updateEvent(index, e.target.value)}
-//                 onKeyUp={(e) => {
-//                   if (e.key === "Enter") finishEditing(index, e.target.value);
-//                 }}
-//                 onBlur={() => finishEditing(index, event.title)}
-//                 autoFocus
-//               />
-//             ) : (
-//               <span
-//                 className={styles["event-title"]}
-//                 onDoubleClick={() => setEditIndex(index)}
-//               >
-//                 {event.title}
-//               </span>
-//             )}
-//             <span
-//               className={styles.options}
-//               onClick={() =>
-//                 setShowOptionsIndex(showOptionsIndex === index ? null : index)
-//               }
-//             >
-//               {editIndex === index ? (
-//                 <button
-//                   className={styles["finish-button"]}
-//                   onClick={() => finishEditing(index, event.title)}
-//                 >
-//                   완료
-//                 </button>
-//               ) : (
-//                 "..."
-//               )}
-//               {showOptionsIndex === index && editIndex !== index && (
-//                 <div className={styles["dropdown-options"]}>
-//                   <button
-//                     className={styles["edit-btn"]}
-//                     onClick={() => setEditIndex(index)}
-//                   >
-//                     수정
-//                   </button>
-//                   <button
-//                     className={styles["delete-btn"]}
-//                     onClick={() => deleteEvent(index)}
-//                   >
-//                     삭제
-//                   </button>
-//                 </div>
-//               )}
-//             </span>
-//           </li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// };
+      setEvents(events.map((event, i) => (i === index ? updatedEvent : event)));
+    } catch (error) {
+      console.error("Could not update event", error);
+    }
+  };
 
-// export default Timeline;
+  const finishEditing = async (eventId) => {
+    const index = events.findIndex((e) => e.event_id === eventId);
+    if (index === -1) return;
+
+    try {
+      const updatedTitle = editingTitles[eventId];
+      if (updatedTitle.trim() && updatedTitle !== events[index].title) {
+        await updateEvent(index, updatedTitle);
+      }
+      setEditingTitles((prev) => {
+        const newState = { ...prev };
+        delete newState[eventId];
+        return newState;
+      });
+      setEditIndex(null);
+    } catch (error) {
+      console.error("Could not finish editing", error);
+    }
+  };
+
+  useEffect(() => {
+    if (Array.isArray(eventsProp)) setEvents(eventsProp);
+  }, [eventsProp]);
+
+  useEffect(() => {
+    const fetchMoreEvents = async () => {
+      try {
+        const res = await axios.get(`/events?page=${page}`);
+        setEvents((prevEvents) => [...prevEvents, ...res.data]);
+      } catch (error) {
+        console.error("Error fetching more events", error);
+      }
+    };
+
+    fetchMoreEvents();
+  }, [page]);
+
+  useEffect(() => {
+    const currentTime = new Date().toISOString();
+    const newSortedEvents = [...events]
+      .filter((e) => e.startDatetime && e.startDatetime >= currentTime)
+      .sort((a, b) => a.startDatetime.localeCompare(b.startDatetime));
+    setSortedEvents(newSortedEvents);
+  }, [events]);
+
+  const dropdownRef = useRef();
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowOptionsIndex(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
+
+  return (
+    <div className={styles.app}>
+      <ul className={styles["event-list"]}>
+        {sortedEvents.map((event, index, array) => (
+          <li
+            key={event.event_id}
+            className={styles["event-item"]}
+            ref={index === array.length - 1 ? lastEventRef : null}
+            style={{
+              backgroundColor: `hsl(${180 + ((index * 35) % 55)}, 60%, 82%)`,
+            }}
+          >
+            <span className={styles["event-time"]}>
+              {new Date(event.startDatetime).toLocaleTimeString("ko-KR", {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: false,
+              })}
+            </span>
+            {editIndex === event.event_id ? (
+              <input
+                className={styles["edit-input"]}
+                value={editingTitles[event.event_id] || ""}
+                onChange={(e) =>
+                  setEditingTitles({
+                    ...editingTitles,
+                    [event.event_id]: e.target.value,
+                  })
+                }
+                onKeyUp={(e) => {
+                  if (e.key === "Enter") finishEditing(event.event_id);
+                }}
+                onBlur={() => finishEditing(event.event_id)}
+                autoFocus
+              />
+            ) : (
+              <span
+                className={styles["event-title"]}
+                onDoubleClick={() => {
+                  setEditIndex(event.event_id);
+                  setEditingTitles({
+                    ...editingTitles,
+                    [event.event_id]: event.title,
+                  });
+                }}
+              >
+                {event.title}
+              </span>
+            )}
+            <span
+              className={styles.options}
+              onClick={() =>
+                setShowOptionsIndex(
+                  showOptionsIndex === event.event_id ? null : event.event_id
+                )
+              }
+            >
+              {editIndex === event.event_id ? (
+                <button
+                  className={styles["finish-button"]}
+                  onClick={() => finishEditing(event.event_id)}
+                >
+                  완료
+                </button>
+              ) : (
+                "..."
+              )}
+              {showOptionsIndex === event.event_id &&
+                editIndex !== event.event_id && (
+                  <div className={styles["dropdown-options"]} ref={dropdownRef}>
+                    <button
+                      className={styles["edit-btn"]}
+                      onClick={() => {
+                        setEditIndex(event.event_id);
+                        setEditingTitles({
+                          ...editingTitles,
+                          [event.event_id]: event.title,
+                        });
+                      }}
+                    >
+                      수정
+                    </button>
+                    <button
+                      className={styles["delete-btn"]}
+                      onClick={() => deleteEvent(index, event.event_id)}
+                    >
+                      삭제
+                    </button>
+                  </div>
+                )}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default Timeline;

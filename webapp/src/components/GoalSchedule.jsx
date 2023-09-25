@@ -1,50 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/GoalSchedule.module.css";
+import axios from "axios";
+import { RecoilValueReadOnly } from "recoil";
 
-function GoalSchedule() {
+function GoalSchedule({ eventId }) {
+  console.log("event_id :", eventId);
   const [selectedCategory, setSelectedCategory] = useState("일정");
-  const schedules = [
-    {
-      day: 1,
-      schedules: [
-        { title: "인천 → 방콕", time: "02:00am - 08:32am" },
-        { title: "왕궁, 왓포 사원 방문 ", time: "11:00am - 02:00pm" },
-        { title: "저녁이야~~", time: "18:00" },
-      ],
-    },
-    {
-      day: 1,
-      schedules: [
-        { title: "인천 → 방콕", time: "02:00am - 08:32am" },
-        { title: "왕궁, 왓포 사원 방문 ", time: "11:00am - 02:00pm" },
-        { title: "저녁이야~~", time: "18:00" },
-      ],
-    },
-    {
-      day: 2,
-      schedules: [
-        { title: "2일차 일정", time: "11:00" },
-        { title: "인천 → 방콕", time: "02:00am - 08:32am" },
-        { title: "왕궁, 왓포 사원 방문 ", time: "11:00am - 02:00pm" },
-        { title: "저녁이야~~", time: "18:00" },
-      ],
-    },
-    {
-      day: 3,
-      schedules: [
-        { title: "3일차 일정", time: "11:00" },
-        { title: "인천 → 방콕", time: "02:00am - 08:32am" },
-        { title: "왕궁, 왓포 사원 방문 ", time: "11:00am - 02:00pm" },
-        { title: "저녁이야~~", time: "18:00" },
-      ],
-    },
-  ];
+  const [loadedData, setLoadedData] = useState({ schedules: [], todos: [] });
 
-  const todos = [
-    { id: 1, task: "티켓 예매하기", completed: false },
-    { id: 2, task: "호텔 예약하기", completed: true },
-    // ...
-  ];
+  useEffect(() => {
+    if (eventId) {
+      const tokenstring = document.cookie;
+      const token = tokenstring.split("=")[1];
+
+      const url = `http://3.39.153.9:3000/event/groupByGoal/${eventId}`;
+
+      axios
+        .get(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          const data = response.data;
+
+          const schedules = Object.entries(data).map(([date, events]) => {
+            events.sort(
+              (a, b) => new Date(a.startDatetime) - new Date(b.startDatetime)
+            );
+            return {
+              day: date.substring(5),
+              schedules: events.map((event) => ({
+                title: event.title,
+                time: `${event.startDatetime.substring(
+                  10,
+                  16
+                )}  - ${event.endDatetime.substring(10, 16)}`,
+              })),
+            };
+          });
+
+          schedules.sort((a, b) => new Date(a.day) - new Date(b.day));
+
+          setLoadedData((prevState) => ({ ...prevState, schedules }));
+        })
+
+        .catch((error) => {
+          console.error("There was an error!", error);
+        });
+    }
+  }, [eventId]);
 
   const getButtonClassName = (category) =>
     selectedCategory === category ? `${styles.active}` : "";
@@ -52,6 +57,10 @@ function GoalSchedule() {
     selectedCategory === "추가"
       ? `${styles.active} ${styles.blueButton}`
       : `${styles.blueButton}`;
+
+  const handleTodoToggle = (todoId) => {
+    console.log(`Toggle todo with ID ${todoId}`);
+  };
 
   return (
     <div>
@@ -79,18 +88,37 @@ function GoalSchedule() {
         </button>
       </div>
 
-      {/* 일정 렌더링 로직 */}
       {selectedCategory === "일정" && (
-        <div className={styles.scheduleContainer}>
-          {schedules.map((daySchedule, index) => (
-            <div key={`day-${index}`} className={styles.daySchedule}>
-              <h3>{`${daySchedule.day}일 차`}</h3>
-              {daySchedule.schedules.map((schedule, idx) => (
-                <div key={`schedule-${idx}`} className={styles.scheduleBox}>
-                  <div>{schedule.title}</div>
-                  <div>{schedule.time}</div>
-                </div>
-              ))}
+        <div className={styles.scrollableContainer}>
+          <div className={styles.scheduleContainer}>
+            {loadedData.schedules.map((daySchedule, index) => (
+              <div key={`day-${index}`} className={styles.daySchedule}>
+                <h3 className={styles.scheduledate}>
+                  {`${daySchedule.day.slice(0, 2)}월`}{" "}
+                  {`${daySchedule.day.slice(3)}일`}
+                </h3>
+                {daySchedule.schedules.map((schedule, idx) => (
+                  <div key={`schedule-${idx}`} className={styles.scheduleBox}>
+                    <div>{schedule.title}</div>
+                    <div>{schedule.time}</div>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {selectedCategory === "할일" && (
+        <div className={styles.todoContainer}>
+          {loadedData.todos.map((todo) => (
+            <div key={todo.id} className={styles.todoItem}>
+              <input
+                type="checkbox"
+                checked={todo.completed}
+                onChange={() => handleTodoToggle(todo.id)}
+              />
+              <span>{todo.task}</span>
             </div>
           ))}
         </div>
