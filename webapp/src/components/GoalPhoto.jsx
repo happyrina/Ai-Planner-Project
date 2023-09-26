@@ -6,6 +6,7 @@ import threebutton from "../assets/more.svg";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { infoState, modeState, nameState } from "../atoms";
 import { useNavigate } from "react-router-dom";
+import backSvg from "../assets/back.svg";
 
 function GoalPhoto({ eventId }) {
   const [data, setData] = useState({
@@ -70,6 +71,9 @@ function GoalPhoto({ eventId }) {
     setMode("update");
     navigate("/goal");
   };
+  const backHandler = () => {
+    navigate("/main");
+  };
   const deleteGoalHandler = () => {};
 
   return (
@@ -82,8 +86,19 @@ function GoalPhoto({ eventId }) {
             {data.startDatetime} ~ {data.endDatetime}
           </div>
         )}
-        <div onClick={onClickHandler}>
-          <img src={threebutton} className={styles.threebutton} alt="button" />
+        <div>
+          <img
+            onClick={backHandler}
+            src={backSvg}
+            className={styles.backbutton}
+            alt="back"
+          />
+          <img
+            onClick={onClickHandler}
+            src={threebutton}
+            className={styles.threebutton}
+            alt="button"
+          />
           {clicked && (
             <div className={styles["dropdown-options"]} ref={dropdownRef}>
               <button className={styles["edit-btn"]} onClick={moveToGoalEdit}>

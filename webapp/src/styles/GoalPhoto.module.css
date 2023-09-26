@@ -19,6 +19,13 @@
   top: 15px;
   right: 14px;
 }
+.backbutton {
+  position: absolute;
+  top: 12px;
+  left: 15px;
+  margin: 0px;
+  cursor: pointer;
+}
 
 .overlay {
   position: absolute;
