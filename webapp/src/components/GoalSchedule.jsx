@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from "react";
 import styles from "../styles/GoalSchedule.module.css";
 import axios from "axios";
-import { RecoilValueReadOnly } from "recoil";
+import { useNavigate } from "react-router-dom";
 
 function GoalSchedule({ eventId }) {
   console.log("event_id :", eventId);
   const [selectedCategory, setSelectedCategory] = useState("일정");
   const [loadedData, setLoadedData] = useState({ schedules: [], todos: [] });
+  const navigate = useNavigate();
+  const createHandler = function () {
+    if (selectedCategory === "일정") {
+      navigate("/plan");
+    } else if (selectedCategory === "할일") {
+      navigate("/todo");
+    }
+  };
 
   useEffect(() => {
     if (eventId) {
@@ -82,7 +90,7 @@ function GoalSchedule({ eventId }) {
         <button
           style={{ marginLeft: "175px" }}
           className={getBlueButtonClassName("추가")}
-          onClick={() => setSelectedCategory("추가")}
+          onClick={createHandler}
         >
           + 추가
         </button>

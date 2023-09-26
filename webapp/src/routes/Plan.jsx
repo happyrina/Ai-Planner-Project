@@ -95,12 +95,13 @@ function Plan() {
           <button className={styles.Btn}>
             <Link to="/goal">목표</Link>
           </button>
-          <button className={styles.Btn}>
-            <Link to="/todo">할일</Link>
-          </button>
           <button className={styles.selected}>
             <Link to="/plan">일정</Link>
           </button>
+          <button className={styles.Btn}>
+            <Link to="/todo">할일</Link>
+          </button>
+
           <div></div>
           <button className={styles.Btn} type="submit">
             저장
@@ -109,6 +110,7 @@ function Plan() {
         <div className={styles.Tag}>제목</div>
         <div className={styles.Tag}>
           <input
+            required
             className={styles.Input}
             value={title}
             onChange={TitleHandler}

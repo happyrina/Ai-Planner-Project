@@ -73,7 +73,7 @@ export default function Home() {
   };
 
   const doneHandler = (e) => {
-    e.target.textContent === "지금 진행중" ? setDone(true) : setDone(false);
+    e.target.textContent === "지금 진행중" ? setDone(false) : setDone(true);
     console.log(done);
   };
 
@@ -143,10 +143,17 @@ export default function Home() {
         </Container>
         <Container>
           <Index2>
-            <SBtn style={{ paddingLeft: "13px" }} onClick={doneHandler}>
+            <SBtn
+              className={done === false ? "active" : ""}
+              style={{ paddingLeft: "13px" }}
+              onClick={doneHandler}
+            >
               지금 진행중
             </SBtn>
-            <SBtn onClick={doneHandler} className="last">
+            <SBtn
+              className={done === true ? "active" : ""}
+              onClick={doneHandler}
+            >
               완료
             </SBtn>
             <div> </div>
@@ -383,25 +390,28 @@ const ProfileMsg = styled.span`
 const SBtn = styled.button`
   font-weight: 600;
   font-size: 17px;
-
   background-color: white;
-
   margin: 0px 10px;
   border: none;
+  color: #aaa7a7;
+  &.active {
+    color: black;
+  }
   &:hover {
     cursor: pointer;
   }
   &.black {
+    font-size: 16px;
     display: flex;
     align-items: center;
     gap: 5px;
     margin: 0px;
-    font-weight: 350;
+    font-weight: 600;
     line-height: 10px;
-    padding: 0px;
+
     background-color: black;
     color: white;
-    padding: 5px 10px;
+    padding: 6px 10px;
     border-radius: 30px;
     &:hover {
       cursor: pointer;
@@ -409,7 +419,7 @@ const SBtn = styled.button`
   }
   a {
     display: block;
-    color: #cccbc7;
+    color: rgb(255, 252, 229);
     text-decoration: none;
   }
 `;

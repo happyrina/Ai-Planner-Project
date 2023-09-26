@@ -156,11 +156,12 @@ function Goal() {
             <Link to="/goal">목표</Link>
           </button>
           <button className={styles.Btn}>
-            <Link to={"/todo"}>할일</Link>
-          </button>
-          <button className={styles.Btn}>
             <Link to={"/plan"}>일정</Link>
           </button>
+          <button className={styles.Btn}>
+            <Link to={"/todo"}>할일</Link>
+          </button>
+
           <div></div>
           <button className={styles.Btn} type="submit">
             저장
@@ -169,6 +170,7 @@ function Goal() {
         <div className={styles.Tag}>제목</div>
         <div className={styles.Tag}>
           <input
+            required
             value={title}
             onChange={TitleHandler}
             maxLength={20}
@@ -195,7 +197,7 @@ function Goal() {
         </div>
         <div className={styles.Tag}>내용</div>
         <div className={styles.Tag}>
-          <input
+          <textarea
             style={{ height: "90px" }}
             value={content}
             onChange={ContentHandler}

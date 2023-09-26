@@ -38,7 +38,7 @@ const Selectop = () => {
         value: data["event_id"],
         label: data["title"],
       }));
-      setOptions(list);
+      setOptions([{ value: null, label: "선택 안 함" }, ...list]);
     }
   }
   useEffect(() => {
@@ -49,6 +49,7 @@ const Selectop = () => {
     <div className={styles.SelectDiv}>
       <div className={styles.Container}>
         <Select
+          width="500px"
           style={{ padding: "0" }}
           ref={selectInputRef}
           onChange={(e) => {

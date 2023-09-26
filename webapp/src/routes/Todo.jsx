@@ -72,12 +72,13 @@ function Todo() {
           <button className={styles.Btn}>
             <Link to="/goal">목표</Link>
           </button>
-          <button className={styles.selected}>
-            <Link to="/todo">할일</Link>
-          </button>
           <button className={styles.Btn}>
             <Link to="/plan">일정</Link>
           </button>
+          <button className={styles.selected}>
+            <Link to="/todo">할일</Link>
+          </button>
+
           <div></div>
           <button className={styles.Btn} type="submit">
             저장
@@ -86,6 +87,7 @@ function Todo() {
         <div className={styles.Tag}>제목</div>
         <div className={styles.Tag}>
           <input
+            required
             maxLength={20}
             value={title}
             onChange={TitleHandler}
@@ -99,12 +101,12 @@ function Todo() {
         </div>
         <div className={styles.Tag}>내용</div>
         <div className={styles.Tag}>
-          <input
+          <textarea
             style={{ height: "90px" }}
             value={content}
             onChange={ContentHandler}
             className={styles.Input}
-          ></input>
+          ></textarea>
         </div>
         <div className={styles.Tag}>장소</div>
         <div className={styles.Tag}>
