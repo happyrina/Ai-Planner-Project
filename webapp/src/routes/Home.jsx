@@ -87,10 +87,18 @@ export default function Home() {
         Authorization: `Bearer ${token}`,
       },
     }).then(async (response) => {
-      await setGoals(response.data);
-      await setGoalList(response.data);
-      await setMode(null);
-      console.log(response);
+      if (response.data.detail === "목표가 없습니다.") return;
+      else {
+        await setGoals(response.data ? response.data : null);
+        // await setGoalList(response.data);
+        await setMode(null);
+        console.log(response);
+        const sortedGoals = [...response.data].sort((a, b) =>
+          a.title.localeCompare(b.title)
+        );
+        setGoalList(sortedGoals);
+        console.log(sortedGoals);
+      }
     });
   }
 
@@ -98,7 +106,7 @@ export default function Home() {
     getName(info);
 
     getData();
-  }, []);
+  }, [Goalitem]);
 
   const offset = 4;
   // 파일 선택창 열기
@@ -190,7 +198,7 @@ export default function Home() {
                         goaltitle={goal["title"]}
                         goalperiod={goal["startDatetime"]}
                         event_id={goal["event_id"]}
-                        photoUrl={goal["photoUrl"]}
+                        photoUrl={goal["photoUrl"] || goal["imageUrl"]}
                         whileHover="hover"
                         initial="normal"
                         transition={{ type: "tween" }}

@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styles from "../styles/GoalSchedule.module.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { RecoilValueReadOnly } from "recoil";
 
 function GoalSchedule({ eventId }) {
-  console.log("event_id :", eventId);
+  // console.log("event_id :", eventId);
   const [selectedCategory, setSelectedCategory] = useState("일정");
   const [loadedData, setLoadedData] = useState({ schedules: [], todos: [] });
-  const navigate = useNavigate();
-  const createHandler = function () {
-    if (selectedCategory === "일정") {
-      navigate("/plan");
-    } else if (selectedCategory === "할일") {
-      navigate("/todo");
-    }
-  };
 
   useEffect(() => {
     if (eventId) {
@@ -61,6 +53,7 @@ function GoalSchedule({ eventId }) {
 
   const getButtonClassName = (category) =>
     selectedCategory === category ? `${styles.active}` : "";
+
   const getBlueButtonClassName = () =>
     selectedCategory === "추가"
       ? `${styles.active} ${styles.blueButton}`
@@ -73,7 +66,7 @@ function GoalSchedule({ eventId }) {
   return (
     <div>
       <div className={styles.categoryRow}>
-        <div>
+        <div className={styles.buttnoCategory}>
           <button
             className={getButtonClassName("일정")}
             onClick={() => setSelectedCategory("일정")}
@@ -90,7 +83,7 @@ function GoalSchedule({ eventId }) {
         <button
           style={{ marginLeft: "175px" }}
           className={getBlueButtonClassName("추가")}
-          onClick={createHandler}
+          onClick={() => setSelectedCategory("추가")}
         >
           + 추가
         </button>

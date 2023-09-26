@@ -97,6 +97,7 @@
 .profilephotoBtn {
   width: 100px;
   margin-top: 25px;
+  cursor: pointer;
   margin-right: 30px;
   padding: 8px;
   border: 1px solid gray;
@@ -105,6 +106,7 @@
 }
 
 .logoutBtn {
+  cursor: pointer;
   width: 300px;
   margin-top: 25px;
   padding: 10px;
