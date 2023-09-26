@@ -5,7 +5,7 @@ import { useRecoilState } from "recoil";
 import { goalIdState, modeState } from "../atoms";
 import { useNavigate } from "react-router-dom";
 
-function Goalitem({ goaltitle, goalperiod, event_id, photoUrl }) {
+function Goalitem({ goaltitle, goalperiod, event_id, photoUrl, isCompleted }) {
   const navigate = useNavigate();
   const [goalId, setGoalId] = useRecoilState(goalIdState);
   const [mode, setMode] = useRecoilState(modeState);

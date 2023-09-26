@@ -10,24 +10,32 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers";
 
 function Plan() {
-  const selectedgoal = useRecoilValue(goalState);
+  const [stime, setStime] = useState(new Date());
+  const [etime, setEtime] = useState(new Date());
+  const [sdate, setSdate] = useState(new Date());
+  const [edate, setEdate] = useState(new Date());
   const navigate = useNavigate();
-  const planState = {
+  const handleGoBack = () => {
+    navigate(-1); // 뒤로 가기
+  };
+
+  // const { title, endDatetime, startDatetime, location, goal, content } =
+  //   planinfo;
+
+  const selectedgoal = useRecoilValue(goalState);
+
+  const startDatetime =
+    format(sdate, "yyyy-MM-dd ") + format(stime, "hh:mm:ss");
+  const endDatetime = format(edate, "yyyy-MM-dd ") + format(etime, "hh:mm:ss");
+  let planState = {
     title: "",
-    startDatetime: "",
-    endDatetime: "",
+    startDatetime: startDatetime,
+    endDatetime: endDatetime,
     goal: selectedgoal,
     location: "",
     content: "",
   };
   const [planinfo, setPlaninfo] = useState(planState);
-  const [stime, setStime] = useState(null);
-  const [etime, setEtime] = useState(null);
-  const [sdate, setSdate] = useState(null);
-  const [edate, setEdate] = useState(null);
-  const { title, endDatetime, startDatetime, location, goal, content } =
-    planinfo;
-
   const SendPlan = async (data) => {
     const tokenstring = document.cookie;
     const token = tokenstring.split("=")[1];
@@ -49,17 +57,12 @@ function Plan() {
       withCredentials: false,
     }).then((response) => console.log(response));
   };
+
   const TitleHandler = (e) => {
     setPlaninfo({ ...planinfo, title: e.target.value });
-    console.log(format(edate, "yyyy-MM-dd"), format(etime, "hh:mm"));
+    console.log(format(edate, "yyyy-MM-dd "), format(etime, "hh:mm"));
   };
-  const startDatetimeHandler = (e) => {
-    setPlaninfo({ ...planinfo, startDatetime: e.target.value });
-  };
-  const endDatetimeHandler = (e) => {
-    setPlaninfo({ ...planinfo, endDatetime: e.target.value });
-    console.log(e.target.value);
-  };
+
   const LocationHandler = (e) => {
     setPlaninfo({ ...planinfo, location: e.target.value });
   };
@@ -78,10 +81,9 @@ function Plan() {
   const onSubmit = async (e) => {
     e.preventDefault();
     await setPlaninfo({ ...planinfo, goal: selectedgoal });
-
     try {
       await SendPlan(planinfo);
-      navigate("/home");
+      await handleGoBack();
       console.log(selectedgoal);
     } catch (error) {
       console.error("SendPlan 함수 호출 중 에러 발생:", error);
@@ -112,7 +114,7 @@ function Plan() {
           <input
             required
             className={styles.Input}
-            value={title}
+            value={planinfo.title}
             onChange={TitleHandler}
             maxLength={20}
           ></input>
@@ -161,7 +163,7 @@ function Plan() {
         <div className={styles.Tag}>
           <input
             style={{ height: "90px" }}
-            value={content}
+            value={planinfo.content}
             onChange={ContentHandler}
             className={styles.Input}
           ></input>
@@ -170,7 +172,7 @@ function Plan() {
         <div className={styles.Tag}>
           <input
             className={styles.Input}
-            value={location}
+            value={planinfo.location}
             onChange={LocationHandler}
           ></input>
         </div>

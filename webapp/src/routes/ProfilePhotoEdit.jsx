@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "../styles/ProfilePhotoEdit.module.css";
 import { useProfile } from "../context/ProfileContext";
 import axios from "axios";
-import styled from "styled-components";
 import { infoState, nameState } from "../atoms";
 import { useRecoilValue } from "recoil";
 import profile from "../assets/profile.png";
@@ -99,6 +98,7 @@ function ProfilePhotoEdit() {
   // 프로필 정보를 업데이트하는 함수
   const updateProfileInfo = async () => {
     console.log("Updating profile info...");
+    console.log(imageFile);
     const formData = new FormData();
     formData.append("user_id", id);
     formData.append("user_name", username);

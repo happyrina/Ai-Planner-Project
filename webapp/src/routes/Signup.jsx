@@ -2,10 +2,27 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useState } from "react";
 
 function Signup() {
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
+  const [id, setId] = useState();
+  const [name, setName] = useState();
+  const [pw, setPw] = useState("");
+  const [pwcheck, setPwcheck] = useState(null);
+  const onChangeId = function (e) {
+    setId(e.target.value);
+  };
+  const onChangeName = function (e) {
+    setName(e.target.value);
+  };
+  const onChangePw = function (e) {
+    setPw(e.target.value);
+  };
+  const onChangePwcheck = function (e) {
+    console.log(pw === pwcheck);
+    setPwcheck(e.target.value);
+  };
   // Users table에 아이디, 이름 존재 확인 후 가입 진행
   const onSubmit = (data) => {
     axios({
@@ -35,7 +52,7 @@ function Signup() {
 
   return (
     <Background>
-      <Container onSubmit={handleSubmit(onSubmit)}>
+      <Container onSubmit={onSubmit}>
         <Tag style={{ marginBottom: "20px" }}>
           <Title>회원가입</Title>
         </Tag>
@@ -44,7 +61,9 @@ function Signup() {
           <input
             className="username"
             placeholder="Name"
-            {...register("UserName", { required: "Please write your name" })}
+            onChange={onChangeName}
+            value={name}
+            required
           />
         </Tag>
         <Tag>아이디</Tag>
@@ -52,7 +71,9 @@ function Signup() {
           <input
             className="userid"
             placeholder="ID"
-            {...register("UserId", { required: "Please write your id" })}
+            required
+            onChange={onChangeId}
+            value={id}
           />
         </Tag>
         <Tag>비밀번호</Tag>
@@ -62,7 +83,9 @@ function Signup() {
             type="password"
             placeholder="Password"
             autoComplete="off"
-            {...register("Password", { required: "Please write password" })}
+            required
+            onChange={onChangePw}
+            value={pw}
           />
         </Tag>
         <Tag>비밀번호 확인</Tag>
@@ -72,15 +95,15 @@ function Signup() {
             type="password"
             placeholder="PasswordCheck"
             autoComplete="off"
-            {...register("PasswordCheck", {
-              required: "Please write password",
-            })}
+            required
+            onChange={onChangePwcheck}
+            value={pwcheck}
           />
         </Tag>
         <Button type="submit">회원가입</Button>
-        <Button style={{ marginTop: "40px" }}>
+        <HomeButton style={{ marginTop: "40px" }}>
           <Link to="/">Home</Link>
-        </Button>
+        </HomeButton>
       </Container>
 
       {/* <Find>
@@ -149,6 +172,7 @@ const Title = styled.h3`
 const Button = styled.button`
   width: 95%;
   height: 45px;
+  display: default;
   background-color: #7ef0ff;
   border-radius: 4px;
   border: none;
@@ -157,7 +181,6 @@ const Button = styled.button`
   margin-top: 80px;
   color: black;
   padding: 12px 7px;
-
   &:hover {
     cursor: pointer;
     border: none;
@@ -172,28 +195,29 @@ const Button = styled.button`
     }
   }
 `;
-const ButtonBig = styled.button`
-  box-shadow: 1px 2px #e4e3df;
-  letter-spacing: 1px;
-  width: 320px;
-  height: 55px;
-  padding: 15px;
-  background-color: white;
-  border-radius: 15px;
+const HomeButton = styled.button`
+  width: 95%;
+  height: 45px;
+  background-color: #7ef0ff;
+  border-radius: 4px;
   border: none;
-  font-size: 18px;
-  font-weight: 300px;
-  color: #cccbc7;
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 80px;
+  color: black;
+  padding: 12px 7px;
   &:hover {
     cursor: pointer;
-    color: white;
     border: none;
-    background-color: #f9e092;
+    background-color: #00a6ed;
+    color: white;
   }
   a {
-    display: block;
-    color: #cccbc7;
+    color: black;
     text-decoration: none;
+    &:hover {
+      color: white;
+    }
   }
 `;
 const Find = styled.span`

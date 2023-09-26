@@ -6,9 +6,47 @@ import { useRecoilState } from "recoil";
 import { goalIdState, modeState } from "../atoms";
 
 function Goal() {
-  const [imageurl, setImageurl] = useState();
+  const [history, setHistory] = useState({});
+  const navigate = useNavigate();
+  const [imageurl, setImageUrl] = useState();
   const [imagename, setImagename] = useState();
   const [imageFile, setImageFile] = useState();
+  const [mode, setMode] = useRecoilState(modeState);
+  const [goalId, setGoalId] = useRecoilState(goalIdState);
+  const [goalinfo, setGoalinfo] = useState({
+    title: "",
+    startDatetime: "",
+    location: "",
+    content: "",
+    photoUrl: "",
+    photoUrlname: "",
+    isCompleted: false,
+    photoUrlname: "",
+    imageUrl: "",
+  });
+
+  const getGoalData = async (event_id) => {
+    const tokenstring = document.cookie;
+    const token = tokenstring.split("=")[1];
+    await axios({
+      method: "get",
+      url: `http://3.39.153.9:3000/goal/read/${event_id}`,
+      withCredentials: false,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    }).then((response) => {
+      console.log(response.data);
+      if (mode === "update") {
+        setGoalinfo(response.data);
+        setImageUrl(response.data.photoUrl || null);
+        // sestGoalinfo(history);
+      }
+    });
+  };
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -16,7 +54,7 @@ function Goal() {
       reader.onloadend = () => {
         const result = reader.result;
         console.log("File Reader Result: ", result);
-        setImageurl(result);
+        setGoalinfo({ ...goalinfo, imageUrl: null });
         setImagename(file.name);
       };
       reader.readAsDataURL(file);
@@ -33,7 +71,9 @@ function Goal() {
     formData.append("startDatetime", goal.startDatetime);
     formData.append("endDatetime", "none");
     formData.append("location", goal.location);
+    formData.append("isCompleted", goal.isCompleted);
     formData.append("content", goal.content);
+    formData.append("imageUrl", goal.imageUrl);
     console.log(imageFile);
     if (imageFile) {
       formData.append("image", imageFile, imageFile.name);
@@ -57,56 +97,12 @@ function Goal() {
       }).then((response) => {
         if (response.status === 200) {
           alert("성공");
+          setMode(null);
         }
       });
     } catch (error) {
       console.error("An error occurred while updating profile:", error);
     }
-  };
-  const goalState = {
-    title: "",
-    startDatetime: "",
-    location: "",
-    content: "",
-    isCompleted: false,
-    photoUrl: "",
-    photoUrlname: "",
-  };
-  const [history, setHistory] = useState({});
-  const navigate = useNavigate();
-  const [mode, setMode] = useRecoilState(modeState);
-  const [goalId, setGoalId] = useRecoilState(goalIdState);
-  const [goalinfo, setGoalinfo] = useState(goalState);
-  const {
-    title,
-    startDatetime,
-    location,
-    content,
-    photoUrl,
-    photoUrlname,
-    isCompleted,
-  } = goalinfo;
-
-  const getGoalData = async (event_id) => {
-    const tokenstring = document.cookie;
-    const token = tokenstring.split("=")[1];
-    await axios({
-      method: "get",
-      url: `http://3.39.153.9:3000/goal/read/${event_id}`,
-      withCredentials: false,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    }).then((response) => {
-      console.log(response);
-      if (mode === "update") {
-        setGoalinfo(response.data);
-        setImageFile(null);
-        // sestGoalinfo(history);
-      }
-    });
   };
   const TitleHandler = (e) => {
     setGoalinfo({ ...goalinfo, title: e.target.value });
@@ -119,6 +115,7 @@ function Goal() {
   };
   const CompleteHandler = (e) => {
     setGoalinfo({ ...goalinfo, isCompleted: e.target.checked });
+    console.log(e.target.checked);
   };
   const ContentHandler = (e) => {
     setGoalinfo({ ...goalinfo, content: e.target.value });
@@ -136,14 +133,14 @@ function Goal() {
       const method = "PUT";
       const event = "update";
       SendGoal(goalinfo, event, method, goalId)
-        .then(alert("성공"))
+        // .then(alert("성공"))
         .then(navigate("/home"));
     } else {
       const method = "POST";
       const event = "create";
       console.log(goalinfo);
       SendGoal(goalinfo, event, method)
-        .then(alert("성공"))
+        // .then(alert("성공"))
         .then(navigate("/home"));
     }
   };
@@ -171,7 +168,7 @@ function Goal() {
         <div className={styles.Tag}>
           <input
             required
-            value={title}
+            value={goalinfo.title}
             onChange={TitleHandler}
             maxLength={20}
             className={styles.Input}
@@ -181,7 +178,7 @@ function Goal() {
         <div className={styles.Tag}>기간</div>
         <div className={styles.Tag}>
           <input
-            value={startDatetime}
+            value={goalinfo.startDatetime}
             onChange={PeriodHandler}
             type="text"
             className={styles.Input}
@@ -190,7 +187,7 @@ function Goal() {
         <div className={styles.Tag}>장소</div>
         <div className={styles.Tag}>
           <input
-            value={location}
+            value={goalinfo.location}
             onChange={LocationHandler}
             className={styles.Input}
           />
@@ -199,7 +196,7 @@ function Goal() {
         <div className={styles.Tag}>
           <textarea
             style={{ height: "90px" }}
-            value={content}
+            value={goalinfo.content}
             onChange={ContentHandler}
             className={styles.Input}
           />{" "}
@@ -211,7 +208,7 @@ function Goal() {
           <div className={styles.Tag}>
             <input
               disabled={mode === "update" ? false : history.isCompleted}
-              value={isCompleted}
+              value={goalinfo.isCompleted}
               onChange={CompleteHandler}
               className={styles.check}
               type="checkbox"

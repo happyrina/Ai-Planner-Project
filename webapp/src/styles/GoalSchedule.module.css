@@ -6,8 +6,7 @@
   background-color: none;
   height: 50px;
 }
-
-button {
+.buttnoCategory > button {
   background: none;
   border: none;
   font-size: 22px;
@@ -18,11 +17,7 @@ button {
   margin-left: 15px;
 }
 
-button:hover {
-  background-color: none;
-}
-
-button.active {
+.buttnoCategory > button.active {
   color: black;
   font-weight: bold;
 }
@@ -49,21 +44,11 @@ button.active {
   position: relative;
   border-radius: 30px;
   width: 60px;
-  font-size: 14px;
-  padding: 7px;
+  font-size: 15px;
+  padding: 10px;
   padding-left: 10px;
-}
-
-.blueButton.active {
-  background-color: rgb(0, 170, 255);
-  color: white;
-  display: flex;
-  position: relative;
-  border-radius: 30px;
-  width: 60px;
-  font-size: 14px;
-  padding: 7px;
-  padding-left: 10px;
+  font-weight: 700;
+  border: none;
 }
 
 .scheduleContainer {
