@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "../styles/ProfilePhotoEdit.module.css";
 import { useProfile } from "../context/ProfileContext";
 import axios from "axios";
+import styled from "styled-components";
 import { infoState, nameState } from "../atoms";
 import { useRecoilValue } from "recoil";
+import profile from "../assets/profile.png";
 
 function ProfilePhotoEdit() {
   const { profileImage, setProfileImage } = useProfile();
@@ -17,7 +19,9 @@ function ProfilePhotoEdit() {
   const name = useRecoilValue(nameState);
   const info = useRecoilValue(infoState);
   const navigate = useNavigate();
-
+  const moveTohome = () => {
+    navigate("/home");
+  };
   useEffect(() => {
     async function fetchUserProfile() {
       try {
@@ -132,6 +136,7 @@ function ProfilePhotoEdit() {
       alert("자기소개를 입력해 주세요.");
       return;
     }
+    // useNavigate('home') <- 버튼클릭시
 
     try {
       await updateProfileInfo();
@@ -158,7 +163,11 @@ function ProfilePhotoEdit() {
           <div
             className={styles.imageCircle}
             onClick={handleFileSelect}
-            style={imageURL ? { backgroundImage: `url(${imageURL})` } : {}}
+            style={
+              imageURL
+                ? { backgroundImage: `url(${imageURL})` }
+                : { backgroundImage: `${profile}` }
+            }
           >
             {!imageURL && <span>+</span>}
           </div>
@@ -206,6 +215,9 @@ function ProfilePhotoEdit() {
             onChange={(e) => setBio(e.target.value)}
             className={styles.profiletextarea}
           ></textarea>
+          <button className={styles.logoutBtn} onClick={moveTohome}>
+            뒤로가기
+          </button>
           <button className={styles.logoutBtn} onClick={handleLogout}>
             로그아웃
           </button>
