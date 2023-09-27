@@ -6,6 +6,9 @@
   background-color: none;
   height: 50px;
 }
+.categoryRow > button {
+  cursor: pointer;
+}
 .buttnoCategory > button {
   background: none;
   border: none;

@@ -20,6 +20,8 @@ export default function Home() {
   const token = tokenstring.split("=")[1];
   const [imageURL, setImageURL] = useState(null);
   const [goals, setGoals] = useRecoilState(goalState);
+  const [completedGoals, setCompletedGoals] = useState([]);
+  const [notcompletedGoals, setNotcompletedGoals] = useState([]);
   const [goalList, setGoalList] = useRecoilState(goalListState);
   const [leaving, setLeaving] = useState(false);
   const [index, setIndex] = useState(0);
@@ -28,7 +30,18 @@ export default function Home() {
   const [name, setName] = useRecoilState(nameState);
   const [bio, setBio] = useState("");
   const [mode, setMode] = useRecoilState(modeState);
-
+  const colors = [
+    "#cdb4db",
+    "#ffc8dd",
+    "#ffafcc",
+    "#bde0fe",
+    "#a2d2ff",
+    "#ffd6ff",
+    "#e7c6ff",
+    "#c8b6ff",
+    "#b8c0ff",
+    "#bbd0ff",
+  ];
   const toggleLeaving = () => setLeaving((prev) => !prev);
 
   const getName = async (id) => {
@@ -92,12 +105,16 @@ export default function Home() {
         await setGoals(response.data ? response.data : null);
         // await setGoalList(response.data);
         await setMode(null);
-        console.log(response);
         const sortedGoals = [...response.data].sort((a, b) =>
           a.title.localeCompare(b.title)
         );
+        const completedGoals = setCompletedGoals(
+          sortedGoals.filter((value) => value.isCompleted === true)
+        );
+        const notcompletedGoals = setNotcompletedGoals(
+          sortedGoals.filter((value) => value.isCompleted === false)
+        );
         setGoalList(sortedGoals);
-        console.log(sortedGoals);
       }
     });
   }
@@ -188,8 +205,25 @@ export default function Home() {
                 key={index}
               >
                 {done === false &&
-                  goalList.length > 0 &&
-                  goalList
+                  notcompletedGoals.length > 0 &&
+                  notcompletedGoals
+                    .slice(offset * index, offset * index + offset)
+                    .map((goal) => (
+                      <Goalitem
+                        key={shortid.generate()}
+                        variants={BoxVariants}
+                        goaltitle={goal["title"]}
+                        goalperiod={goal["startDatetime"]}
+                        event_id={goal["event_id"]}
+                        photoUrl={goal["photoUrl"] || goal["imageUrl"]}
+                        whileHover="hover"
+                        initial="normal"
+                        transition={{ type: "tween" }}
+                      ></Goalitem>
+                    ))}
+                {done === true &&
+                  completedGoals.length > 0 &&
+                  completedGoals
                     .slice(offset * index, offset * index + offset)
                     .map((goal) => (
                       <Goalitem
@@ -457,7 +491,7 @@ const ImageCircle = styled.div`
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  border: 2px solid rgb(0, 175, 41);
+  border: 2px solid white;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,10 +1,13 @@
-
 form {
   width: 375px;
   padding: 1.2rem;
   display: flex;
   align-items: center;
   flex-direction: column;
+}
+.leftbutton {
+  height: auto;
+  cursor: pointer;
 }
 .None {
   position: absolute;
@@ -35,23 +38,21 @@ form {
   text-align: left;
 }
 
-.TimeWrapper{
+.TimeWrapper {
   width: 98%;
   display: flex;
   padding: 7px 7px;
-
 }
 .InputHalf {
   width: 50%;
   height: 45px;
   margin-bottom: 10px;
   color: rgba(0, 0, 0, 0.596);
-  border: 1.2px solid #9D9D9D;
+  border: 1.2px solid #9d9d9d;
   border-radius: 4px;
   padding: 8px 15px;
   caret-color: transparent;
   font-size: 17px;
-  
 }
 .InputHalf:focus {
   outline: none;
@@ -62,10 +63,10 @@ form {
   height: 45px;
   margin-bottom: 10px;
   color: rgba(0, 0, 0, 0.596);
-  border: 1.2px solid #9D9D9D;
+  border: 1.2px solid #9d9d9d;
   border-radius: 4px;
   padding: 8px 10px;
-  caret-color: #9D9D9D;
+  caret-color: #9d9d9d;
   font-size: 17px;
 }
 .Input:focus {
@@ -79,7 +80,7 @@ form {
 .Navbar {
   display: flex;
   padding: 0.8rem 0;
-  padding-top : 0;
+  padding-top: 0;
   width: 100%;
   justify-content: space-around;
   flex-direction: row;
@@ -99,9 +100,9 @@ form {
 }
 .Btn {
   background-color: white;
-  color: #9D9D9D;
+  color: #9d9d9d;
   font-size: 20px;
-  font-weight:600;
+  font-weight: 600;
   border: none;
   border-radius: 30px;
   padding: 5px 10px;
@@ -110,11 +111,11 @@ form {
 .Btn > a {
   font-size: 20px;
   font-weight: 600;
-  color: #9D9D9D;
+  color: #9d9d9d;
   text-decoration: none;
 }
 .Btn:last-child {
-  background-color: #00A6ED;
+  background-color: #00a6ed;
   color: white;
   font-size: 15px;
   border: none;
@@ -124,17 +125,17 @@ form {
   margin-right: 10px;
 }
 .selected {
-  background-color: #EAEAEA;
+  background-color: #eaeaea;
   color: black;
   font-size: 20px;
-  font-weight:00;
+  font-weight: 00;
   border: none;
   border-radius: 30px;
   padding: 5px 10px;
   margin-right: 10px;
 }
 .selected > a {
-  font-weight:600;
+  font-weight: 600;
   color: black;
   text-decoration: none;
 }

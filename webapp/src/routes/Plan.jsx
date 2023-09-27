@@ -1,8 +1,13 @@
 import styles from "../css/FormStyle.module.css";
 import Selectop from "../components/Select";
 import { Link, useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { goalState } from "../atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  goalState,
+  modeState,
+  selectedDateState,
+  selectedGoalState,
+} from "../atoms";
 import axios from "axios";
 import format from "date-fns/format";
 import { useState } from "react";
@@ -10,19 +15,20 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers";
 
 function Plan() {
+  const [mode, setMode] = useRecoilState(modeState);
   const [stime, setStime] = useState(new Date());
   const [etime, setEtime] = useState(new Date());
   const [sdate, setSdate] = useState(new Date());
   const [edate, setEdate] = useState(new Date());
   const navigate = useNavigate();
   const handleGoBack = () => {
-    navigate(-1); // 뒤로 가기
+    navigate("/main"); // 뒤로 가기
   };
 
   // const { title, endDatetime, startDatetime, location, goal, content } =
   //   planinfo;
-
-  const selectedgoal = useRecoilValue(goalState);
+  let event_id = null;
+  const selectedgoal = useRecoilValue(selectedGoalState);
 
   const startDatetime =
     format(sdate, "yyyy-MM-dd ") + format(stime, "hh:mm:ss");
@@ -36,26 +42,39 @@ function Plan() {
     content: "",
   };
   const [planinfo, setPlaninfo] = useState(planState);
-  const SendPlan = async (data) => {
-    const tokenstring = document.cookie;
-    const token = tokenstring.split("=")[1];
-    await axios({
-      method: "post",
-      url: "http://3.39.153.9:3000/event/create",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        Authorization: `Bearer ${token}`,
-      },
-      data: {
-        title: data.title,
-        startDatetime: data.startDatetime,
-        endDatetime: data.endDatetime,
-        goal: data.goal,
-        location: data.location,
-        content: data.content,
-      },
-      withCredentials: false,
-    }).then((response) => console.log(response));
+  const SendPlan = async (data, event, method, event_id) => {
+    setMode(null);
+    try {
+      const tokenstring = document.cookie;
+      const token = tokenstring.split("=")[1];
+      const url = event_id
+        ? `http://3.39.153.9:3000/event/${event}/${event_id}`
+        : `http://3.39.153.9:3000/event/${event}`;
+      await axios({
+        method: method,
+        url: url,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization: `Bearer ${token}`,
+        },
+        data: {
+          title: data.title,
+          startDatetime: data.startDatetime,
+          endDatetime: data.endDatetime,
+          goal: data.goal,
+          location: data.location,
+          content: data.content,
+        },
+        withCredentials: false,
+      }).then((response) => {
+        if (response.status === 200) {
+          alert("성공");
+          setMode(null);
+        }
+      });
+    } catch (error) {
+      console.error("An error occurred while updating profile:", error);
+    }
   };
 
   const TitleHandler = (e) => {
@@ -78,15 +97,21 @@ function Plan() {
   //   console.log(selectedgoal);
   // };
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    await setPlaninfo({ ...planinfo, goal: selectedgoal });
-    try {
-      await SendPlan(planinfo);
-      await handleGoBack();
-      console.log(selectedgoal);
-    } catch (error) {
-      console.error("SendPlan 함수 호출 중 에러 발생:", error);
+    if (mode === "update") {
+      const method = "PUT";
+      const event = "update";
+      SendPlan(planinfo, event, method, event_id)
+        // .then(alert("성공"))
+        .then(navigate("/main"));
+    } else {
+      const method = "POST";
+      const event = "create";
+      console.log(planinfo);
+      SendPlan(planinfo, event, method)
+        // .then(alert("성공"))
+        .then(navigate("/main"));
     }
   };
 
@@ -94,6 +119,24 @@ function Plan() {
     <div className={styles.Container}>
       <form className={styles.Form} onSubmit={onSubmit}>
         <nav className={styles.Navbar}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <svg
+              onClick={handleGoBack}
+              className={styles.leftbutton}
+              xmlns="http://www.w3.org/2000/svg"
+              height="1em"
+              viewBox="0 0 320 512"
+              style={{ fill: "black" }}
+            >
+              <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
+            </svg>
+          </div>
           <button className={styles.Btn}>
             <Link to="/goal">목표</Link>
           </button>

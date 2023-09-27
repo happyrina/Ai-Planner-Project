@@ -7,6 +7,7 @@ import Category from "../components/Category.jsx";
 import Navbar from "../components/Navbar.jsx";
 import { infoState, nameState } from "../atoms";
 import { useRecoilValue } from "recoil";
+import { format } from "date-fns";
 
 export const CalendarContext = createContext();
 export const useCalendar = () => useContext(CalendarContext);
@@ -17,6 +18,7 @@ const MainPage = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [goals, setGoals] = useState({});
+  const [events, sets] = useState({});
   const [eventsProp, setEventsProp] = useState([]);
   const [dataForSelectedDate, setDataForSelectedDate] = useState({
     events: [],
@@ -36,7 +38,9 @@ const MainPage = () => {
     try {
       const tokenstring = document.cookie;
       const token = tokenstring.split("=")[1];
-      const selectedDateString = selectedDate.toISOString().split("T")[0];
+      const selectedDateString = format(selectedDate, "yyyy-MM-dd HH:mm:ss");
+
+      console.log("메인페이지날짜 :", selectedDateString);
       const response = await axios.get(
         `http://3.39.153.9:3000/event/read/${selectedDateString}`,
         {

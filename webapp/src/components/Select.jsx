@@ -2,12 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import Select from "react-select";
 import styles from "./Select.module.css";
 import { useRecoilState } from "recoil";
-import { goalListState, goalState } from "../atoms";
+import { goalListState, goalState, selectedGoalState } from "../atoms";
 import axios from "axios";
 
 const Selectop = () => {
   const [goal, setGoal] = useRecoilState(goalState);
   const [goalList, setGoalList] = useRecoilState(goalListState);
+  const [selectedGoal, setSelectedGoal] = useRecoilState(selectedGoalState);
   const [selectValue, setSelectValue] = useState("");
   const selectInputRef = useRef(null);
   const [options, setOptions] = useState([]);
@@ -53,8 +54,8 @@ const Selectop = () => {
           style={{ padding: "0" }}
           ref={selectInputRef}
           onChange={(e) => {
-            console.log(e);
-            setGoal(e.value);
+            console.log(e.value);
+            setSelectedGoal(e.value);
             setSelectValue(e.value);
           }}
           options={options}

@@ -24,7 +24,9 @@ function Goal() {
     photoUrlname: "",
     imageUrl: "",
   });
-
+  const backtoMain = () => {
+    navigate("/main");
+  };
   const getGoalData = async (event_id) => {
     const tokenstring = document.cookie;
     const token = tokenstring.split("=")[1];
@@ -134,14 +136,14 @@ function Goal() {
       const event = "update";
       SendGoal(goalinfo, event, method, goalId)
         // .then(alert("성공"))
-        .then(navigate("/home"));
+        .then(navigate("/main"));
     } else {
       const method = "POST";
       const event = "create";
       console.log(goalinfo);
       SendGoal(goalinfo, event, method)
         // .then(alert("성공"))
-        .then(navigate("/home"));
+        .then(navigate("/main"));
     }
   };
 
@@ -149,6 +151,24 @@ function Goal() {
     <div className={styles.Container}>
       <form onSubmit={onSubmit}>
         <div className={styles.Navbar}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <svg
+              onClick={backtoMain}
+              className={styles.leftbutton}
+              xmlns="http://www.w3.org/2000/svg"
+              height="1em"
+              viewBox="0 0 320 512"
+              style={{ fill: "black" }}
+            >
+              <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
+            </svg>
+          </div>
           <button className={styles.selected}>
             <Link to="/goal">목표</Link>
           </button>
