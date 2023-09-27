@@ -13,6 +13,7 @@ export const CalendarContext = createContext();
 export const useCalendar = () => useContext(CalendarContext);
 
 const MainPage = () => {
+  // const [goalId, setGoalId] = useRecoilState(goalIdState);
   const name = useRecoilValue(nameState);
   const info = useRecoilValue(infoState);
   const [isModalVisible, setModalVisible] = useState(false);

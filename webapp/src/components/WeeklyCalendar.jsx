@@ -13,6 +13,7 @@ import { useRecoilState } from "recoil";
 import { eventsPropState, selectedDateState } from "../atoms";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { modeState } from "../atoms";
 
 function WeeklyCalendar() {
   const currentYear = new Date().getFullYear();
@@ -27,6 +28,7 @@ function WeeklyCalendar() {
   const yearModalRef = useRef(null);
   const monthModalRef = useRef(null);
   const [showMonthlyModal, setShowMonthlyModal] = useState(false);
+  const [mode, setMode] = useRecoilState(modeState);
   const navigate = useNavigate();
   const [showAddModal, setShowAddModal] = useState(false);
   const addModalRef = useRef(null);
@@ -123,6 +125,7 @@ function WeeklyCalendar() {
   }, []);
 
   const handleAddOptionClick = (path) => {
+    setMode("create");
     navigate(path);
   };
 

@@ -56,7 +56,7 @@
 }
 
 .calendarDayNumber.today {
-  background-color: #6cd3ff;
+  background-color: #a9e7ff;
   width: 20px;
   height: 20px;
   display: flex;
@@ -64,7 +64,7 @@
   justify-content: center;
   border-radius: 50%;
   font-weight: 700;
-  box-shadow: 0 0 0 5px #6cd3ff;
+  box-shadow: 0 0 0 5px #a9e7ff;
   line-height: normal;
   margin-left: 8px;
 }
@@ -85,11 +85,27 @@
 }
 
 .calendarleftbutton {
-  margin-right: 5px;
+  margin-right: 2px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: grey;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+  margin-left: 15px;
 }
 
 .calendarrightbutton {
-  margin-left: 5px;
+  margin-left: 2px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: grey;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+  margin-left: 15px;
 }
 
 .modal {
@@ -116,7 +132,7 @@
 }
 
 .modal div:hover {
-  background-color: #6cd3ff;
+  background-color: #a9e7ff;
 }
 
 .calendarNavigation {
@@ -152,7 +168,7 @@
 .addModal {
   position: absolute;
   right: 10px;
-  padding: 10px;
+  padding: 15px;
   margin: 2px;
   background-color: #ffffff;
   border: 1px solid #ddd;
@@ -163,15 +179,21 @@
   border-radius: 5px;
 }
 
-.addModal button {
-  margin: 3px;
-  margin-bottom: 8px;
+.addModal > button {
+  padding: 5px;
   font-size: 18px;
   color: black;
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
 }
 
-.addModal button:hover {
-  background-color: #6cd3ff;
+.addModal > button:hover {
+  background-color: #a9e7ff;
+  padding: 5px;
   border-radius: 3px;
   transition: background-color 0.3s;
 }

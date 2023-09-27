@@ -24,7 +24,7 @@ export const goalState = atom({
 
 
 export const selectedGoalState = atom({
-    key: "goal",
+    key: "selectedgoal",
     default: "",
 })
 

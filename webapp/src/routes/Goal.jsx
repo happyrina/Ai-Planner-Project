@@ -22,10 +22,9 @@ function Goal() {
     photoUrlname: "",
     isCompleted: false,
     photoUrlname: "",
-    imageUrl: "",
   });
   const backtoMain = () => {
-    navigate("/main");
+    navigate("/main?");
   };
   const getGoalData = async (event_id) => {
     const tokenstring = document.cookie;
@@ -67,7 +66,6 @@ function Goal() {
 
   const SendGoal = async (goal, event, method, goalId) => {
     console.log(goal);
-    setMode(null);
     const formData = new FormData();
     formData.append("title", goal.title);
     formData.append("startDatetime", goal.startDatetime);
@@ -75,7 +73,9 @@ function Goal() {
     formData.append("location", goal.location);
     formData.append("isCompleted", goal.isCompleted);
     formData.append("content", goal.content);
-    formData.append("imageUrl", goal.imageUrl);
+    imageFile === undefined &&
+      goal.photoUrl &&
+      formData.append("imageUrl", goal.photoUrl);
     console.log(imageFile);
     if (imageFile) {
       formData.append("image", imageFile, imageFile.name);
@@ -99,6 +99,7 @@ function Goal() {
       }).then((response) => {
         if (response.status === 200) {
           alert("성공");
+          setGoalId(null);
           setMode(null);
         }
       });
@@ -134,16 +135,17 @@ function Goal() {
     if (mode === "update") {
       const method = "PUT";
       const event = "update";
-      SendGoal(goalinfo, event, method, goalId)
-        // .then(alert("성공"))
-        .then(navigate("/main"));
+      console.log();
+      SendGoal(goalinfo, event, method, goalId);
+      // .then(alert("성공"))
+      // .then(navigate("/main"));
     } else {
       const method = "POST";
       const event = "create";
       console.log(goalinfo);
-      SendGoal(goalinfo, event, method)
-        // .then(alert("성공"))
-        .then(navigate("/main"));
+      SendGoal(goalinfo, event, method);
+      // .then(alert("성공"))
+      // .then(navigate("/main"));
     }
   };
 
