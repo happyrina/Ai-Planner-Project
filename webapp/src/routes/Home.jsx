@@ -252,28 +252,6 @@ const ScrollableContainer = styled.div`
   overflow-y: scroll;
 `;
 
-const ScrollableRow = styled.div`
-  display: grid;
-  padding: 10px;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  background-color: #fff; /* Add your background color */
-  border-radius: 8px; /* Add border-radius for rounded corners */
-  margin-bottom: 20px; /* Adjust margin as needed */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add box-shadow for depth */
-`;
-const StyledButton = styled.button`
-  display: inline;
-  position: absolute;
-  bottom: 315px;
-  right: 12px;
-  background-color: transparent;
-  border: none;
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
 const BigContainer = styled.div`
   width: 100%;
   height: 100vh;
@@ -285,14 +263,6 @@ const BigContainer = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.15);
   overflow: hidden;
 `;
-const Img = styled.img`
-  width: 100px;
-  height: auto;
-  margin: 20px 5px;
-  border-radius: 50px;
-  border: solid 3px white;
-`;
-
 const Row = styled(motion.div)`
   display: grid;
   padding-bottom: 0px;
@@ -304,30 +274,7 @@ const Row = styled(motion.div)`
   // height: 400px; /* Adjust the height as needed */
   // overflow-y: auto; /* Enable vertical scrolling */
 `;
-// const rowVariants = {
-//   hidden: {
-//     x: 500,
-//   },
-//   visible: {
-//     x: 0,
-//   },
-//   exit: {
-//     x: -500,
-//   },
-// };
-// const BoxVariants = {
-//   normal: {
-//     scale: 1,
-//   },
-//   hover: {
-//     scale: 1.3,
-//     y: -50,
-//     transition: {
-//       delay: 0.3,
-//       type: "tween",
-//     },
-//   },
-// };
+
 const Background = styled.div`
   width: 375px;
   margin: 0px auto;

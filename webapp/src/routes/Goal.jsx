@@ -136,16 +136,16 @@ function Goal() {
       const method = "PUT";
       const event = "update";
       console.log();
-      SendGoal(goalinfo, event, method, goalId);
-      // .then(alert("성공"))
-      // .then(navigate("/main"));
+      SendGoal(goalinfo, event, method, goalId)
+        .then(alert("성공"))
+        .then(navigate("/main"));
     } else {
       const method = "POST";
       const event = "create";
       console.log(goalinfo);
-      SendGoal(goalinfo, event, method);
-      // .then(alert("성공"))
-      // .then(navigate("/main"));
+      SendGoal(goalinfo, event, method)
+        .then(alert("성공"))
+        .then(navigate("/main"));
     }
   };
 
