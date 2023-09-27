@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
 import shortid from "shortid";
 import styled from "styled-components";
@@ -194,10 +194,11 @@ export default function Home() {
               <Link to={"/goal"}> 추가</Link>
             </SBtn>
           </Index2>
-          <Slider>
-            <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
+          <div>
+            <ScrollableContainer>
               <Row
-                variants={rowVariants}
+                // Keep the animation and transition props if needed
+                // variants={rowVariants}
                 initial="hidden"
                 animate="visible"
                 exit="exit"
@@ -206,51 +207,37 @@ export default function Home() {
               >
                 {done === false &&
                   notcompletedGoals.length > 0 &&
-                  notcompletedGoals
-                    .slice(offset * index, offset * index + offset)
-                    .map((goal) => (
-                      <Goalitem
-                        key={shortid.generate()}
-                        variants={BoxVariants}
-                        goaltitle={goal["title"]}
-                        goalperiod={goal["startDatetime"]}
-                        event_id={goal["event_id"]}
-                        photoUrl={goal["photoUrl"] || goal["imageUrl"]}
-                        whileHover="hover"
-                        initial="normal"
-                        transition={{ type: "tween" }}
-                      ></Goalitem>
-                    ))}
+                  notcompletedGoals.map((goal) => (
+                    <Goalitem
+                      key={shortid.generate()}
+                      // variants={BoxVariants}
+                      goaltitle={goal["title"]}
+                      goalperiod={goal["startDatetime"]}
+                      event_id={goal["event_id"]}
+                      photoUrl={goal["photoUrl"] || goal["imageUrl"]}
+                      whileHover="hover"
+                      initial="normal"
+                      transition={{ type: "tween" }}
+                    ></Goalitem>
+                  ))}
                 {done === true &&
                   completedGoals.length > 0 &&
-                  completedGoals
-                    .slice(offset * index, offset * index + offset)
-                    .map((goal) => (
-                      <Goalitem
-                        key={shortid.generate()}
-                        variants={BoxVariants}
-                        goaltitle={goal["title"]}
-                        goalperiod={goal["startDatetime"]}
-                        event_id={goal["event_id"]}
-                        photoUrl={goal["photoUrl"] || goal["imageUrl"]}
-                        whileHover="hover"
-                        initial="normal"
-                        transition={{ type: "tween" }}
-                      ></Goalitem>
-                    ))}
+                  completedGoals.map((goal) => (
+                    <Goalitem
+                      key={shortid.generate()}
+                      // variants={BoxVariants}
+                      goaltitle={goal["title"]}
+                      goalperiod={goal["startDatetime"]}
+                      event_id={goal["event_id"]}
+                      photoUrl={goal["photoUrl"] || goal["imageUrl"]}
+                      whileHover="hover"
+                      initial="normal"
+                      transition={{ type: "tween" }}
+                    ></Goalitem>
+                  ))}
               </Row>
-            </AnimatePresence>
-            <StyledButton onClick={increaseIndex}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="1em"
-                viewBox="0 0 384 512"
-                style={{ fill: "#ffd952" }}
-              >
-                <path d="M3.4 81.7c-7.9 15.8-1.5 35 14.3 42.9L280.5 256 17.7 387.4C1.9 395.3-4.5 414.5 3.4 430.3s27.1 22.2 42.9 14.3l320-160c10.8-5.4 17.7-16.5 17.7-28.6s-6.8-23.2-17.7-28.6l-320-160c-15.8-7.9-35-1.5-42.9 14.3z" />
-              </svg>
-            </StyledButton>
-          </Slider>
+            </ScrollableContainer>
+          </div>
           <div>
             <NavBar />
           </div>
@@ -260,6 +247,21 @@ export default function Home() {
   );
 }
 
+const ScrollableContainer = styled.div`
+  height: calc(100vh - 300px); /* Adjust the height as needed */
+  overflow-y: scroll;
+`;
+
+const ScrollableRow = styled.div`
+  display: grid;
+  padding: 10px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  background-color: #fff; /* Add your background color */
+  border-radius: 8px; /* Add border-radius for rounded corners */
+  margin-bottom: 20px; /* Adjust margin as needed */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add box-shadow for depth */
+`;
 const StyledButton = styled.button`
   display: inline;
   position: absolute;
@@ -290,45 +292,42 @@ const Img = styled.img`
   border-radius: 50px;
   border: solid 3px white;
 `;
-const Slider = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 0 17px;
-  width: 90%;
-`;
+
 const Row = styled(motion.div)`
   display: grid;
   padding-bottom: 0px;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  position: absolute;
-  width: 93%;
-  height: 200px;
+  // /* grid-template-rows: repeat(2, 1fr);*/
+  // position: absolute;
+  // width: 93%;
+  // /* Add a fixed height and enable scrolling */
+  // height: 400px; /* Adjust the height as needed */
+  // overflow-y: auto; /* Enable vertical scrolling */
 `;
-const rowVariants = {
-  hidden: {
-    x: 500,
-  },
-  visible: {
-    x: 0,
-  },
-  exit: {
-    x: -500,
-  },
-};
-const BoxVariants = {
-  normal: {
-    scale: 1,
-  },
-  hover: {
-    scale: 1.3,
-    y: -50,
-    transition: {
-      delay: 0.3,
-      type: "tween",
-    },
-  },
-};
+// const rowVariants = {
+//   hidden: {
+//     x: 500,
+//   },
+//   visible: {
+//     x: 0,
+//   },
+//   exit: {
+//     x: -500,
+//   },
+// };
+// const BoxVariants = {
+//   normal: {
+//     scale: 1,
+//   },
+//   hover: {
+//     scale: 1.3,
+//     y: -50,
+//     transition: {
+//       delay: 0.3,
+//       type: "tween",
+//     },
+//   },
+// };
 const Background = styled.div`
   width: 375px;
   margin: 0px auto;

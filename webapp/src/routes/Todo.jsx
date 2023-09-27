@@ -70,7 +70,7 @@ function Todo() {
   const onSubmit = (e) => {
     e.preventDefault();
     try {
-      SendTodo(todo).then(navigate("/home"));
+      SendTodo(todo).then(navigate("/main"));
 
       console.log(selectedgoal);
     } catch (error) {

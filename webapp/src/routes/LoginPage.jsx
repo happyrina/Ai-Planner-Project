@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { infoState } from "../atoms";
-import omg from "../omg.jpg";
+import copple from "../assets/copple2.png";
 import axios from "axios";
 
 function LoginPage() {
@@ -58,14 +58,24 @@ function LoginPage() {
     }
   };
 
+  const handleFind = async () => {
+    try {
+      alert("관리자에게 문의해주세요!");
+      navigate("/");
+    } catch (error) {
+      console.error("click error");
+    }
+  };
+
   return (
     <Background>
       <Container onSubmit={onSubmit}>
-        <Img src={omg} alt="adorable"></Img>
-        <Title>Copple</Title>
+        <Img src={copple} alt="logoimg"></Img>
+
         <Input placeholder="ID" value={id} onChange={onChangeId}></Input>
         <Input
           type="password"
+          autoComplete="off"
           placeholder="Password"
           value={pw}
           onChange={onChangePw}
@@ -75,7 +85,7 @@ function LoginPage() {
       <ButtonBig>
         <Link to="/signup">Sign up</Link>
       </ButtonBig>
-      <Find>
+      <Find onClick={handleFind}>
         <Link to="/find">Forgot your id/password?</Link>
       </Find>
     </Background>
@@ -85,7 +95,7 @@ function LoginPage() {
 export default LoginPage;
 
 const Img = styled.img`
-  width: 170px;
+  width: 200px;
   height: auto;
   object-fit: cover;
   margin: 15px 20px;
@@ -97,7 +107,7 @@ const Background = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  background-color: #fce8a6;
+  background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
   flex-direction: column;
   margin: 0px auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.15);
@@ -106,7 +116,7 @@ const Container = styled.form`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.15);
   padding: 30px 0px;
   display: flex;
-  width: 320px;
+  width: 310px;
   background-color: white;
   align-items: center;
   justify-content: space-between;
@@ -164,7 +174,7 @@ const Button = styled.button`
   &:hover {
     cursor: pointer;
     border: none;
-    background-color: #f9e092;
+    background-color: #b2e5fb;
     color: white;
   }
   a {
@@ -189,7 +199,7 @@ const ButtonBig = styled.button`
     cursor: pointer;
     color: white;
     border: none;
-    background-color: #f9e092;
+    background-color: #b2e5fb;
   }
   a {
     color: #cccbc7;

@@ -4,11 +4,12 @@ import styles from "../styles/GoalPhoto.module.css";
 import defaultImage from "../assets/noimg.png";
 import threebutton from "../assets/more.svg";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { infoState, modeState, nameState } from "../atoms";
+import { goalIdState, infoState, modeState, nameState } from "../atoms";
 import { useNavigate } from "react-router-dom";
 import backSvg from "../assets/back.svg";
 
 function GoalPhoto({ eventId }) {
+  const [tasks, setTasks] = useState([]);
   const [data, setData] = useState({
     goalPhoto: null,
     goalTitle: "",
@@ -18,9 +19,31 @@ function GoalPhoto({ eventId }) {
   const navigate = useNavigate();
   const info = useRecoilValue(infoState);
   const name = useRecoilValue(nameState);
+  const [goalId, setGoalId] = useRecoilState(goalIdState);
   const dropdownRef = useRef();
   const [clicked, setClicked] = useState(false);
   const [mode, setMode] = useRecoilState(modeState);
+
+  const deletePlan = async (id) => {
+    if (window.confirm("이 목표를 정말로 삭제하시겠습니까?")) {
+      try {
+        const tokenString = document.cookie;
+        const token = tokenString.split("=")[1];
+
+        const response = await axios.delete(
+          `http://3.39.153.9:3000/goal/delete/${id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      } catch (error) {
+        console.error("Error deleting task:", error);
+      }
+    }
+  };
 
   const tokenstring = document.cookie;
   const token = tokenstring.split("=")[1];
@@ -68,13 +91,17 @@ function GoalPhoto({ eventId }) {
   }, []);
 
   const moveToGoalEdit = () => {
+    setGoalId(eventId);
     setMode("update");
     navigate("/goal");
   };
   const backHandler = () => {
     navigate("/main");
   };
-  const deleteGoalHandler = () => {};
+  const deleteGoalHandler = () => {
+    deletePlan(eventId);
+    navigate("/main");
+  };
 
   return (
     <div className={styles.goalPhoto}>

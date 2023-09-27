@@ -30,13 +30,8 @@ function Plan() {
   let event_id = null;
   const selectedgoal = useRecoilValue(selectedGoalState);
 
-  const startDatetime =
-    format(sdate, "yyyy-MM-dd ") + format(stime, "hh:mm:ss");
-  const endDatetime = format(edate, "yyyy-MM-dd ") + format(etime, "hh:mm:ss");
   let planState = {
     title: "",
-    startDatetime: startDatetime,
-    endDatetime: endDatetime,
     goal: selectedgoal,
     location: "",
     content: "",
@@ -45,6 +40,7 @@ function Plan() {
   const SendPlan = async (data, event, method, event_id) => {
     setMode(null);
     try {
+      console.log(planState);
       const tokenstring = document.cookie;
       const token = tokenstring.split("=")[1];
       const url = event_id
@@ -59,8 +55,9 @@ function Plan() {
         },
         data: {
           title: data.title,
-          startDatetime: data.startDatetime,
-          endDatetime: data.endDatetime,
+          startDatetime:
+            format(sdate, "yyyy-MM-dd ") + format(stime, "hh:mm:ss"),
+          endDatetime: format(edate, "yyyy-MM-dd ") + format(etime, "hh:mm:ss"),
           goal: data.goal,
           location: data.location,
           content: data.content,
@@ -79,7 +76,6 @@ function Plan() {
 
   const TitleHandler = (e) => {
     setPlaninfo({ ...planinfo, title: e.target.value });
-    console.log(format(edate, "yyyy-MM-dd "), format(etime, "hh:mm"));
   };
 
   const LocationHandler = (e) => {

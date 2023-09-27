@@ -5,7 +5,6 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  display: relative;
 }
 
 .profileEdit {
@@ -13,7 +12,7 @@
   height: 100vh;
   max-height: 100vh;
   margin: 0 auto;
-  padding-top: 20px;
+  padding-top: 30px;
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.15);
   overflow: scroll;
@@ -34,7 +33,7 @@
 }
 
 .profilecompleteBtn {
-  background-color: #6cd3ff;
+  background-color: #8ddeff;
   border: none;
   border-radius: 5px;
   color: white;
@@ -44,6 +43,7 @@
   width: 60px;
   margin-right: 20px;
   margin-bottom: 8px;
+  font-weight: 700;
 }
 
 .profileImageSection {
@@ -61,9 +61,10 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
-  margin-right: 20px;
+  margin-right: 1px;
+  margin-left: 5px;
 }
 
 .imageAction {
@@ -78,7 +79,7 @@
   margin-bottom: 10px;
   padding: 13px;
   width: 300px;
-  border: 1px solid gray;
+  border: 0.5px solid rgb(212, 212, 212);
   border-radius: 5px;
 }
 
@@ -96,30 +97,48 @@
 
 .profilephotoBtn {
   width: 100px;
-  margin-top: 25px;
-  cursor: pointer;
+  margin-top: 15px;
   margin-right: 30px;
   padding: 8px;
-  border: 1px solid gray;
+  border: none;
   border-radius: 5px;
   font-size: 13px;
+  font-weight: 500;
+  color: #6c6c6c;
+  cursor: pointer;
 }
 
 .logoutBtn {
-  cursor: pointer;
   width: 300px;
-  margin-top: 25px;
   padding: 10px;
-  border: 1px solid gray;
+  border: none;
+  border-radius: 5px;
+  font-size: 15px;
+  margin-bottom: 30px;
+  background-color: rgb(238, 238, 238);
+  color: #b9b9b9;
+  margin-left: 3px;
+  cursor: pointer;
+}
+
+.backBtn {
+  width: 300px;
+  margin-top: 80px;
+  padding: 10px;
+  border: none;
   border-radius: 5px;
   font-size: 15px;
   margin-bottom: 10px;
-  background-color: rgb(240, 240, 240);
+  background-color: #8ddeff;
   margin-left: 3px;
-  &:last-child {
-    margin-top: 90px;
-    background-color: rgb(251, 210, 203);
-  }
+  font-weight: 700;
+  cursor: pointer;
+  color: white;
+  text-decoration: none;
+}
+
+.backBtn:hover {
+  background: #4bc9ff;
 }
 
 .profileinputBox {

@@ -18,9 +18,7 @@ function ProfilePhotoEdit() {
   const name = useRecoilValue(nameState);
   const info = useRecoilValue(infoState);
   const navigate = useNavigate();
-  const moveTohome = () => {
-    navigate("/home");
-  };
+
   useEffect(() => {
     async function fetchUserProfile() {
       try {
@@ -88,17 +86,21 @@ function ProfilePhotoEdit() {
   };
 
   // 이미지 제거
-  const handleRemoveImage = () => {
+  const handleRemoveImage = async () => {
     console.log("Removing image...");
-    setImageURL(null);
-    setImageFile(null);
+    setImageURL(profile);
+
+    const response = await fetch(profile);
+    const blob = await response.blob();
+    const file = new File([blob], "profile.png", { type: "image/png" });
+    setImageFile(file);
+
     fileInput.current.value = null;
   };
 
   // 프로필 정보를 업데이트하는 함수
   const updateProfileInfo = async () => {
     console.log("Updating profile info...");
-    console.log(imageFile);
     const formData = new FormData();
     formData.append("user_id", id);
     formData.append("user_name", username);
@@ -136,7 +138,6 @@ function ProfilePhotoEdit() {
       alert("자기소개를 입력해 주세요.");
       return;
     }
-    // useNavigate('home') <- 버튼클릭시
 
     try {
       await updateProfileInfo();
@@ -163,11 +164,7 @@ function ProfilePhotoEdit() {
           <div
             className={styles.imageCircle}
             onClick={handleFileSelect}
-            style={
-              imageURL
-                ? { backgroundImage: `url(${imageURL})` }
-                : { backgroundImage: `${profile}` }
-            }
+            style={imageURL ? { backgroundImage: `url(${imageURL})` } : {}}
           >
             {!imageURL && <span>+</span>}
           </div>
@@ -215,8 +212,14 @@ function ProfilePhotoEdit() {
             onChange={(e) => setBio(e.target.value)}
             className={styles.profiletextarea}
           ></textarea>
-          <button className={styles.logoutBtn} onClick={moveTohome}>
-            뒤로가기
+
+          <button className={styles.backBtn}>
+            <Link
+              to={"/home"}
+              style={{ textDecoration: "none", color: "#fff" }}
+            >
+              뒤로가기
+            </Link>
           </button>
           <button className={styles.logoutBtn} onClick={handleLogout}>
             로그아웃
