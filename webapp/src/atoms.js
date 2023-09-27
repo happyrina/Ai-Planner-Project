@@ -22,6 +22,12 @@ export const goalState = atom({
     default: "",
 })
 
+
+export const selectedGoalState = atom({
+    key: "goal",
+    default: "",
+})
+
 export const goalListState = atom({
     key: "listofgoal",
     default: [],

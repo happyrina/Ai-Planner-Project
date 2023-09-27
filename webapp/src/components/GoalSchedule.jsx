@@ -1,22 +1,54 @@
 import React, { useState, useEffect } from "react";
 import styles from "../styles/GoalSchedule.module.css";
 import axios from "axios";
-import { RecoilValueReadOnly } from "recoil";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { modeState } from "../atoms";
 
 function GoalSchedule({ eventId }) {
   // console.log("event_id :", eventId);
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("일정");
   const [loadedData, setLoadedData] = useState({ schedules: [], todos: [] });
-
+  const [mode, setMode] = useRecoilState(modeState);
   useEffect(() => {
     if (eventId) {
       const tokenstring = document.cookie;
       const token = tokenstring.split("=")[1];
-
-      const url = `http://3.39.153.9:3000/event/groupByGoal/${eventId}`;
+      const todourl = `http://3.39.153.9:3000/todo/groupByGoal/${eventId}`;
+      const planurl = `http://3.39.153.9:3000/event/groupByGoal/${eventId}`;
 
       axios
-        .get(url, {
+        .get(planurl, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          const data = response.data;
+          const schedules = Object.entries(data).map(([date, events]) => {
+            console.log(date, "is date", events, "is events");
+            events.sort(
+              (a, b) => new Date(a.startDatetime) - new Date(b.startDatetime)
+            );
+            return {
+              day: date.substring(5),
+              schedules: events.map((event) => ({
+                title: event.title,
+                time: `${event.startDatetime.substring(
+                  10,
+                  16
+                )}  - ${event.endDatetime.substring(10, 16)}`,
+              })),
+            };
+          });
+
+          schedules.sort((a, b) => new Date(a.day) - new Date(b.day));
+
+          setLoadedData((prevState) => ({ ...prevState, schedules }));
+        });
+      axios
+        .get(todourl, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -30,12 +62,8 @@ function GoalSchedule({ eventId }) {
             );
             return {
               day: date.substring(5),
-              schedules: events.map((event) => ({
+              todos: events.map((event) => ({
                 title: event.title,
-                time: `${event.startDatetime.substring(
-                  10,
-                  16
-                )}  - ${event.endDatetime.substring(10, 16)}`,
               })),
             };
           });
@@ -58,7 +86,15 @@ function GoalSchedule({ eventId }) {
     selectedCategory === "추가"
       ? `${styles.active} ${styles.blueButton}`
       : `${styles.blueButton}`;
-
+  const MovetoCretaeHandler = (category) => {
+    setMode(false);
+    if (category === "일정") {
+      navigate("/plan");
+    } else {
+      navigate("/todo");
+    }
+  };
+  console.log(loadedData);
   const handleTodoToggle = (todoId) => {
     console.log(`Toggle todo with ID ${todoId}`);
   };
@@ -83,7 +119,7 @@ function GoalSchedule({ eventId }) {
         <button
           style={{ marginLeft: "175px" }}
           className={getBlueButtonClassName("추가")}
-          onClick={() => setSelectedCategory("추가")}
+          onClick={() => MovetoCretaeHandler(selectedCategory)}
         >
           + 추가
         </button>
