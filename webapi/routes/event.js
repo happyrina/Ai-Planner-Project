@@ -314,7 +314,7 @@ app.put("/goal/update/:event_id", requireLogin, upload.single("image"), async (r
     } else {
       // 이미지가 없는 경우 PhotoURL 속성을 삭제
       updateParams.UpdateExpression += ' REMOVE #photoURL';
-    }
+    } // ?????????????????
     // DynamoDB 업데이트 수행
     await dynamodbClient.send(new UpdateItemCommand(updateParams));
     // 수정된 목표 정보 생성
@@ -327,7 +327,7 @@ app.put("/goal/update/:event_id", requireLogin, upload.single("image"), async (r
       endDatetime,
       location,
       content,
-      photoUrl: imageUrl || null,
+      photoUrl: imageUrl || existingItem.PhotoURL,
       isCompleted, // 수정된 값 사용
     };
     // 성공적인 응답 반환

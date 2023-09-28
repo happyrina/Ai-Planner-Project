@@ -40,16 +40,17 @@
 .blueButton {
   background-color: rgb(0, 170, 255);
   color: white;
-  display: flex;
   position: relative;
   border-radius: 30px;
-  width: 60px;
-  font-size: 15px;
-  padding: 10px;
-  padding-left: 10px;
+  cursor: pointer;
+  width: 65px;
+  font-size: 16px;
+  padding: 7px 8px;
   font-weight: 700;
   border: none;
+  margin: 0px;
 }
+/*bluebutton은 아린이랑 css다름*/
 
 .scheduleContainer {
   width: 100%;
@@ -87,4 +88,11 @@
 .scrollableContainer {
   max-height: 650px; /* or adjust this value based on other elements on your page */
   overflow-y: scroll;
+  -ms-overflow-style: none; /* IE, Edge: 스크롤바 숨기기 */
+  scrollbar-width: none; /* Firefox: 스크롤바 숨기기 */
+}
+
+.scrollableContainer::-webkit-scrollbar {
+  width: 0; /* Chrome, Safari, Opera: 스크롤바의 너비 설정 */
+  display: none; /* 스크롤바 숨기기 */
 }

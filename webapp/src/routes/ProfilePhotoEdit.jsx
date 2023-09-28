@@ -5,7 +5,7 @@ import { useProfile } from "../context/ProfileContext";
 import axios from "axios";
 import { infoState, nameState } from "../atoms";
 import { useRecoilValue } from "recoil";
-import profile from "../assets/profile.png";
+import profile from "../assets/profile.jpg";
 
 function ProfilePhotoEdit() {
   const { profileImage, setProfileImage } = useProfile();

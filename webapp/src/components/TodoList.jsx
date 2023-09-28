@@ -31,7 +31,7 @@ function TodoList() {
   useEffect(() => {
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
-      if (scrollTop + clientHeight >= scrollHeight - 5 && !isLoading) {
+      if (scrollTop + clientHeight >= scrollHeight + 10) {
         fetchMoreTasks();
       }
     };
@@ -115,6 +115,7 @@ function TodoList() {
     if (event.key === "Enter") {
       saveEditedTask(id);
     }
+    console.log(event);
   };
 
   const saveEditedTask = async (id) => {
@@ -200,12 +201,12 @@ function TodoList() {
 
       if (Array.isArray(response.data)) {
         setTasks((prevTasks) => [...prevTasks, ...response.data]);
-        setPage((prevPage) => prevPage + 1); // 페이지 번호 증가
+        setPage((prevPage) => prevPage + 1);
       }
     } catch (error) {
       console.error("더 많은 작업을 가져오는 중 오류 발생:", error);
     } finally {
-      setIsLoading(false); // 데이터 로딩 상태 해제
+      setIsLoading(false);
     }
   };
 
@@ -223,7 +224,14 @@ function TodoList() {
       </div>
 
       {editingMode === task.event_id ? (
-        <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
           <input
             type="text"
             value={editingText}
@@ -259,30 +267,29 @@ function TodoList() {
             }}
           >
             ...
+            {showOptions === task.event_id && (
+              <div className={styles.optionButtons}>
+                <button
+                  className={styles.todolistbutton}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    editTask(task.event_id);
+                  }}
+                >
+                  수정
+                </button>
+                <button
+                  className={styles.todolistbutton}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteTask(task.event_id);
+                  }}
+                >
+                  삭제
+                </button>
+              </div>
+            )}
           </button>
-
-          {showOptions === task.event_id && (
-            <div className={styles.optionButtons}>
-              <button
-                className={styles.todolistbutton}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  editTask(task.event_id);
-                }}
-              >
-                수정
-              </button>
-              <button
-                className={styles.todolistbutton}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  deleteTask(task.event_id);
-                }}
-              >
-                삭제
-              </button>
-            </div>
-          )}
         </div>
       )}
     </div>

@@ -13,13 +13,12 @@ export const CalendarContext = createContext();
 export const useCalendar = () => useContext(CalendarContext);
 
 const MainPage = () => {
-  // const [goalId, setGoalId] = useRecoilState(goalIdState);
   const name = useRecoilValue(nameState);
   const info = useRecoilValue(infoState);
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [goals, setGoals] = useState({});
-  const [events, sets] = useState({});
+  const [events, setEvents] = useState({});
   const [eventsProp, setEventsProp] = useState([]);
   const [dataForSelectedDate, setDataForSelectedDate] = useState({
     events: [],
@@ -30,25 +29,19 @@ const MainPage = () => {
   const [eventsForSelectedDate, setEventsForSelectedDate] = useState([]);
 
   useEffect(() => {
-    if (selectedDate) {
-      fetchEventsForSelectedDate();
-    }
+    fetchEventsForSelectedDate();
   }, [selectedDate]);
 
   const fetchEventsForSelectedDate = async () => {
     try {
       const tokenstring = document.cookie;
       const token = tokenstring.split("=")[1];
-      const selectedDateString = format(selectedDate, "yyyy-MM-dd HH:mm:ss");
+      const selectedDateString = format(selectedDate, "yyyy-MM-dd"); // 시간 정보를 제외하고 날짜만 보내기
 
       console.log("메인페이지날짜 :", selectedDateString);
-      const response = await axios.get(
-        `http://3.39.153.9:3000/event/read/${selectedDateString}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-
+      const response = await axios.get(`http://3.39.153.9:3000/event/read`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setEventsForSelectedDate(response.data);
     } catch (error) {
       console.error("Error fetching events:", error);
@@ -74,7 +67,6 @@ const MainPage = () => {
               setEvents={setEventsProp}
               selectedDate={selectedDate}
               setSelectedDate={setSelectedDate}
-              setGoals={setGoals}
             />
           </div>
           <div className={styles.mainThumbnails}>
@@ -83,7 +75,7 @@ const MainPage = () => {
           <div className={styles.scheduleTodoRow}>
             <Category
               dataForSelectedDate={dataForSelectedDate}
-              eventsProp={eventsProp}
+              eventsProp={eventsProp} // 이렇게 Category 컴포넌트로 eventsProp을 전달합니다.
             />
           </div>
           <div>

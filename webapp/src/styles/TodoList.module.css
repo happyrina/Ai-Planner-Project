@@ -8,11 +8,142 @@
   max-height: 300px;
 }
 
-.goalTitle {
-  background-color: #f0f0f0;
-  padding: 5px;
+.todoList {
+  width: 337px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  margin-left: 6px;
   margin-top: 10px;
-  font-weight: bold;
+  overflow-y: scroll;
+  max-height: 300px;
+  -ms-overflow-style: none; /* IE, Edge 등 */
+  scrollbar-width: none;
+}
+
+.todoList::-webkit-scrollbar {
+  width: 3px; /* 스크롤 바의 너비 */
+  display: none;
+}
+
+.todoList::-webkit-scrollbar-thumb {
+  background-color: darkgrey; /* 스크롤 바의 색상 */
+  border-radius: 2px; /* 스크롤 바의 모서리 둥글기 */
+}
+
+.goalTitle {
+  margin-top: 10px;
+  background-color: #dfe7fd;
+  color: #333333;
+  padding: 10px;
+  margin-top: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 5px;
+  padding-left: 13px;
+}
+
+.task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  border-radius: px;
+  margin-top: 10px;
+  margin-left: 5px;
+}
+
+.completed {
+  color: gray;
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.taskText {
+  flex-grow: 1;
+}
+
+.todolistbutton {
+  margin-right: 5px;
+  margin-left: 5px;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  border: none;
+  border-radius: 5px;
+  position: relative;
+  margin: 3px;
+  font-size: 13px;
+  width: auto;
+  padding: 5px 7px;
+  cursor: pointer;
+}
+
+.todolistbutton:hover {
+  background-color: #a9e7ff;
+  transition: background-color 0.3s;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.todolistbutton1 {
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  font-weight: 700;
+  color: grey;
+  position: relative;
+  bottom: 5px;
+  cursor: pointer;
+  right: 10px;
+}
+.editInput {
+  width: 70%;
+  padding: 4px 3px;
+  color: rgba(32, 32, 32, 0.596);
+  border: 1.2px solid #9d9d9d;
+  border-radius: 4px;
+  caret-color: #9d9d9d;
+  font-size: 15px;
+  &:focus {
+    outline: none;
+  }
+}
+.todolistbutton2 {
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 5px;
+  padding-bottom: 6px;
+  background-color: rgb(238, 238, 238);
+  &:hover {
+    background-color: #b9b9b9;
+    color: rgb(243, 243, 243);
+  }
+}
+.optionButtons {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  z-index: 100;
+  right: -35px;
+  top: -100px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.editButtons {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 10px;
+  right: 5px;
+  z-index: 1000;
 }
 
 .task {
@@ -45,13 +176,10 @@
   color: rgb(0, 0, 0);
   border: none;
   border-radius: 5px;
-
   margin: 3px;
   font-size: 13px;
-  z-index: 100;
   position: relative;
-  width: auto;
-  padding: 5px 10px;
+  width: 40px;
 }
 
 .todolistbutton:hover {
@@ -68,15 +196,16 @@
   font-size: 15px;
   font-weight: 700;
   color: grey;
-  position: relative;
+  position: absolute;
   bottom: 5px;
 }
 
 .optionButtons {
   display: flex;
   flex-direction: column;
-  position: relative;
-  right: 5px;
+  position: absolute;
+  top: 5px;
+  right: -5px;
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 7px;

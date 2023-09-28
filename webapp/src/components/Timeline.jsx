@@ -3,44 +3,64 @@ import axios from "axios";
 import styles from "../styles/Timeline.module.css";
 
 const Timeline = ({ eventsProp = [] }) => {
-  const [events, setEvents] = useState(
-    Array.isArray(eventsProp) ? eventsProp : []
-  );
+  const [events, setEvents] = useState(eventsProp);
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const [showOptionsIndex, setShowOptionsIndex] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
-  const [page, setPage] = useState(1);
   const [editingTitles, setEditingTitles] = useState({});
-  const [sortedEvents, setSortedEvents] = useState([]);
-  const observer = useRef();
+  const dropdownRef = useRef();
 
-  const lastEventRef = useCallback((node) => {
-    if (observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) setPage((prevPage) => prevPage + 1);
-    });
-    if (node) observer.current.observe(node);
-  }, []);
+  const fetchMoreEvents = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    try {
+      const tokenString = document.cookie;
+      const token = tokenString.split("=")[1];
+      const response = await axios.get(
+        `http://3.39.153.9:3000/todo/read?page=${page}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setEvents((prevEvents) => [...prevEvents, ...response.data]);
+      setPage((prevPage) => prevPage + 1);
+    } catch (error) {
+      console.error("Error fetching more events", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleScroll = () => {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    if (scrollHeight - (scrollTop + clientHeight) < 50) {
+      // Adjust as needed
+      fetchMoreEvents();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [handleScroll]);
 
   const deleteEvent = async (index, eventId) => {
     if (window.confirm("이 이벤트를 정말로 삭제하시겠습니까?")) {
       try {
         const tokenString = document.cookie;
         const token = tokenString.split("=")[1];
-
-        const response = await axios.delete(
-          `http://3.39.153.9:3000/event/delete/${eventId}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        const newEvents = [...events];
-        console.log(newEvents);
-        newEvents.splice(index, 1);
-        setEvents(newEvents);
+        await axios.delete(`http://3.39.153.9:3000/event/delete/${eventId}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setShowOptionsIndex(null);
       } catch (error) {
         console.error("Could not delete event", error);
@@ -48,80 +68,24 @@ const Timeline = ({ eventsProp = [] }) => {
     }
   };
 
-  const updateEvent = async (index, newTitle) => {
+  const finishEditing = async (eventId, newTitle) => {
     try {
-      const tokenstring = document.cookie;
-      const token = tokenstring.split("=")[1];
-
-      const eventToUpdate = events[index];
-
-      const updatedEvent = {
-        ...eventToUpdate,
-        title: newTitle,
-      };
-
+      const tokenString = document.cookie;
+      const token = tokenString.split("=")[1];
       await axios.put(
-        `http://3.39.153.9:3000/event/update/${updatedEvent.event_id}`,
-        updatedEvent,
+        `http://3.39.153.9:3000/event/update/${eventId}`,
+        { title: newTitle },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-
-      setEvents(events.map((event, i) => (i === index ? updatedEvent : event)));
-    } catch (error) {
-      console.error("Could not update event", error);
-    }
-  };
-
-  const finishEditing = async (eventId) => {
-    const index = events.findIndex((e) => e.event_id === eventId);
-    if (index === -1) return;
-
-    try {
-      const updatedTitle = editingTitles[eventId];
-      if (updatedTitle.trim() && updatedTitle !== events[index].title) {
-        await updateEvent(index, updatedTitle);
-      }
-      setEditingTitles((prev) => {
-        const newState = { ...prev };
-        delete newState[eventId];
-        return newState;
-      });
       setEditIndex(null);
     } catch (error) {
       console.error("Could not finish editing", error);
     }
   };
-
-  useEffect(() => {
-    if (Array.isArray(eventsProp)) setEvents(eventsProp);
-  }, [eventsProp]);
-
-  useEffect(() => {
-    const fetchMoreEvents = async () => {
-      try {
-        const res = await axios.get(`/events?page=${page}`);
-        setEvents((prevEvents) => [...prevEvents, ...res.data]);
-      } catch (error) {
-        console.error("Error fetching more events", error);
-      }
-    };
-
-    fetchMoreEvents();
-  }, [page]);
-
-  useEffect(() => {
-    const currentTime = new Date().toISOString();
-    const newSortedEvents = [...events]
-      .filter((e) => e.startDatetime && e.startDatetime >= currentTime)
-      .sort((a, b) => a.startDatetime.localeCompare(b.startDatetime));
-    setSortedEvents(newSortedEvents);
-  }, [events]);
-
-  const dropdownRef = useRef();
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -140,11 +104,10 @@ const Timeline = ({ eventsProp = [] }) => {
   return (
     <div className={styles.app}>
       <ul className={styles["event-list"]}>
-        {sortedEvents.map((event, index, array) => (
+        {eventsProp.map((event, index) => (
           <li
             key={event.event_id}
             className={styles["event-item"]}
-            ref={index === array.length - 1 ? lastEventRef : null}
             style={{
               backgroundColor: `hsl(${180 + ((index * 35) % 55)}, 60%, 82%)`,
             }}
@@ -166,10 +129,9 @@ const Timeline = ({ eventsProp = [] }) => {
                     [event.event_id]: e.target.value,
                   })
                 }
-                onKeyUp={(e) => {
-                  if (e.key === "Enter") finishEditing(event.event_id);
-                }}
-                onBlur={() => finishEditing(event.event_id)}
+                onBlur={() =>
+                  finishEditing(event.event_id, editingTitles[event.event_id])
+                }
                 autoFocus
               />
             ) : (
@@ -194,16 +156,7 @@ const Timeline = ({ eventsProp = [] }) => {
                 )
               }
             >
-              {editIndex === event.event_id ? (
-                <button
-                  className={styles["finish-button"]}
-                  onClick={() => finishEditing(event.event_id)}
-                >
-                  완료
-                </button>
-              ) : (
-                "..."
-              )}
+              {editIndex === event.event_id ? "완료" : "..."}
               {showOptionsIndex === event.event_id &&
                 editIndex !== event.event_id && (
                   <div className={styles["dropdown-options"]} ref={dropdownRef}>

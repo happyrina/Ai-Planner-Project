@@ -4,6 +4,7 @@ import axios from "axios";
 import shortid from "shortid";
 import styled from "styled-components";
 import Goalitem from "../components/Goalitem";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
@@ -16,6 +17,7 @@ import {
 import NavBar from "../components/Navbar";
 
 export default function Home() {
+  const navigate = useNavigate();
   const tokenstring = document.cookie;
   const token = tokenstring.split("=")[1];
   const [imageURL, setImageURL] = useState(null);
@@ -30,6 +32,7 @@ export default function Home() {
   const [name, setName] = useRecoilState(nameState);
   const [bio, setBio] = useState("");
   const [mode, setMode] = useRecoilState(modeState);
+
   const colors = [
     "#cdb4db",
     "#ffc8dd",
@@ -126,14 +129,8 @@ export default function Home() {
   }, [Goalitem]);
 
   const offset = 4;
-  // 파일 선택창 열기
-  const increaseIndex = () => {
-    if (goalList) {
-      toggleLeaving();
-      const totlaGoals = goalList.length;
-      const maxIndex = Math.ceil(totlaGoals / offset) - 1;
-      setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
-    }
+  const MoveToGoalFormHandler = () => {
+    navigate("/goal");
   };
   return (
     <Background>
@@ -182,7 +179,7 @@ export default function Home() {
               완료
             </SBtn>
             <div> </div>
-            <SBtn className="black">
+            <SBtn onClick={MoveToGoalFormHandler} className="black">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="1em"
@@ -191,7 +188,7 @@ export default function Home() {
               >
                 <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
               </svg>
-              <Link to={"/goal"}> 추가</Link>
+              추가
             </SBtn>
           </Index2>
           <div>
@@ -214,7 +211,7 @@ export default function Home() {
                       goaltitle={goal["title"]}
                       goalperiod={goal["startDatetime"]}
                       event_id={goal["event_id"]}
-                      photoUrl={goal["photoUrl"] || goal["imageUrl"]}
+                      photoUrl={goal["photoUrl"]}
                       whileHover="hover"
                       initial="normal"
                       transition={{ type: "tween" }}
@@ -236,6 +233,7 @@ export default function Home() {
                     ></Goalitem>
                   ))}
               </Row>
+              <div style={{ "margin-top": "40px" }}> </div>
             </ScrollableContainer>
           </div>
           <div>
@@ -250,6 +248,13 @@ export default function Home() {
 const ScrollableContainer = styled.div`
   height: calc(100vh - 300px); /* Adjust the height as needed */
   overflow-y: scroll;
+  -ms-overflow-style: none; /* IE, Edge: 스크롤바 숨기기 */
+  scrollbar-width: none; /* Firefox: 스크롤바 숨기기 */
+
+  &::-webkit-scrollbar {
+    width: 0; /* Chrome, Safari, Opera: 스크롤바의 너비 설정 */
+    display: none; /* 스크롤바 숨기기 */
+  }
 `;
 
 const BigContainer = styled.div`
@@ -267,12 +272,6 @@ const Row = styled(motion.div)`
   display: grid;
   padding-bottom: 0px;
   grid-template-columns: repeat(2, 1fr);
-  // /* grid-template-rows: repeat(2, 1fr);*/
-  // position: absolute;
-  // width: 93%;
-  // /* Add a fixed height and enable scrolling */
-  // height: 400px; /* Adjust the height as needed */
-  // overflow-y: auto; /* Enable vertical scrolling */
 `;
 
 const Background = styled.div`

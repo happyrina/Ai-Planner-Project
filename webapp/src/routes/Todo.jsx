@@ -2,52 +2,78 @@ import { Link, useNavigate } from "react-router-dom";
 import Selectop from "../components/Select";
 import axios from "axios";
 import styles from "../css/FormStyle.module.css";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { goalState, modeState, selectedGoalState } from "../atoms";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function Todo() {
-  const selectedgoal = useRecoilValue(selectedGoalState);
   const [mode, setMode] = useRecoilState(modeState);
-  const todoinfo = {
-    title: "",
-    location: "",
-    goal: "",
-    content: "",
-    isCompleted: false,
-  };
+  let event_id = null;
+  const [selectedgoal, setSelectedgoal] = useRecoilState(selectedGoalState);
   const navigate = useNavigate();
-  console.log(selectedgoal);
-
   const handleGoBack = () => {
     navigate("/main"); // 뒤로 가기
   };
-  const [todo, setTodo] = useState(todoinfo);
 
-  const SendTodo = async (data) => {
+  const getTodoData = async (event_id) => {
+    const tokenstring = document.cookie;
+    const token = tokenstring.split("=")[1];
+    await axios({
+      method: "get",
+      url: `http://3.39.153.9:3000/todo/read/${event_id}`,
+      withCredentials: false,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    }).then((response) => {
+      console.log(response.data);
+      if (mode === "update") {
+        setTodoinfo(response.data);
+      }
+    });
+  };
+  const todoState = {
+    title: "",
+    location: "",
+    goal: selectedgoal,
+    content: "",
+    isCompleted: false,
+  };
+  console.log(selectedgoal);
+
+  const [todoinfo, setTodoinfo] = useState(todoState);
+
+  const SendTodo = async (data, event, method, event_id) => {
+    setMode(null);
     try {
-      console.log(data);
+      console.log(todoState);
       const tokenstring = document.cookie;
       const token = tokenstring.split("=")[1];
+      const url = event_id
+        ? `http://3.39.153.9:3000/todo/${event}/${event_id}`
+        : `http://3.39.153.9:3000/todo/${event}`;
       await axios({
-        method: "post",
-        url: "http://3.39.153.9:3000/todo/create",
+        method: method,
+        url: url,
         headers: {
           "Access-Control-Allow-Origin": "*",
           Authorization: `Bearer ${token}`,
         },
         data: {
           title: data.title,
-          isCompleted: data.isCompleted,
-          goal: selectedgoal,
+          goal: data.goal,
           location: data.location,
           content: data.content,
+          isCompleted: data.isCompleted,
         },
         withCredentials: false,
       }).then((response) => {
         if (response.status === 200) {
-          alert("성공");
+          setSelectedgoal(null);
           setMode(null);
+          alert("성공");
         }
       });
     } catch (error) {
@@ -55,26 +81,35 @@ function Todo() {
     }
   };
   const TitleHandler = (e) => {
-    setTodo({ ...todo, title: e.target.value });
+    setTodoinfo({ ...todoinfo, title: e.target.value });
   };
   const LocationHandler = (e) => {
-    setTodo({ ...todo, location: e.target.value });
+    setTodoinfo({ ...todoinfo, location: e.target.value });
   };
   const ContentHandler = (e) => {
-    setTodo({ ...todo, content: e.target.value });
+    setTodoinfo({ ...todoinfo, content: e.target.value });
   };
   const IsCompletedHandler = (e) => {
-    setTodo({ ...todo, isCompleted: e.target.checked });
+    setTodoinfo({ ...todoinfo, isCompleted: e.target.checked });
   };
+  useEffect(() => {
+    // if (mode === "update") {
+    //   getTodoData(todoId);
+    // }
+  }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    try {
-      SendTodo(todo).then(navigate("/main"));
-
-      console.log(selectedgoal);
-    } catch (error) {
-      console.error("SendTodo 함수 호출 중 에러 발생:", error);
+    if (mode === "update") {
+      const method = "PUT";
+      const event = "update";
+      console.log(todoinfo);
+      SendTodo(todoinfo, event, method, event_id).then(navigate("/main"));
+    } else {
+      const method = "POST";
+      const event = "create";
+      console.log(todoinfo);
+      SendTodo(todoinfo, event, method).then(navigate("/main"));
     }
   };
   return (
@@ -119,21 +154,25 @@ function Todo() {
           <input
             required
             maxLength={20}
-            value={todo.title}
+            value={todoinfo.title}
             onChange={TitleHandler}
             className={styles.Input}
           ></input>
         </div>
         <span></span>
-        <div className={styles.Tag}>목표</div>
-        <div className={styles.Tag}>
-          <Selectop />
-        </div>
+        {
+          <>
+            <div className={styles.Tag}>목표</div>
+            <div className={styles.Tag}>
+              <Selectop />
+            </div>
+          </>
+        }
         <div className={styles.Tag}>내용</div>
         <div className={styles.Tag}>
           <textarea
             style={{ height: "90px" }}
-            value={todo.content}
+            value={todoinfo.content}
             onChange={ContentHandler}
             className={styles.Input}
           ></textarea>
@@ -142,7 +181,7 @@ function Todo() {
         <div className={styles.Tag}>
           <input
             maxLength={20}
-            value={todo.location}
+            value={todoinfo.location}
             onChange={LocationHandler}
             className={styles.Input}
           ></input>
@@ -152,7 +191,7 @@ function Todo() {
           <div className={styles.Tag}>
             <input
               className={styles.check}
-              value={todo.isCompleted}
+              value={todoinfo.isCompleted}
               onChange={IsCompletedHandler}
               type="checkbox"
             />

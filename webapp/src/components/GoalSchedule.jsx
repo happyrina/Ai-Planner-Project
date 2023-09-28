@@ -1,15 +1,26 @@
 import React, { useState, useEffect } from "react";
 import styles from "../styles/GoalSchedule.module.css";
 import axios from "axios";
-import { RecoilValueReadOnly } from "recoil";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { selectedGoalState } from "../atoms";
 
 function GoalSchedule({ eventId }) {
   console.log("event_id :", eventId);
+  const navigate = useNavigate();
+  const [selectedgoal, setSelectedgoal] = useRecoilState(selectedGoalState);
   const [selectedCategory, setSelectedCategory] = useState("일정");
   const [loadedData, setLoadedData] = useState({ schedules: [], todos: [] });
-
+  const moveToCreatePage = () => {
+    if (selectedCategory === "일정") {
+      navigate("/plan");
+    } else if (selectedCategory === "할일") {
+      navigate("/todo");
+    }
+  };
   useEffect(() => {
     if (eventId) {
+      setSelectedgoal(eventId);
       const tokenstring = document.cookie;
       const token = tokenstring.split("=")[1];
 
@@ -54,6 +65,7 @@ function GoalSchedule({ eventId }) {
   const getButtonClassName = (category) =>
     selectedCategory === category ? `${styles.active}` : "";
 
+  //누르면 색깔 바뀌는 함수
   const getBlueButtonClassName = () =>
     selectedCategory === "추가"
       ? `${styles.active} ${styles.blueButton}`
@@ -81,9 +93,9 @@ function GoalSchedule({ eventId }) {
           </button>
         </div>
         <button
-          style={{ marginLeft: "175px" }}
+          style={{ marginLeft: "165px" }}
           className={getBlueButtonClassName("추가")}
-          onClick={() => setSelectedCategory("추가")}
+          onClick={() => moveToCreatePage()}
         >
           + 추가
         </button>

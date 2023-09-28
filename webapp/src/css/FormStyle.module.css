@@ -9,14 +9,14 @@ form {
   height: auto;
   cursor: pointer;
 }
-.None {
+/* .None {
   position: absolute;
   width: 0;
   height: 0;
   padding: 0;
   overflow: hidden;
   border: 0;
-}
+} */
 .PCon {
   width: 375px;
   padding: 0px;
