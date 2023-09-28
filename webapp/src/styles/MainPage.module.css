@@ -46,8 +46,8 @@
 .mainweeklyCalendar {
   position: absolute;
   top: 25px;
-  left: 15px;
   padding: 0 10px;
+  width: 100%;
 }
 
 .mainThumbnails {

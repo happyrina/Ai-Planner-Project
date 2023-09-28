@@ -5,8 +5,10 @@ import { useCalendar } from "../routes/MainPage";
 import axios from "axios";
 import { infoState, nameState } from "../atoms";
 import { useRecoilValue } from "recoil";
+import noimg from "../assets/noimg.png";
+import { set } from "date-fns";
 
-function ThumbnailList({ goals: initialGoals }) {
+function ThumbnailList({ goals: initialGoals, id }) {
   const { selectedDate, dataForSelectedDate } = useCalendar();
   const name = useRecoilValue(nameState);
   const info = useRecoilValue(infoState);
@@ -27,7 +29,10 @@ function ThumbnailList({ goals: initialGoals }) {
         });
 
         if (Array.isArray(response.data)) {
-          setGoals(response.data);
+          const sortedGoals = [...response.data].sort((a, b) =>
+            a.title.localeCompare(b.title)
+          );
+          setGoals(sortedGoals);
         } else {
           console.error("Received data is not an array");
         }
@@ -39,8 +44,8 @@ function ThumbnailList({ goals: initialGoals }) {
     fetchGoals();
   }, []);
 
-  const goToPlanList = () => {
-    navigate("/planlist");
+  const goToPlanList = (event_id) => {
+    navigate("/planlist", { state: { event_id } });
   };
 
   return (
@@ -50,11 +55,13 @@ function ThumbnailList({ goals: initialGoals }) {
             <div
               key={index}
               className={styles.CalendarThumbnailbigBox}
-              onClick={goToPlanList}
+              onClick={() => {
+                goToPlanList(goal.event_id);
+              }}
             >
               <div className={styles.CalendarThumbnailthumbnailBox}>
                 <img
-                  src={goal.photoUrl}
+                  src={goal.photoUrl || noimg}
                   alt={`Goal ${goal.title}`}
                   className={styles.CalendarThumbnailthumbnail}
                 />
@@ -65,7 +72,7 @@ function ThumbnailList({ goals: initialGoals }) {
                 </span>
                 <span
                   className={styles.CalendarThumbnailgoalPeriod}
-                >{`${goal.startDatetime} - ${goal.endDatetime}`}</span>
+                >{`${goal.startDatetime}`}</span>
               </div>
             </div>
           ))

@@ -1,7 +1,7 @@
 import styles from "../css/FormStyle.module.css";
 import Selectop from "../components/Select";
 import { Link, useNavigate } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import {
   goalState,
   modeState,
@@ -28,7 +28,7 @@ function Plan() {
   // const { title, endDatetime, startDatetime, location, goal, content } =
   //   planinfo;
   let event_id = null;
-  const selectedgoal = useRecoilValue(selectedGoalState);
+  const [selectedgoal, setSelectedgoal] = useRecoilState(selectedGoalState);
 
   let planState = {
     title: "",
@@ -65,8 +65,9 @@ function Plan() {
         withCredentials: false,
       }).then((response) => {
         if (response.status === 200) {
-          alert("성공");
+          setSelectedgoal(null);
           setMode(null);
+          alert("성공");
         }
       });
     } catch (error) {
@@ -98,16 +99,13 @@ function Plan() {
     if (mode === "update") {
       const method = "PUT";
       const event = "update";
-      SendPlan(planinfo, event, method, event_id)
-        // .then(alert("성공"))
-        .then(navigate("/main"));
+      console.log(planinfo);
+      SendPlan(planinfo, event, method, event_id).then(navigate("/main"));
     } else {
       const method = "POST";
       const event = "create";
       console.log(planinfo);
-      SendPlan(planinfo, event, method)
-        // .then(alert("성공"))
-        .then(navigate("/main"));
+      SendPlan(planinfo, event, method).then(navigate("/main"));
     }
   };
 
@@ -194,10 +192,19 @@ function Plan() {
             }}
           />
         </div>
-        <div className={styles.Tag}>목표</div>
-        <div className={styles.Tag}>
-          <Selectop />
-        </div>
+
+        {mode === "update" ? (
+          <></>
+        ) : (
+          <>
+            <div className={styles.Tag}>목표</div>
+            <div className={styles.Tag}>
+              {" "}
+              <Selectop />{" "}
+            </div>
+          </>
+        )}
+
         <div className={styles.Tag}>내용</div>
         <div className={styles.Tag}>
           <input

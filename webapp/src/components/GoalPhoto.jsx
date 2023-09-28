@@ -4,11 +4,18 @@ import styles from "../styles/GoalPhoto.module.css";
 import defaultImage from "../assets/noimg.png";
 import threebutton from "../assets/more.svg";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { goalIdState, infoState, modeState, nameState } from "../atoms";
+import {
+  goalIdState,
+  infoState,
+  modeState,
+  nameState,
+  selectedGoalState,
+} from "../atoms";
 import { useNavigate } from "react-router-dom";
 import backSvg from "../assets/back.svg";
 
 function GoalPhoto({ eventId }) {
+  const [selectedgoal, setSelectedgoal] = useRecoilState(selectedGoalState);
   const [tasks, setTasks] = useState([]);
   const [data, setData] = useState({
     goalPhoto: null,
@@ -97,6 +104,7 @@ function GoalPhoto({ eventId }) {
   };
   const backHandler = () => {
     navigate("/main");
+    setSelectedgoal("");
   };
   const deleteGoalHandler = () => {
     deletePlan(eventId);

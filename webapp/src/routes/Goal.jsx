@@ -21,7 +21,6 @@ function Goal() {
     photoUrl: "",
     photoUrlname: "",
     isCompleted: false,
-    photoUrlname: "",
   });
   const backtoMain = () => {
     navigate("/main?");
@@ -42,7 +41,6 @@ function Goal() {
       console.log(response.data);
       if (mode === "update") {
         setGoalinfo(response.data);
-        setImageUrl(response.data.photoUrl || null);
         // sestGoalinfo(history);
       }
     });
@@ -55,7 +53,6 @@ function Goal() {
       reader.onloadend = () => {
         const result = reader.result;
         console.log("File Reader Result: ", result);
-        setGoalinfo({ ...goalinfo, imageUrl: null });
         setImagename(file.name);
       };
       reader.readAsDataURL(file);
@@ -67,15 +64,15 @@ function Goal() {
   const SendGoal = async (goal, event, method, goalId) => {
     console.log(goal);
     const formData = new FormData();
+    formData.append("event_id", goal.event_id);
     formData.append("title", goal.title);
     formData.append("startDatetime", goal.startDatetime);
     formData.append("endDatetime", "none");
     formData.append("location", goal.location);
     formData.append("isCompleted", goal.isCompleted);
     formData.append("content", goal.content);
-    imageFile === undefined &&
-      goal.photoUrl &&
-      formData.append("imageUrl", goal.photoUrl);
+    console.log("phtourl있나요", goal.photoUrl);
+    goal.photoUrl && formData.append("photoUrl", goal.photoUrl);
     console.log(imageFile);
     if (imageFile) {
       formData.append("image", imageFile, imageFile.name);
@@ -84,7 +81,7 @@ function Goal() {
       const tokenstring = document.cookie;
       const token = tokenstring.split("=")[1];
       const url = goalId
-        ? `http://3.39.153.9:3000/goal/${event}/${goalId}`
+        ? `http://3.39.153.9:3000/goal/${event}`
         : `http://3.39.153.9:3000/goal/${event}`;
       await axios({
         method: method,
@@ -98,7 +95,7 @@ function Goal() {
         withCredentials: false,
       }).then((response) => {
         if (response.status === 200) {
-          alert("성공");
+          console.log(goalinfo);
           setGoalId(null);
           setMode(null);
         }
@@ -138,14 +135,14 @@ function Goal() {
       console.log();
       SendGoal(goalinfo, event, method, goalId)
         .then(alert("성공"))
-        .then(navigate("/main"));
+        .then(navigate("/home"));
     } else {
       const method = "POST";
       const event = "create";
       console.log(goalinfo);
       SendGoal(goalinfo, event, method)
         .then(alert("성공"))
-        .then(navigate("/main"));
+        .then(navigate("/home"));
     }
   };
 

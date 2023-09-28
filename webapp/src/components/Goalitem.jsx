@@ -16,7 +16,10 @@ function Goalitem({ goaltitle, goalperiod, event_id, photoUrl, isCompleted }) {
   };
   return (
     <GoalContainer onClick={movetoDetailHandler}>
-      <Img src={photoUrl || omg} alt="goal"></Img>
+      <Img
+        src={photoUrl && photoUrl !== null ? photoUrl : omg}
+        alt="goal"
+      ></Img>
       <div className="title">{goaltitle}</div>
       <div className="period">{goalperiod}</div>
     </GoalContainer>
@@ -37,6 +40,7 @@ const Img = styled.img`
   }
 `;
 const GoalContainer = styled(motion.div)`
+  width: 187.5px;
   display: flex;
   flex-direction: column;
   gap: 3px;
@@ -44,14 +48,24 @@ const GoalContainer = styled(motion.div)`
   margin: 12px 0px;
   padding: 0px 15px;
   div.title {
+    width: 100%;
     margin: 2px 0;
     font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     font-size: 16px;
+    padding-left: 5px;
+    padding-top: 3px;
   }
   div.period {
-    padding: 0;
+    width: 100%;
+    padding-left: 5px;
     margin: 2px 0;
     font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     font-size: 14px;
     color: #7e7e7e;
   }
