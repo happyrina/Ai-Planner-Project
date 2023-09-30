@@ -13,8 +13,9 @@ function Todo() {
   const navigate = useNavigate();
   const handleGoBack = () => {
     navigate("/main"); // 뒤로 가기
+    setSelectedgoal(null);
   };
-
+  //아직 미완성
   const getTodoData = async (event_id) => {
     const tokenstring = document.cookie;
     const token = tokenstring.split("=")[1];
@@ -160,14 +161,16 @@ function Todo() {
           ></input>
         </div>
         <span></span>
-        {
+        {mode === "update" || selectedgoal !== null ? (
+          <></>
+        ) : (
           <>
             <div className={styles.Tag}>목표</div>
             <div className={styles.Tag}>
               <Selectop />
             </div>
           </>
-        }
+        )}
         <div className={styles.Tag}>내용</div>
         <div className={styles.Tag}>
           <textarea

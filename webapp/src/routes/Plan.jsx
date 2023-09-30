@@ -108,6 +108,12 @@ function Plan() {
       SendPlan(planinfo, event, method).then(navigate("/main"));
     }
   };
+  // 아직 미완성
+  // useEffect(() => {
+  //   if (mode === "update") {
+  //     getPlandata(event_id);
+  //   }
+  // }, []);
 
   return (
     <div className={styles.Container}>
@@ -193,7 +199,7 @@ function Plan() {
           />
         </div>
 
-        {mode === "update" ? (
+        {mode === "update" || selectedgoal !== null ? (
           <></>
         ) : (
           <>
