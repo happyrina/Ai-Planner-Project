@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import styles from "../styles/Timeline.module.css";
+import styled from "styled-components";
 
 const Timeline = ({ eventsProp = [] }) => {
   const [events, setEvents] = useState(eventsProp);
@@ -86,6 +87,18 @@ const Timeline = ({ eventsProp = [] }) => {
       console.error("Could not finish editing", error);
     }
   };
+  const pickColor = () => {
+    // Array containing colors
+    let colors = [
+      "#ff0000",
+      "#00ff00",
+      "#0000ff",
+      "#ff3333",
+      "#ffff00",
+      "#ff6600",
+    ];
+    let random_color = colors[Math.floor(Math.random() * colors.length)];
+  };
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -105,87 +118,114 @@ const Timeline = ({ eventsProp = [] }) => {
     <div className={styles.app}>
       <ul className={styles["event-list"]}>
         {eventsProp.map((event, index) => (
-          <li
+          <PlanListItem
             key={event.event_id}
             className={styles["event-item"]}
-            style={{
-              backgroundColor: `hsl(${180 + ((index * 35) % 55)}, 60%, 82%)`,
-            }}
+            // style={{
+            //   backgroundColor: `hsl(${180 + ((index * 35) % 55)}, 60%, 82%)`,
+            // }}
           >
-            <span className={styles["event-time"]}>
-              {new Date(event.startDatetime).toLocaleTimeString("ko-KR", {
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: false,
-              })}
-            </span>
-            {editIndex === event.event_id ? (
-              <input
-                className={styles["edit-input"]}
-                value={editingTitles[event.event_id] || ""}
-                onChange={(e) =>
-                  setEditingTitles({
-                    ...editingTitles,
-                    [event.event_id]: e.target.value,
-                  })
-                }
-                onBlur={() =>
-                  finishEditing(event.event_id, editingTitles[event.event_id])
-                }
-                autoFocus
-              />
-            ) : (
-              <span
-                className={styles["event-title"]}
-                onDoubleClick={() => {
-                  setEditIndex(event.event_id);
-                  setEditingTitles({
-                    ...editingTitles,
-                    [event.event_id]: event.title,
-                  });
-                }}
-              >
-                {event.title}
+            <div>
+              <span className={styles["event-time"]}>
+                {new Date(event.startDatetime).toLocaleTimeString("ko-KR", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: false,
+                })}
               </span>
-            )}
-            <span
-              className={styles.options}
-              onClick={() =>
-                setShowOptionsIndex(
-                  showOptionsIndex === event.event_id ? null : event.event_id
-                )
-              }
-            >
-              {editIndex === event.event_id ? "완료" : "..."}
-              {showOptionsIndex === event.event_id &&
-                editIndex !== event.event_id && (
-                  <div className={styles["dropdown-options"]} ref={dropdownRef}>
-                    <button
-                      className={styles["edit-btn"]}
-                      onClick={() => {
-                        setEditIndex(event.event_id);
-                        setEditingTitles({
-                          ...editingTitles,
-                          [event.event_id]: event.title,
-                        });
-                      }}
-                    >
-                      수정
-                    </button>
-                    <button
-                      className={styles["delete-btn"]}
-                      onClick={() => deleteEvent(index, event.event_id)}
-                    >
-                      삭제
-                    </button>
-                  </div>
-                )}
-            </span>
-          </li>
+            </div>
+            <div className={styles.inputwrapper}>
+              {editIndex === event.event_id ? (
+                <div>
+                  <input
+                    className={styles["edit-input"]}
+                    value={editingTitles[event.event_id] || ""}
+                    onChange={(e) =>
+                      setEditingTitles({
+                        ...editingTitles,
+                        [event.event_id]: e.target.value,
+                      })
+                    }
+                    onBlur={() =>
+                      finishEditing(
+                        event.event_id,
+                        editingTitles[event.event_id]
+                      )
+                    }
+                    autoFocus
+                  />
+                </div>
+              ) : (
+                <span
+                  className={styles["event-title"]}
+                  onDoubleClick={() => {
+                    setEditIndex(event.event_id);
+                    setEditingTitles({
+                      ...editingTitles,
+                      [event.event_id]: event.title,
+                    });
+                  }}
+                >
+                  {event.title}
+                </span>
+              )}
+              <div>
+                <button
+                  className={styles.completionbutton}
+                  onClick={() =>
+                    setShowOptionsIndex(
+                      showOptionsIndex === event.event_id
+                        ? null
+                        : event.event_id
+                    )
+                  }
+                >
+                  {editIndex === event.event_id ? "완료" : "..."}
+                </button>
+              </div>
+            </div>
+            {showOptionsIndex === event.event_id &&
+              editIndex !== event.event_id && (
+                <div className={styles["dropdown-options"]} ref={dropdownRef}>
+                  <button
+                    className={styles["edit-btn"]}
+                    onClick={() => {
+                      setEditIndex(event.event_id);
+                      setEditingTitles({
+                        ...editingTitles,
+                        [event.event_id]: event.title,
+                      });
+                    }}
+                  >
+                    수정
+                  </button>
+                  <button
+                    className={styles["delete-btn"]}
+                    onClick={() => deleteEvent(index, event.event_id)}
+                  >
+                    삭제
+                  </button>
+                </div>
+              )}
+          </PlanListItem>
         ))}
       </ul>
     </div>
   );
 };
+
+const PlanListItem = styled.li`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 15px 12px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  position: relative;
+  border-radius: 5px;
+  margin-right: 15px;
+  font-weight: 400;
+`;
 
 export default Timeline;

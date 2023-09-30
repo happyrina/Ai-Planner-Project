@@ -304,7 +304,9 @@ const Container = styled.div`
     height:300px;
     background: rgb(195,34,145);
     position: sticky;
-background: linear-gradient(195deg, rgba(195,34,145,0.4654209339985994) 0%, rgba(253,216,45,0.4514153317577031) 100%);
+    background-color: #b4daff;
+    background-image: linear-gradient(62deg, #b4daff 0%, #E0C3FC 100%);
+   
 `;
 const SmallContainer = styled.div`
   text-align: right;
@@ -395,13 +397,15 @@ const SBtn = styled.button`
     margin: 0px;
     font-weight: 600;
     line-height: 10px;
-    background-image: linear-gradient(195deg, #a6c1ee 30%, #dce9ff 100%);
+    background-color: #b4daff;
+    background-image: linear-gradient(62deg, #b4daff 0%, #e0c3fc 100%);
+
     color: white;
     padding: 6px 10px;
     border-radius: 30px;
     &:hover {
       cursor: pointer;
-      background-image: linear-gradient(150deg, #a6c1ee 30%, #dce9ff 100%);
+      background-image: linear-gradient(150deg, #b4daff 0%, #e0c3fc 100%);
     }
   }
   a {

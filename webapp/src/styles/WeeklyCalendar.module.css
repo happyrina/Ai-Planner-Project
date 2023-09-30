@@ -36,7 +36,7 @@
 }
 
 .calendarDayName {
-  font-weight: bold;
+  font-weight: 800;
   margin-bottom: 5px;
   padding: 3px;
   font-size: 15px;
@@ -53,6 +53,7 @@
 .calendarDayNumber {
   text-align: center;
   margin: 0px;
+  font-weight: 700;
 }
 
 .calendarDayNumber.today {
@@ -63,7 +64,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  font-weight: 700;
+  font-weight: 800;
   text-align: center;
   box-shadow: 0 0 0 5px #8ddeff;
 }

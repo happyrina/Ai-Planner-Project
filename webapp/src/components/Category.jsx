@@ -22,7 +22,7 @@ const Category = ({ dataForSelectedDate }) => {
             onClick={() => handleCategoryChange("일정")}
             className={selectedCategory === "일정" ? styles.active : ""}
           >
-            일정 &nbsp;&nbsp;&nbsp;&nbsp;
+            일정 &nbsp;&nbsp;&nbsp;
           </li>
           <li
             onClick={() => handleCategoryChange("할일")}
