@@ -1,23 +1,14 @@
 .todoList {
   width: 337px;
   margin: 0 auto;
-  font-family: Arial, sans-serif;
+  font-family: "Nanum Gothic", sans-serif;
   margin-left: 6px;
   margin-top: 10px;
   overflow-y: scroll;
-  max-height: 300px;
-}
-
-.todoList {
-  width: 337px;
-  margin: 0 auto;
-  font-family: Arial, sans-serif;
-  margin-left: 6px;
-  margin-top: 10px;
-  overflow-y: scroll;
-  max-height: 300px;
+  max-height: 50%;
   -ms-overflow-style: none; /* IE, Edge 등 */
   scrollbar-width: none;
+  padding-bottom: 20px;
 }
 
 .todoList::-webkit-scrollbar {
