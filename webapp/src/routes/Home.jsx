@@ -184,7 +184,7 @@ export default function Home() {
                 xmlns="http://www.w3.org/2000/svg"
                 height="1em"
                 viewBox="0 0 448 512"
-                style={{ fill: "#fffce5", height: "20" }}
+                style={{ fill: "white", height: "20" }}
               >
                 <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
               </svg>
@@ -345,7 +345,7 @@ const Index2 = styled.div`
   div {
     padding: 0px;
     margin: 0px;
-    flex-grow: 0.9;
+    flex-grow: 0.93;
   }
   &:last-child {
     position: fixed;
@@ -395,13 +395,13 @@ const SBtn = styled.button`
     margin: 0px;
     font-weight: 600;
     line-height: 10px;
-
-    background-color: black;
+    background-image: linear-gradient(195deg, #a6c1ee 30%, #dce9ff 100%);
     color: white;
     padding: 6px 10px;
     border-radius: 30px;
     &:hover {
       cursor: pointer;
+      background-image: linear-gradient(150deg, #a6c1ee 30%, #dce9ff 100%);
     }
   }
   a {

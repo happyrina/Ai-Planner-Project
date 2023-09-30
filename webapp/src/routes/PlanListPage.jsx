@@ -5,8 +5,11 @@ import styles from "../styles/PlanList.module.css";
 import GoalPhoto from "../components/GoalPhoto";
 import GoalSchedule from "../components/GoalSchedule";
 import { useLocation, useParams } from "react-router-dom";
+import { selectedGoalState } from "../atoms";
+import { useRecoilState } from "recoil";
 
 function PlanListPage() {
+  const [selectedgoal, setSelectedgoal] = useRecoilState(selectedGoalState);
   const { state } = useLocation();
   const { event_id } = useParams();
   const [data, setData] = useState({
@@ -17,6 +20,7 @@ function PlanListPage() {
   });
 
   useEffect(() => {
+    setSelectedgoal(event_id);
     const tokenstring = document.cookie;
     const token = tokenstring.split("=")[1];
 

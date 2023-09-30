@@ -56,7 +56,7 @@
 }
 
 .calendarDayNumber.today {
-  background-color: #a9e7ff;
+  background-color: #8ddeff;
   width: 20px;
   height: 20px;
   display: flex;
@@ -65,7 +65,7 @@
   border-radius: 50%;
   font-weight: 700;
   text-align: center;
-  box-shadow: 0 0 0 5px #a9e7ff;
+  box-shadow: 0 0 0 5px #8ddeff;
 }
 .calendarDay:hover .calendarDayNumber {
   font-weight: 700;
@@ -166,7 +166,7 @@
 .addModal {
   position: absolute;
   right: 10px;
-  padding: 15px;
+  padding: 12px;
   margin: 2px;
   background-color: #ffffff;
   border: 1px solid #ddd;

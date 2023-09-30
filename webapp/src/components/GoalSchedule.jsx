@@ -3,13 +3,14 @@ import styles from "../styles/GoalSchedule.module.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { selectedGoalState } from "../atoms";
+import { modeState, selectedGoalState } from "../atoms";
 
 function GoalSchedule({ eventId }) {
   console.log("event_id :", eventId);
   const navigate = useNavigate();
   const [selectedgoal, setSelectedgoal] = useRecoilState(selectedGoalState);
   const [selectedCategory, setSelectedCategory] = useState("일정");
+  const [mode, setMode] = useRecoilState(modeState);
   const [loadedData, setLoadedData] = useState({ schedules: [], todos: [] });
   const moveToCreatePage = () => {
     if (selectedCategory === "일정") {
