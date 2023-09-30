@@ -1,32 +1,56 @@
 .app {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  color: black;
+  width: 337px;
+  margin: 0 auto;
+  font-family: "Nanum Gothic", sans-serif;
+  margin-left: 6px;
+  margin-top: 10px;
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* IE, Edge 등 */
+  scrollbar-width: none;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  height: 100%;
 }
-.event-list-container {
-  max-height: 300px;
-  overflow-y: auto;
+.app::-webkit-scrollbar {
+  width: 3px; /* 스크롤 바의 너비 */
+  display: none;
 }
 
+.app::-webkit-scrollbar-thumb {
+  background-color: darkgrey; /* 스크롤 바의 색상 */
+  border-radius: 2px; /* 스크롤 바의 모서리 둥글기 */
+}
 .event-list {
   list-style: none;
-  padding: 2px;
-  max-height: 300px;
-  overflow-y: auto;
-  /* Firefox: 스크롤바 숨기기 */
+  width: 337px;
+  margin: 0 auto;
+  font-family: "Nanum Gothic", sans-serif;
+  overflow-y: scroll;
+  height: 100%;
+  -ms-overflow-style: none; /* IE, Edge 등 */
+  scrollbar-width: none;
+}
+.event-list::-webkit-scrollbar {
+  width: 3px; /* 스크롤 바의 너비 */
+  display: none;
+}
+
+.event-list::-webkit-scrollbar-thumb {
+  background-color: darkgrey; /* 스크롤 바의 색상 */
+  border-radius: 2px; /* 스크롤 바의 모서리 둥글기 */
 }
 
 .event-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
-  padding: 12px;
+  margin-bottom: 15px;
+  padding: 15px 12px;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
-  width: 330px;
+  width: 100%;
   position: relative;
-  border-radius: 10px;
-  margin-right: 20px;
+  border-radius: 5px;
+  /* margin-right: 20px; */
 }
 
 .event-time {
@@ -104,4 +128,8 @@
   font-size: 14px;
   position: relative;
   bottom: 10px;
+}
+
+.options {
+  color: rgb(82, 82, 82);
 }

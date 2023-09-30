@@ -4,7 +4,7 @@
   justify-content: space-between;
   margin-left: 10px;
   background-color: none;
-  height: 50px;
+  height: 30px;
 }
 .buttnoCategory > button {
   background: none;
@@ -51,8 +51,7 @@
   margin: 0px;
 }
 /*bluebutton은 아린이랑 css다름*/
-
-.scheduleContainer {
+.categoryRow .scheduleContainer {
   width: 100%;
   max-width: 100%;
   max-height: 100vh;
