@@ -2,17 +2,16 @@
 
 import { makeStyles, shorthands, tokens } from "@fluentui/react-components";
 import debug from "debug";
-import React from "react";
-import { Constants } from "../Constants";
+import React, { useEffect } from "react";
+// import { Constants } from "../Constants";
 import { useChat } from "../libs/hooks/useChat";
-
-import { useAppDispatch, useAppSelector } from "../redux/app/hooks";
-import { addMessageToConversationFromUser } from "../redux/features/conversations/conversationsSlice";
+// import { useAppDispatch, useAppSelector } from "../redux/app/hooks";
+// import { addMessageToConversationFromUser } from "../redux/features/conversations/conversationsSlice";
 import { SharedStyles } from "../styles";
 import { ChatInput } from "./ChatInput.jsx";
 import { ChatHistory } from "./chat-history/ChatHistory";
-
-const log = debug(Constants.debug.root).extend("chat-room");
+import axios from "axios";
+// const log = debug(Constants.debug.root).extend("chat-room");
 const AuthorRoles = {
   // The current user of the chat.
   User: 0,
@@ -49,9 +48,9 @@ const useClasses = makeStyles({
 
 export const ChatRoom = () => {
   // const { conversations, selectedId } = useAppSelector((state: RootState) => state.conversations);
-  const { activeUserInfo } = useAppSelector(
-    (state /*: RootState*/) => state.app
-  );
+  //   const { activeUserInfo } = useAppSelector(
+  //     (state /*: RootState*/) => state.app
+  //   );
   const content = `
 # heading 1
 ## heading 2
@@ -71,11 +70,15 @@ export const ChatRoom = () => {
 - unordered list`;
 
   // const messages = conversations[selectedId].messages;
-  const messages = [{ content: content, authorRole: 0 }];
+  const messages = [
+    { content: content, authorRole: 0 },
+    { content: "피곤하다", authorRole: 1 },
+    { content: "나도", authorRole: 0 },
+  ];
   const classes = useClasses();
 
-  const dispatch = useAppDispatch();
-  const scrollViewTargetRef = React.useRef < HTMLDivElement > null;
+  //   const dispatch = useAppDispatch();
+  // const scrollViewTargetRef = React.useRef < HTMLDivElement > null;
   const [shouldAutoScroll, setShouldAutoScroll] = React.useState(true);
 
   const [isDraggingOver, setIsDraggingOver] = React.useState(false);
@@ -91,37 +94,36 @@ export const ChatRoom = () => {
   const chat = useChat();
 
   // 이 코드 조각은 shouldAutoScroll이 true이고 새로운 메시지(messages 상태 변경)가 발생할 때마다 스크롤뷰를 자동으로 아래로 스크롤하여 사용자에게 가장 최신 메시지를 보여주는 리액트 컴포넌트의 일부입니다.
-  React.useEffect(() => {
-    if (!shouldAutoScroll) return;
-    scrollViewTargetRef.current?.scrollTo(
-      0,
-      scrollViewTargetRef.current.scrollHeight
-    );
-  }, [messages, shouldAutoScroll]);
+  // React.useEffect(() => {
+  //   if (!shouldAutoScroll) return;
+  // scrollViewTargetRef.current?.scrollTo(
+  //     0,
+  // scrollViewTargetRef.current.scrollHeight
+  //   );
+  // }, [messages, shouldAutoScroll]);
 
   //이 코드는 스크롤뷰의 스크롤 위치를 감지하고, 스크롤 위치가 화면 하단에서 10px 이내에 있는 경우 자동으로 스크롤을 하도록 설정하는 리액트 컴포넌트의 일부입니다. 또한 컴포넌트가 마운트되면 스크롤 이벤트 리스너가 추가되고, 컴포넌트가 언마운트되면 이벤트 리스너가 제거됩니다.
-  React.useEffect(() => {
-    const onScroll = () => {
-      if (!scrollViewTargetRef.current) return;
-      const { scrollTop, scrollHeight, clientHeight } =
-        scrollViewTargetRef.current;
-      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
-      setShouldAutoScroll(isAtBottom);
-    };
+  // React.useEffect(() => {
+  //   const onScroll = () => {
+  // if (!scrollViewTargetRef.current) return;
+  //     const { scrollTop, scrollHeight, clientHeight } =
+  // scrollViewTargetRef.current;
+  //     const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
+  //     setShouldAutoScroll(isAtBottom);
+  //   };
 
-    if (!scrollViewTargetRef.current) return;
+  // if (!scrollViewTargetRef.current) return;
 
-    const currentScrollViewTarget = scrollViewTargetRef.current;
+  // const currentScrollViewTarget = scrollViewTargetRef.current;
 
-    currentScrollViewTarget.addEventListener("scroll", onScroll);
-    return () => {
-      currentScrollViewTarget.removeEventListener("scroll", onScroll);
-    };
-  }, []);
+  //   currentScrollViewTarget.addEventListener("scroll", onScroll);
+  //   return () => {
+  //     currentScrollViewTarget.removeEventListener("scroll", onScroll);
+  //   };
+  // }, []);
 
   const handleSubmit = async (options) => {
-    log("submitting user chat message");
-
+    console.log("submitting user chat message");
     const chatInput = {
       // chatId: "우힝힝" as string,
       // timestamp: new Date().getTime(),
@@ -132,9 +134,9 @@ export const ChatRoom = () => {
       authorRole: AuthorRoles.User,
     };
 
-    dispatch(
-      addMessageToConversationFromUser({ message: chatInput, chatId: "우힝힝" })
-    );
+    // dispatch(
+    //   addMessageToConversationFromUser({ message: chatInput, chatId: "우힝힝" })
+    // );
 
     await chat.getResponse(options);
 
@@ -148,7 +150,7 @@ export const ChatRoom = () => {
       onDragOver={onDragEnter}
       onDragLeave={onDragLeave}
     >
-      <div ref={scrollViewTargetRef} className={classes.scroll}>
+      <div className={classes.scroll}>
         <div className={classes.history}>
           <ChatHistory messages={messages} onGetResponse={handleSubmit} />
         </div>

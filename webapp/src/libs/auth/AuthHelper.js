@@ -4,10 +4,10 @@ import {
 
   LogLevel,
 } from "@azure/msal-browser";
-import debug from "debug";
+// import debug from "debug";
 import { Constants } from "../../Constants";
 
-const log = debug(Constants.debug.root).extend("authHelper");
+// const log = debug(Constants.debug.root).extend("authHelper");
 
 export const AuthType = {
   AAD: "AzureAd"
@@ -48,19 +48,19 @@ const msalConfig = {
         }
         switch (level) {
           case LogLevel.Error:
-            log("error:", message);
+            console.log("error:", message);
             return;
           case LogLevel.Info:
-            log("info:", message);
+            console.log("info:", message);
             return;
           case LogLevel.Verbose:
-            log("verbose:", message);
+            console.log("verbose:", message);
             return;
           case LogLevel.Warning:
-            log("warn:", message);
+            console.log("warn:", message);
             return;
           default:
-            log(message);
+            console.log(message);
         }
       },
     },

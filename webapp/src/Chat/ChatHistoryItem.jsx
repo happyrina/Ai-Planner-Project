@@ -10,8 +10,7 @@ import React from "react";
 // import { DefaultChatUser } from "../../../libs/auth/AuthHelper";
 // import { GetResponseOptions, useChat } from "../../../libs/hooks/useChat";
 import { AuthorRoles, IChatMessage } from "../libs/ChatMessage";
-// import { useAppSelector } from "../../../redux/app/hooks";
-// import { RootState } from "../../../redux/app/store";
+
 import { Breakpoints, customTokens } from "../styles";
 import { TypingIndicator } from "../typing-indicator/TypingIndicator.jsx";
 import * as utils from "../utils/TextUtils";

@@ -2,7 +2,7 @@
 
 const noResponseBodyStatusCodes = [202, 204];
 
-class BaseService {
+export class BaseService {
   constructor(serviceUrl) {
     this.serviceUrl = serviceUrl;
   }
