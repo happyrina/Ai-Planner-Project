@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
+import React from "react";
 import shortid from "shortid";
 import styled from "styled-components";
 import Goalitem from "../components/Goalitem";

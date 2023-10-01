@@ -2,6 +2,7 @@ import styles from "../css/FormStyle.module.css";
 import Selectop from "../components/Select";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
+import React from "react";
 import {
   goalState,
   modeState,

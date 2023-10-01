@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import React from "react";
 import omg from "../omg.jpg";
 import { motion } from "framer-motion";
 import { useRecoilState } from "recoil";
