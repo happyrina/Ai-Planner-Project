@@ -11,7 +11,12 @@ const Timeline = ({ eventsProp = [] }) => {
   const [editIndex, setEditIndex] = useState(null);
   const [editingTitles, setEditingTitles] = useState({});
   const dropdownRef = useRef();
-
+  const pickColor = () => {
+    // Array containing colors
+    let colors = ["rgb(255 236 247)", "rgb(247 240 255)", "#EDF3FF"];
+    let random_color = colors[Math.floor(Math.random() * colors.length)];
+    return random_color;
+  };
   const fetchMoreEvents = async () => {
     if (isLoading) return;
     setIsLoading(true);
@@ -87,18 +92,6 @@ const Timeline = ({ eventsProp = [] }) => {
       console.error("Could not finish editing", error);
     }
   };
-  const pickColor = () => {
-    // Array containing colors
-    let colors = [
-      "#ff0000",
-      "#00ff00",
-      "#0000ff",
-      "#ff3333",
-      "#ffff00",
-      "#ff6600",
-    ];
-    let random_color = colors[Math.floor(Math.random() * colors.length)];
-  };
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -121,9 +114,9 @@ const Timeline = ({ eventsProp = [] }) => {
           <PlanListItem
             key={event.event_id}
             className={styles["event-item"]}
-            // style={{
-            //   backgroundColor: `hsl(${180 + ((index * 35) % 55)}, 60%, 82%)`,
-            // }}
+            style={{
+              backgroundColor: `${pickColor()}`,
+            }}
           >
             <div>
               <span className={styles["event-time"]}>
