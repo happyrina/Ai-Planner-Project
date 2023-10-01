@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
@@ -11,10 +12,10 @@ function LoginPage() {
   const [id, setId] = useState();
   const [pw, setPw] = useState();
   const navigate = useNavigate();
-  const onChangeId = function (e) {
+  const onChangeId = function(e) {
     setId(e.target.value);
   };
-  const onChangePw = function (e) {
+  const onChangePw = function(e) {
     setPw(e.target.value);
   };
 

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import React from "react";
 import { useState } from "react";
 
 function Signup() {
@@ -10,16 +11,16 @@ function Signup() {
   const [name, setName] = useState();
   const [pw, setPw] = useState("");
   const [pwcheck, setPwcheck] = useState(null);
-  const onChangeId = function (e) {
+  const onChangeId = function(e) {
     setId(e.target.value);
   };
-  const onChangeName = function (e) {
+  const onChangeName = function(e) {
     setName(e.target.value);
   };
-  const onChangePw = function (e) {
+  const onChangePw = function(e) {
     setPw(e.target.value);
   };
-  const onChangePwcheck = function (e) {
+  const onChangePwcheck = function(e) {
     console.log(pw === pwcheck);
     setPwcheck(e.target.value);
   };
@@ -39,13 +40,13 @@ function Signup() {
         "Access-Control-Allow-Origin": "*",
       },
     })
-      .then(function (response) {
+      .then(function(response) {
         if ((response.data.message = "사용자 등록 완료")) {
           alert("Welcome to Copple!");
           navigate("/");
         }
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   };
