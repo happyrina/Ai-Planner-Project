@@ -3,7 +3,7 @@
 
 import { BaseService } from "./BaseService";
 
-class BotService extends BaseService {
+export class BotService extends BaseService {
   downloadAsync = async (chatId, accessToken) => {
     const result = await this.getResponseAsync(
       {

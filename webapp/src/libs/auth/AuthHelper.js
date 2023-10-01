@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft. All rights reserved.
 
 import {
-  Configuration,
-  EndSessionRequest,
-  IPublicClientApplication,
-  InteractionStatus,
+
   LogLevel,
 } from "@azure/msal-browser";
 import debug from "debug";
 import { Constants } from "../../Constants";
-import { ActiveUserInfo } from "../../redux/features/app/AppState";
-import { IChatUser } from "../models/ChatUser";
 
 const log = debug(Constants.debug.root).extend("authHelper");
 

@@ -1,12 +1,16 @@
 // Copyright (c) Microsoft. All rights reserved.
 
-import {
-  AuthHelper,
-  DefaultActiveUserInfo,
-} from "../../../libs/auth/AuthHelper";
-import { AlertType } from "../../../libs/models/AlertType";
-import { ServiceOptions } from "../../../libs/models/ServiceOptions";
-import { TokenUsage } from "../../../libs/models/TokenUsage";
+// import {
+//   AuthHelper,
+//   export const DefaultActiveUserInfo: ActiveUserInfo = {
+// id: "c05c61eb-65e4-4223-915a-fe72b0c9ece1",
+//   email: "user@contoso.com",
+//     username: "Default User",
+// };,
+// } from "../../../libs/auth/AuthHelper";
+// import { AlertType } from "../../../libs/models/AlertType";
+import { ServiceOptions } from "../../../libs/services/ServiceOptions"
+// import { TokenUsage } from "../../../libs/models/TokenUsage";
 
 // export interface ActiveUserInfo {
 //   id: string;
@@ -28,78 +32,87 @@ import { TokenUsage } from "../../../libs/models/TokenUsage";
 //   description?: string;
 // }
 
-export const Setting = {
-  title: string,
-  description: string,
-  features: FeatureKeys,
-  stackVertically: boolean,
-  learnMoreLink: string,
-}
+// Define FeatureKeys as an object
+export const FeatureKeys = {
+  DarkMode: null,
+  SimplifiedExperience: null,
+  PluginsPlannersAndPersonas: null,
+  AzureContentSafety: null,
+  AzureCognitiveSearch: null,
+  BotAsDocs: null,
+  MultiUserChat: null,
+  RLHF: null, // Reinforcement Learning from Human Feedback
+};
 
+// Define ActiveUserInfo as an empty object (assuming it's an object type)
+export const ActiveUserInfo = {};
+
+// Define TokenUsage as an empty object (assuming it's an object type)
+export const TokenUsage = {};
+
+// Define ServiceOptions as an empty object (assuming it's an object type)
+export const serviceOptions = ServiceOptions;
+
+// Define Setting as an object with property values (you need to replace 'string' and 'boolean' with actual values)
+export const Setting = {
+  title: 'your_title_here',
+  description: 'your_description_here',
+  features: FeatureKeys,
+  stackVertically: true, // or false
+  learnMoreLink: 'your_link_here',
+};
+
+// Define AppState as an object with property values (you need to replace types with actual values)
 export const AppState = {
   alerts: [],
   activeUserInfo: ActiveUserInfo,
   tokenUsage: TokenUsage,
-  features: Record,
-  settings: [],
+  features: {},
+  settings: [Setting], // Assuming it's an array of Setting objects
   serviceOptions: ServiceOptions,
-  isMaintenance: boolean,
-}
+  isMaintenance: false, // or true
+};
 
-export const FeatureKeys = {
-  DarkMode,
-  SimplifiedExperience,
-  PluginsPlannersAndPersonas,
-  AzureContentSafety,
-  AzureCognitiveSearch,
-  BotAsDocs,
-  MultiUserChat,
-  RLHF, // Reinforcement Learning from Human Feedback
-}
+// Export the variables
 
-// export const Features = {
-//   [FeatureKeys.DarkMode]: {
-//     enabled: false,
-//     label: "Dark Mode",
-//   },
-//   [FeatureKeys.SimplifiedExperience]: {
-//     enabled: true,
-//     label: "Simplified Chat Experience",
-//   },
-//   [FeatureKeys.PluginsPlannersAndPersonas]: {
-//     enabled: true,
-//     label: "Plugins & Planners & Personas",
-//     description: "The Plans and Persona tabs are hidden until you turn this on",
-//   },
-//   [FeatureKeys.AzureContentSafety]: {
-//     enabled: false,
-//     label: "Azure Content Safety",
-//     inactive: true,
-//   },
-//   [FeatureKeys.AzureCognitiveSearch]: {
-//     enabled: false,
-//     label: "Azure Cognitive Search",
-//     inactive: true,
-//   },
-//   [FeatureKeys.BotAsDocs]: {
-//     enabled: false,
-//     label: "Save/Load Chat Sessions",
-//   },
-//   [FeatureKeys.MultiUserChat]: {
-//     enabled: false,
-//     label: "Live Chat Session Sharing",
-//     description:
-//       "Enable multi-user chat sessions. Not available when authorization is disabled.",
-//     inactive: !AuthHelper.IsAuthAAD,
-//   },
-//   [FeatureKeys.RLHF]: {
-//     enabled: false,
-//     label: "Reinforcement Learning from Human Feedback",
-//     description:
-//       "Enable users to vote on model-generated responses. For demonstration purposes only.",
-//     // TODO: [Issue #42] Send and store feedback in backend
-//   },
-// };
+
+
+export const Features = {
+  [FeatureKeys.DarkMode]: {
+    enabled: false,
+    label: "Dark Mode",
+  },
+  [FeatureKeys.SimplifiedExperience]: {
+    enabled: true,
+    label: "Simplified Chat Experience",
+  },
+  [FeatureKeys.PluginsPlannersAndPersonas]: {
+    enabled: true,
+    label: "Plugins & Planners & Personas",
+    description: "The Plans and Persona tabs are hidden until you turn this on",
+  },
+  [FeatureKeys.AzureContentSafety]: {
+    enabled: false,
+    label: "Azure Content Safety",
+    inactive: true,
+  },
+  [FeatureKeys.AzureCognitiveSearch]: {
+    enabled: false,
+    label: "Azure Cognitive Search",
+    inactive: true,
+  },
+  [FeatureKeys.BotAsDocs]: {
+    enabled: false,
+    label: "Save/Load Chat Sessions",
+  },
+  [FeatureKeys.RLHF]: {
+    enabled: false,
+    label: "Reinforcement Learning from Human Feedback",
+    description:
+      "Enable users to vote on model-generated responses. For demonstration purposes only.",
+    // TODO: [Issue #42] Send and store feedback in backend
+  },
+};
 
 // export const Settings = [
 //   {
@@ -133,12 +146,16 @@ export const FeatureKeys = {
 //   },
 // ];
 
-// export const initialState: AppState = {
-//   alerts: [],
-//   activeUserInfo: AuthHelper.IsAuthAAD ? undefined : DefaultActiveUserInfo,
-//   tokenUsage: {},
-//   features: Features,
-//   settings: Settings,
-//   serviceOptions: { memoryStore: { types: [], selectedType: "" }, version: "" },
-//   isMaintenance: false,
-// };
+export const initialState = {
+  alerts: [],
+  activeUserInfo: {
+    id: "c05c61eb-65e4-4223-915a-fe72b0c9ece1",
+    email: "user@contoso.com",
+    username: "Default User",
+  },
+  tokenUsage: {},
+  features: Features,
+  serviceOptions: { memoryStore: { types: [], selectedType: "" }, version: "" },
+  isMaintenance: false,
+};
+

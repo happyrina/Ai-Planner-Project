@@ -16,8 +16,8 @@ import React, { useRef, useState } from "react";
 import { Constants } from "../Constants";
 import { AuthHelper } from "../libs/auth/AuthHelper";
 // import { useFile } from "../libs/hooks";
-import { AlertType } from "../libs/models/AlertType";
-import { ChatMessageType } from "../libs/models/ChatMessage";
+// import { AlertType } from "../libs/models/AlertType";
+// import { ChatMessageType } from "../libs/models/ChatMessage";
 import { useAppDispatch, useAppSelector } from "../redux/app/hooks";
 import { addAlert } from "../redux/features/app/appSlice";
 import {
@@ -25,7 +25,7 @@ import {
   updateBotResponseStatus,
 } from "../redux/features/conversations/conversationsSlice";
 // import { Alerts } from "../shared/Alerts";
-// import { SpeechService } from "./../libs/services/SpeechService";
+
 import { updateUserIsTyping } from "./../redux/features/conversations/conversationsSlice";
 import { ChatStatus } from "./ChatStatus";
 
@@ -116,21 +116,20 @@ export const ChatInput = ({ isDraggingOver, onDragLeave, onSubmit }) => {
   }, [selectedId]);
 
   React.useEffect(() => {
-    async function initSpeechRecognizer() {
-      const speechService = new SpeechService(
-        process.env.REACT_APP_BACKEND_URI
-      );
-      const response = await speechService.getSpeechTokenAsync(
-        await AuthHelper.getSKaaSAccessToken(instance, inProgress)
-      );
-      if (response.isSuccess) {
-        const recognizer =
-          speechService.getSpeechRecognizerAsyncWithValidKey(response);
-        setRecognizer(recognizer);
-      }
-    }
-
-    initSpeechRecognizer();
+    // async function initSpeechRecognizer() {
+    //   const speechService = new SpeechService(
+    //     process.env.REACT_APP_BACKEND_URI
+    //   );
+    //   const response = await speechService.getSpeechTokenAsync(
+    //     await AuthHelper.getSKaaSAccessToken(instance, inProgress)
+    //   );
+    //   if (response.isSuccess) {
+    //     const recognizer =
+    //       speechService.getSpeechRecognizerAsyncWithValidKey(response);
+    //     setRecognizer(recognizer);
+    //   }
+    // }
+    // initSpeechRecognizer();
     // .catch((e) => {
     //     const errorDetails = e instanceof Error ? e.message : String(e);
     //     const errorMessage = `Unable to initialize speech recognizer. Details: ${errorDetails}`;
@@ -157,7 +156,7 @@ export const ChatInput = ({ isDraggingOver, onDragLeave, onSubmit }) => {
   //     }
   // };
 
-  const handleSubmit = (value, messageType = ChatMessageType.Message) => {
+  const handleSubmit = (value, messageType = 0) => {
     if (value.trim() === "") {
       return; // only submit if value is not empty
     }
@@ -176,7 +175,7 @@ export const ChatInput = ({ isDraggingOver, onDragLeave, onSubmit }) => {
       log(message);
       dispatch(
         addAlert({
-          type: AlertType.Error,
+          type: "error",
           message,
         })
       );

@@ -12,7 +12,7 @@ import {
 import React from "react";
 import { DefaultChatUser } from "../../libs/auth/AuthHelper";
 import { useChat } from "../../libs/hooks/useChat";
-import { AuthorRoles } from "../../libs/models/ChatMessage";
+// import { AuthorRoles } from "../../libs/models/ChatMessage";
 import { useAppSelector } from "../../redux/app/hooks";
 import { FeatureKeys } from "../../redux/features/app/AppState";
 import { Breakpoints, customTokens } from "../../styles";
@@ -109,7 +109,7 @@ export const ChatHistoryItem = ({ message, getResponse, messageIndex }) => {
   const isDefaultUser = true;
   // const isMe = isDefaultUser || (message.authorRole === AuthorRoles.User && message.userId === activeUserInfo?.id);
   const isMe = isDefaultUser;
-  const isBot = message.authorRole === AuthorRoles.Bot; //봇이면 true 아니면 false
+  const isBot = message.authorRole === 1; //봇이면 true 아니면 false
   // const isBot = true;
   const user = DefaultChatUser;
   // const user = isDefaultUser
@@ -140,11 +140,11 @@ export const ChatHistoryItem = ({ message, getResponse, messageIndex }) => {
 
   // TODO: [Issue #42] Persistent RLHF, hook up to model
   // Currently for demonstration purposes only, no feedback is actually sent to kernel / model
-  const showShowRLHFMessage =
-    features[FeatureKeys.RLHF].enabled &&
-    message.userFeedback === UserFeedback.Requested &&
-    messageIndex === conversations[selectedId].messages.length - 1 &&
-    message.userId === "bot";
+  // const showShowRLHFMessage =
+  //   features[FeatureKeys.RLHF].enabled &&
+  //   message.userFeedback === UserFeedback.Requested &&
+  //   messageIndex === conversations[selectedId].messages.length - 1 &&
+  //   message.userId === "bot";
 
   return (
     <div
@@ -156,7 +156,7 @@ export const ChatHistoryItem = ({ message, getResponse, messageIndex }) => {
       data-username={fullName}
       data-content={utils.formatChatTextContent(message.content)}
     >
-      {isBot && (
+      {/* {isBot && (
         <Persona
           className={classes.persona}
           avatar={avatar}
@@ -166,7 +166,7 @@ export const ChatHistoryItem = ({ message, getResponse, messageIndex }) => {
               : undefined
           }
         />
-      )}
+      )} */}
       {/* class.item이 챗봇일떄!!! */}
       <div className={isMe ? classes.me : classes.item}>
         <div className={classes.header}>
