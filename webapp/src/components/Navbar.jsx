@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/Navbar.module.css";
 import calendaricon from "../assets/calendaricon.svg";
 import homeicon from "../assets/homeicon.svg";
@@ -9,6 +9,8 @@ import profileIcon from "../assets/profileIcon.svg";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { ChatRoom } from "../Chat/ChatRoom";
+
+import axios from "axios";
 function NavBar() {
   const [showChat, setShowChat] = useState(false);
   const location = useLocation();
@@ -17,6 +19,25 @@ function NavBar() {
   const handleProfileClick = () => {
     console.log("Profile clicked");
   };
+  const getChatList = async () => {
+    await axios({
+      method: "get",
+      url: `https://coppletest.azurewebsites.net/api/chat/wonbin`,
+      withCredentials: false,
+      headers: {
+        // "Access-Control-Allow-Origin": "*",
+        // Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      console.log(response);
+      // if (mode === "update") {
+      //   setGoalinfo(response.data);
+      // sestGoalinfo(history);
+      // }
+    });
+  };
+  getChatList();
 
   const toggleChat = () => {
     setShowChat(!showChat);
@@ -52,7 +73,9 @@ function NavBar() {
         </div>
         {showChat && (
           <div className={styles.chatWindow}>
-            <ChatRoom />
+            <div>
+              <ChatRoom />
+            </div>
             <button className={styles.closeButton} onClick={toggleChat}>
               <img src={closeIcon} alt="Close" />
             </button>

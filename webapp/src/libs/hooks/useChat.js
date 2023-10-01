@@ -2,42 +2,37 @@
 
 import { useMsal } from "@azure/msal-react";
 import { Constants } from "../../Constants";
-import { useAppDispatch, useAppSelector } from "../../redux/app/hooks";
-import {
-  addAlert,
-} from "../../redux/features/app/appSlice";
+// import { useAppDispatch, useAppSelector } from "../../redux/app/hooks";
+// import {
+//   addAlert,
+// } from "../../redux/features/app/appSlice";
 
-import {
-  addConversation,
-  setConversations,
-  setSelectedConversation,
-  deleteConversation
-} from "../../redux/features/conversations/conversationsSlice";
+// import {
+//   addConversation,
+//   setConversations,
+//   setSelectedConversation,
+//   deleteConversation
+// } from "../../redux/features/conversations/conversationsSlice";
 import { AuthHelper } from "../auth/AuthHelper";
 
 import { BotService } from "../services/BotService";
 import { ChatService } from "../services/ChatService";
 // import { DocumentImportService } from "../services/DocumentImportService";
 
-import { FeatureKeys } from "../../redux/features/app/AppState";
+// import { FeatureKeys } from "../../redux/features/app/AppState";
 
 
-// export interface GetResponseOptions {
-//   messageType: ChatMessageType;
-//   value: string;
-//   chatId: string;
-//   contextVariables?: IAskVariables[];
-// }
+
 
 export const useChat = () => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const { instance, inProgress } = useMsal();
-  const { conversations } = useAppSelector(
-    (state) => state.conversations
-  );
-  const { activeUserInfo, features } = useAppSelector(
-    (state) => state.app
-  );
+  // const { conversations } = useAppSelector(
+  //   (state) => state.conversations
+  // );
+  // const { activeUserInfo, features } = useAppSelector(
+  //   (state) => state.app
+  // );
 
   const botService = new BotService(
     process.env.REACT_APP_BACKEND_URI
@@ -56,19 +51,19 @@ export const useChat = () => {
   //     botIcon5,
   //   ];
 
-  const userId = activeUserInfo?.id ?? "";
-  const fullName = activeUserInfo?.username ?? "";
-  const emailAddress = activeUserInfo?.email ?? "";
-  const loggedInUser = {
-    id: userId,
-    fullName,
-    emailAddress,
-    photo: undefined, // TODO: [Issue #45] Make call to Graph /me endpoint to load photo
-    online: true,
-    isTyping: false,
-  };
+  // const userId = activeUserInfo?.id ?? "";
+  // const fullName = activeUserInfo?.username ?? "";
+  // const emailAddress = activeUserInfo?.email ?? "";
+  // const loggedInUser = {
+  //   id: userId,
+  //   fullName,
+  //   emailAddress,
+  //   photo: undefined, // TODO: [Issue #45] Make call to Graph /me endpoint to load photo
+  //   online: true,
+  //   isTyping: false,
+  // };
 
-  const { plugins } = useAppSelector((state) => state.plugins);
+  // const { plugins } = useAppSelector((state) => state.plugins);
 
   const getChatUserById = (id, chatId, users) => {
     if (id === `${chatId}-bot` || id.toLocaleLowerCase() === "bot")
@@ -91,7 +86,7 @@ export const useChat = () => {
             systemDescription: result.chatSession.systemDescription,
             memoryBalance: result.chatSession.memoryBalance,
             messages: [result.initialBotMessage],
-            users: [loggedInUser],
+            // users: [loggedInUser],
             botProfilePicture: "",
             input: "",
             botResponseStatus: undefined,
@@ -99,14 +94,14 @@ export const useChat = () => {
             disabled: false,
           };
 
-          dispatch(addConversation(newChat));
+          // dispatch(addConversation(newChat));
           return newChat.id;
         });
     } catch (e) {
       const errorMessage = `Unable to create new chat. Details: ${getErrorDetails(
         e
       )}`;
-      dispatch(addAlert({ message: errorMessage, type: "error" }));
+      // dispatch(addAlert({ message: errorMessage, type: "error" }));
     }
   };
 
@@ -162,7 +157,7 @@ export const useChat = () => {
         inProgress
       );
       const chatSessions = await chatService.getAllChatsAsync(
-        userId,
+        "wonbin",
         accessToken
       );
 
@@ -181,12 +176,12 @@ export const useChat = () => {
             accessToken
           );
 
-          if (
-            !features[FeatureKeys.MultiUserChat].enabled &&
-            chatUsers.length > 1
-          ) {
-            continue;
-          }
+          // if (
+          //   !features[FeatureKeys.MultiUserChat].enabled &&
+          //   chatUsers.length > 1
+          // ) {
+          //   continue;
+          // }
 
           loadedConversations[chatSession.id] = {
             id: chatSession.id,
@@ -203,8 +198,8 @@ export const useChat = () => {
           };
         }
 
-        dispatch(setConversations(loadedConversations));
-        dispatch(setSelectedConversation(chatSessions[0].id));
+        // dispatch(setConversations(loadedConversations));
+        // dispatch(setSelectedConversation(chatSessions[0].id));
       } else {
         // No chats exist, create first chat window
         await createChat();
@@ -215,7 +210,7 @@ export const useChat = () => {
       const errorMessage = `Unable to load chats. Details: ${getErrorDetails(
         e
       )}`;
-      dispatch(addAlert({ message: errorMessage, type: "error" }));
+      // dispatch(addAlert({ message: errorMessage, type: "error" }));
 
       return false;
     }
@@ -235,7 +230,7 @@ export const useChat = () => {
       const errorMessage = `Unable to get chat files. Details: ${getErrorDetails(
         e
       )}`;
-      dispatch(addAlert({ message: errorMessage, type: "error" }));
+      // dispatch(addAlert({ message: errorMessage, type: "error" }));
     }
 
     return [];
@@ -252,7 +247,7 @@ export const useChat = () => {
       const errorMessage = `Unable to get semantic memories. Details: ${getErrorDetails(
         e
       )}`;
-      dispatch(addAlert({ message: errorMessage, type: "error" }));
+      // dispatch(addAlert({ message: errorMessage, type: "error" }));
     }
 
     return [];
@@ -265,58 +260,58 @@ export const useChat = () => {
    * containing respective auth information (i.e., token, encoded client info, etc.)
    * that the server can use to authenticate to the downstream APIs
    */
-  const getEnabledPlugins = () => {
-    return Object.values < Plugin > (plugins).filter((plugin) => plugin.enabled);
-  };
+  // const getEnabledPlugins = () => {
+  //   return Object.values < Plugin > (plugins).filter((plugin) => plugin.enabled);
+  // };
 
-  const joinChat = async (chatId) => {
-    try {
-      const accessToken = await AuthHelper.getSKaaSAccessToken(
-        instance,
-        inProgress
-      );
-      await chatService
-        .joinChatAsync(userId, chatId, accessToken)
-        .then(async (result) => {
-          // Get chat messages
-          const chatMessages = await chatService.getChatMessagesAsync(
-            result.id,
-            0,
-            100,
-            accessToken
-          );
+  // const joinChat = async (chatId) => {
+  //   try {
+  //     const accessToken = await AuthHelper.getSKaaSAccessToken(
+  //       instance,
+  //       inProgress
+  //     );
+  //     await chatService
+  //       .joinChatAsync(userId, chatId, accessToken)
+  //       .then(async (result) => {
+  //         // Get chat messages
+  //         const chatMessages = await chatService.getChatMessagesAsync(
+  //           result.id,
+  //           0,
+  //           100,
+  //           accessToken
+  //         );
 
-          // Get chat users
-          const chatUsers = await chatService.getAllChatParticipantsAsync(
-            result.id,
-            accessToken
-          );
+  //         // Get chat users
+  //         const chatUsers = await chatService.getAllChatParticipantsAsync(
+  //           result.id,
+  //           accessToken
+  //         );
 
-          const newChat = {
-            id: result.id,
-            title: result.title,
-            systemDescription: result.systemDescription,
-            memoryBalance: result.memoryBalance,
-            messages: chatMessages,
-            users: chatUsers,
-            botProfilePicture: "",
-            input: "",
-            botResponseStatus: undefined,
-            userDataLoaded: false,
-            disabled: false,
-          };
+  //         const newChat = {
+  //           id: result.id,
+  //           title: result.title,
+  //           systemDescription: result.systemDescription,
+  //           memoryBalance: result.memoryBalance,
+  //           messages: chatMessages,
+  //           users: chatUsers,
+  //           botProfilePicture: "",
+  //           input: "",
+  //           botResponseStatus: undefined,
+  //           userDataLoaded: false,
+  //           disabled: false,
+  //         };
 
-          dispatch(addConversation(newChat));
-        });
-    } catch (e) {
-      const errorMessage = `Error joining chat ${chatId}. Details: ${getErrorDetails(
-        e
-      )}`;
-      return { success: false, message: errorMessage };
-    }
+  //         // dispatch(addConversation(newChat));
+  //       });
+  //   } catch (e) {
+  //     const errorMessage = `Error joining chat ${chatId}. Details: ${getErrorDetails(
+  //       e
+  //     )}`;
+  //     return { success: false, message: errorMessage };
+  //   }
 
-    return { success: true, message: "" };
-  };
+  //   return { success: true, message: "" };
+  // };
 
   const editChat = async (
     chatId,
@@ -336,7 +331,7 @@ export const useChat = () => {
       const errorMessage = `Error editing chat ${chatId}. Details: ${getErrorDetails(
         e
       )}`;
-      dispatch(addAlert({ message: errorMessage, ype: "error" }));
+      // dispatch(addAlert({ message: errorMessage, ype: "error" }));
     }
   };
 
@@ -347,7 +342,7 @@ export const useChat = () => {
       );
     } catch (e) {
       const errorMessage = `수정중입니다: ${getErrorDetails(e)}`;
-      dispatch(addAlert({ message: errorMessage, type: "error" }));
+      // dispatch(addAlert({ message: errorMessage, type: "error" }));
 
       return undefined;
     }
@@ -360,26 +355,26 @@ export const useChat = () => {
         await AuthHelper.getSKaaSAccessToken(instance, inProgress)
       )
       .then(() => {
-        dispatch(deleteConversation(chatId));
+        // dispatch(deleteConversation(chatId));
 
         // If there is only one chat left, create a new chat
-        if (Object.keys(conversations).length <= 1) {
-          void createChat();
-        }
-      })
-      .catch((e) => {
-        const errorDetails = (e).message.includes(
-          "Failed to delete resources for chat id"
-        )
-          ? "Some or all resources associated with this chat couldn't be deleted. Please try again."
-          : `Details: ${(e).message}`;
-        dispatch(
-          addAlert({
-            message: `Unable to delete chat. ${errorDetails}`,
-            type: "error",
-            onRetry: () => void deleteChat(chatId),
-          })
-        );
+        //   if (Object.keys(conversations).length <= 1) {
+        //     void createChat();
+        //   }
+        // })
+        // .catch((e) => {
+        //   const errorDetails = (e).message.includes(
+        //     "Failed to delete resources for chat id"
+        //   )
+        //     ? "Some or all resources associated with this chat couldn't be deleted. Please try again."
+        //     : `Details: ${(e).message}`;
+        // dispatch(
+        // addAlert({
+        //   message: `Unable to delete chat. ${errorDetails}`,
+        //   type: "error",
+        //   onRetry: () => void deleteChat(chatId),
+        // })
+        // );
       });
   };
 
@@ -393,7 +388,6 @@ export const useChat = () => {
     getChatMemorySources,
     getSemanticMemories,
 
-    joinChat,
     editChat,
     getServiceOptions,
     // deleteChat,

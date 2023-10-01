@@ -25,7 +25,7 @@ const useClasses = makeStyles({
 //   onGetResponse: (options: GetResponseOptions) => Promise<void>;
 // }
 
-export const ChatHistory = ({ messages, onGetResponse }) => {
+export const ChatHistory = ({ messages /*onGetResponse*/ }) => {
   const classes = useClasses();
 
   return (
@@ -34,7 +34,7 @@ export const ChatHistory = ({ messages, onGetResponse }) => {
         <ChatHistoryItem
           // key={message.timestamp}
           message={message}
-          getResponse={onGetResponse}
+          // getResponse={onGetResponse}
           messageIndex={index}
         />
       ))}

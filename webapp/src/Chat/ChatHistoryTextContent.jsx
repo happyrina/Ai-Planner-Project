@@ -3,6 +3,7 @@ import { makeStyles } from "@fluentui/react-components";
 import remarkGfm from "remark-gfm";
 import ReactMarkdown from "react-markdown";
 import React from "react";
+import * as utils from "../utils/TextUtils";
 
 // markdown css
 const useClasses = makeStyles({
@@ -16,26 +17,27 @@ const customRenderers = {
   p: ({ children }) => <p className={style.reactMarkDown}>{children}</p>,
 };
 
-const content = `
-# heading 1
-## heading 2
-### heading 3
-~~strikethrough~~  
+// const content = `
+// # heading 1
+// ## heading 2
+// ### heading 3
+// ~~strikethrough~~
 
-> Blockquote  
+// > Blockquote
 
-**strong**  
-*italics*  
-***
-[Gmail](https://gmail.com)  
-***
-1. ordered list
-2. ordered list
-- unordered list
-- unordered list`;
+// **strong**
+// *italics*
+// ***
+// [Gmail](https://gmail.com)
+// ***
+// 1. ordered list
+// 2. ordered list
+// - unordered list
+// - unordered list`;
 
-export const ChatHistoryTextContent = () => {
+export const ChatHistoryTextContent = ({ message }) => {
   const classes = useClasses();
+  const content = utils.formatChatTextContent(message.content);
   return (
     <div>
       <div className={classes.content}>

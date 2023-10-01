@@ -13,8 +13,8 @@ import React from "react";
 import { DefaultChatUser } from "../../libs/auth/AuthHelper";
 import { useChat } from "../../libs/hooks/useChat";
 // import { AuthorRoles } from "../../libs/models/ChatMessage";
-import { useAppSelector } from "../../redux/app/hooks";
-import { FeatureKeys } from "../../redux/features/app/AppState";
+// import { useAppSelector } from "../../redux/app/hooks";
+// import { FeatureKeys } from "../../redux/features/app/AppState";
 import { Breakpoints, customTokens } from "../../styles";
 // import { PromptDialog } from '../prompt-dialog/PromptDialog';
 import { TypingIndicator } from "../../typing-indicator/TypingIndicator";
@@ -101,28 +101,23 @@ export const ChatHistoryItem = ({ message, getResponse, messageIndex }) => {
   const classes = useClasses();
 
   const chat = useChat();
-  const { conversations, selectedId } = useAppSelector(
-    (state) => state.conversations
-  );
-  const { activeUserInfo, features } = useAppSelector((state) => state.app);
+  // const { conversations, selectedId } = useAppSelector(
+  //   (state) => state.conversations
+  // );
+  // const { activeUserInfo, features } = useAppSelector((state) => state.app);
 
   const isDefaultUser = true;
-  // const isMe = isDefaultUser || (message.authorRole === AuthorRoles.User && message.userId === activeUserInfo?.id);
-  const isMe = isDefaultUser;
-  const isBot = message.authorRole === 1; //봇이면 true 아니면 false
-  // const isBot = true;
-  const user = DefaultChatUser;
-  // const user = isDefaultUser
-  //     ? DefaultChatUser
-  //     : chat.getChatUserById(message.userName, selectedId, conversations[selectedId].users);
-  // const fullName = user?.fullName ?? "message.userName";
+  const isMe = message.authorRole === 0;
+  const isBot = message.authorRole === 1;
+  const user = isDefaultUser && DefaultChatUser;
+
   const fullName = user?.fullName ?? "최은재";
 
-  const avatar = isBot
-    ? { image: { src: conversations[selectedId].botProfilePicture } }
-    : isDefaultUser
-    ? { idForColor: selectedId, color: "colorful" }
-    : { name: fullName, color: "colorful" };
+  // const avatar = isBot
+  //   ? { image: { src: conversations[selectedId].botProfilePicture } }
+  //   : isDefaultUser
+  //   ? { idForColor: selectedId, color: "colorful" }
+  //   : { name: fullName, color: "colorful" };
 
   let content;
   // if (isBot && message.type === ChatMessageType.Plan) {
