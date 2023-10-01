@@ -4,7 +4,7 @@ import { makeStyles } from "@fluentui/react-components";
 import { Animation } from "@fluentui/react-northstar";
 import React from "react";
 import { useAppSelector } from "../redux/app/hooks";
-import { TypingIndicator } from "./typing-indicator/TypingIndicator";
+import { TypingIndicator } from "../typing-indicator/TypingIndicator";
 
 const useClasses = makeStyles({
   root: {
@@ -18,8 +18,10 @@ const useClasses = makeStyles({
 export const ChatStatus = () => {
   const classes = useClasses();
 
-  // const { conversations, selectedId } = useAppSelector((state: RootState) => state.conversations);
-  // const { users } = conversations[selectedId];
+  const { conversations, selectedId } = useAppSelector(
+    (state) => state.conversations
+  );
+  const { users } = conversations[selectedId];
   const { activeUserInfo } = useAppSelector((state) => state.app);
   const [typingUserList, setTypingUserList] = React.useState([]);
 

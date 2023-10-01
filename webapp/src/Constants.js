@@ -13,8 +13,8 @@ export const Constants = {
       storeAuthStateInCookie: false,
     },
     semanticKernelScopes: ["openid", "offline_access", "profile"].concat(
-      (process.env.REACT_APP_AAD_API_SCOPE as string)
-        ? [process.env.REACT_APP_AAD_API_SCOPE as string]
+      (process.env.REACT_APP_AAD_API_SCOPE)
+        ? [process.env.REACT_APP_AAD_API_SCOPE]
         : []
     ),
     // MS Graph scopes required for loading user information

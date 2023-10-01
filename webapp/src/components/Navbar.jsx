@@ -8,7 +8,7 @@ import highlight from "../assets/highlight.png";
 import profileIcon from "../assets/profileIcon.svg";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { ChatHistoryTextContent } from "../Chat/ChatHistoryTextContent";
+import { ChatRoom } from "../Chat/ChatRoom";
 function NavBar() {
   const [showChat, setShowChat] = useState(false);
   const location = useLocation();
@@ -52,7 +52,7 @@ function NavBar() {
         </div>
         {showChat && (
           <div className={styles.chatWindow}>
-            <ChatHistoryTextContent />
+            <ChatRoom />
             <button className={styles.closeButton} onClick={toggleChat}>
               <img src={closeIcon} alt="Close" />
             </button>

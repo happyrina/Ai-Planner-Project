@@ -2,52 +2,36 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 import {
-
   initialState,
 } from "./ConversationsState";
 
 const ChatMessageType = {
-  // A message containing text
-  Message,
+  Message: null,
+  Plan: null,
+  Document: null,
+};
 
-  // A message for a Plan
-  Plan,
+const UserFeedback = {
+  Unknown: null,
+  Requested: null,
+  Positive: null,
+  Negative: null,
+}
 
-  // A message showing an uploaded document
-  Document,
-}
-const UserFeedback =
-{
-  Unknown,
-  Requested,
-  Positive,
-  Negative,
-}
 export const conversationsSlice = createSlice({
   name: "conversations",
   initialState,
   reducers: {
-    setConversations: (
-      state,
-      action
-    ) => {
+    setConversations: (state, action) => {
       state.conversations = action.payload;
     },
-    editConversationTitle: (
-      state,
-      action
-    ) => {
-      const id = action.payload.id;
-      const newTitle = action.payload.newTitle;
+    editConversationTitle: (state, action) => {
+      const { id, newTitle } = action.payload;
       state.conversations[id].title = newTitle;
       frontLoadChat(state, id);
     },
-    editConversationInput: (
-      state,
-      action
-    ) => {
-      const id = action.payload.id;
-      const newInput = action.payload.newInput;
+    editConversationInput: (state, action) => {
+      const { id, newInput } = action.payload;
       state.conversations[id].input = newInput;
     },
     editConversationSystemDescription: (
@@ -153,33 +137,7 @@ export const conversationsSlice = createSlice({
       const conversation = state.conversations[chatId];
       conversation.botResponseStatus = status;
     },
-    updateMessageProperty: (
-    ) => {
-      const {
-        property,
-        value,
-        messageIdOrIndex,
-        chatId,
-        updatedContent,
-        frontLoad,
-      } = action.payload;
-      const conversation = state.conversations[chatId];
-      const conversationMessage =
-        typeof messageIdOrIndex === "number"
-          ? conversation.messages[messageIdOrIndex]
-          : conversation.messages.find((m) => m.id === messageIdOrIndex);
 
-      if (conversationMessage) {
-        conversationMessage[property] = value;
-        if (updatedContent) {
-          conversationMessage.content = updatedContent;
-        }
-      }
-
-      if (frontLoad) {
-        frontLoadChat(state, chatId);
-      }
-    },
     deleteConversation: (
       state,
       action
@@ -210,6 +168,33 @@ export const conversationsSlice = createSlice({
     },
   },
 });
+
+// const updateMessagePropertyInSlice = (state, action) => {
+//   const {
+//     property,
+//     value,
+//     messageIdOrIndex,
+//     chatId,
+//     updatedContent,
+//     frontLoad,
+//   } = action.payload; // Destructure the payload
+//   const conversation = state.conversations[chatId];
+//   const conversationMessage =
+//     typeof messageIdOrIndex === "number"
+//       ? conversation.messages[messageIdOrIndex]
+//       : conversation.messages.find((m) => m.id === messageIdOrIndex);
+
+//   if (conversationMessage) {
+//     conversationMessage[property] = value;
+//     if (updatedContent) {
+//       conversationMessage.content = updatedContent;
+//     }
+//   }
+
+//   if (frontLoad) {
+//     frontLoadChat(state, chatId);
+//   }
+// };
 
 const frontLoadChat = (state, id) => {
   const conversation = state.conversations[id];
@@ -255,7 +240,7 @@ export const {
   setImportingDocumentsToConversation,
   addMessageToConversationFromUser,
   addMessageToConversationFromServer,
-  updateMessageProperty,
+  // updateMessagePropertyInSlice,
   updateUserIsTyping,
   updateUserIsTypingFromServer,
   updateBotResponseStatus,

@@ -11,6 +11,7 @@ import {
   addConversation,
   setConversations,
   setSelectedConversation,
+  deleteConversation
 } from "../../redux/features/conversations/conversationsSlice";
 import { AuthHelper } from "../auth/AuthHelper";
 
@@ -19,7 +20,7 @@ import { ChatService } from "../services/ChatService";
 // import { DocumentImportService } from "../services/DocumentImportService";
 
 import { FeatureKeys } from "../../redux/features/app/AppState";
-``;
+
 
 // export interface GetResponseOptions {
 //   messageType: ChatMessageType;
@@ -133,24 +134,24 @@ export const useChat = () => {
       ask.variables.push(...contextVariables);
     }
 
-    try {
-      const askResult = await chatService
-        .getBotResponseAsync(
-          ask,
-          await AuthHelper.getSKaaSAccessToken(instance, inProgress),
-          getEnabledPlugins()
-        )
-        .catch((e) => {
-          throw e;
-        });
+    // try {
+    //   const askResult = await chatService
+    //     .getBotResponseAsync(
+    //       ask,
+    //       await AuthHelper.getSKaaSAccessToken(instance, inProgress),
+    //       getEnabledPlugins()
+    //     )
+    //     .catch((e) => {
+    //       throw e;
+    //     });
 
-    } catch (e) {
-      dispatch(updateBotResponseStatus({ chatId, status: undefined }));
-      const errorMessage = `Unable to generate bot response. Details: ${getErrorDetails(
-        e
-      )}`;
-      dispatch(addAlert({ message: errorMessage, type: "error" }));
-    }
+    // } catch (e) {
+    //   dispatch(updateBotResponseStatus({ chatId, status: undefined }));
+    //   const errorMessage = `Unable to generate bot response. Details: ${getErrorDetails(
+    //     e
+    //   )}`;
+    //   dispatch(addAlert({ message: errorMessage, type: "error" }));
+    // }
   };
 
 
@@ -387,11 +388,11 @@ export const useChat = () => {
     createChat,
     loadChats,
     getResponse,
-    downloadBot,
-    uploadBot,
+
+
     getChatMemorySources,
     getSemanticMemories,
-    importDocument,
+
     joinChat,
     editChat,
     getServiceOptions,
