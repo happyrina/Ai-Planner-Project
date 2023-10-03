@@ -1,16 +1,14 @@
 import style from "../css/markdown-styles.module.css";
-import { makeStyles } from "@fluentui/react-components";
+import styled from "styled-components";
 import remarkGfm from "remark-gfm";
 import ReactMarkdown from "react-markdown";
-import React from "react";
+
 import * as utils from "../utils/TextUtils";
 
 // markdown css
-const useClasses = makeStyles({
-  content: {
-    wordBreak: "break-word",
-  },
-});
+const StyledContent = styled.div`
+  wordbreak: "break-word";
+`;
 
 const customRenderers = {
   // 원하는 요소에 스타일을 적용합니다.
@@ -36,15 +34,14 @@ const customRenderers = {
 // - unordered list`;
 
 export const ChatHistoryTextContent = ({ message }) => {
-  const classes = useClasses();
   const content = utils.formatChatTextContent(message.content);
   return (
     <div>
-      <div className={classes.content}>
+      <StyledContent>
         <ReactMarkdown components={customRenderers} remarkPlugins={[remarkGfm]}>
           {content}
         </ReactMarkdown>
-      </div>
+      </StyledContent>
     </div>
   );
 };

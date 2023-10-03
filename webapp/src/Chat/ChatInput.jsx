@@ -1,108 +1,15 @@
 // Copyright (c) Microsoft. All rights reserved.
 
 import { useMsal } from "@azure/msal-react";
-import {
-  Button,
-  Spinner,
-  Textarea,
-  makeStyles,
-  mergeClasses,
-  shorthands,
-  tokens,
-} from "@fluentui/react-components";
 import { SendRegular } from "@fluentui/react-icons";
-import debug from "debug";
 import React, { useRef, useState } from "react";
-import { Constants } from "../Constants";
-// import { AuthHelper } from "../libs/auth/AuthHelper";
-// import { useFile } from "../libs/hooks";
-// import { AlertType } from "../libs/models/AlertType";
-// import { ChatMessageType } from "../libs/models/ChatMessage";
-// import { useAppDispatch, useAppSelector } from "../redux/app/hooks";
-// import { addAlert } from "../redux/features/app/appSlice";
-// import {
-//   editConversationInput,
-//   updateBotResponseStatus,
-// } from "../redux/features/conversations/conversationsSlice";
-// import { Alerts } from "../shared/Alerts";
-
-// import { updateUserIsTyping } from "./../redux/features/conversations/conversationsSlice";
 import { ChatStatus } from "./ChatStatus";
-
-// const log = debug(Constants.debug.root).extend("chat-input");
-
-const useClasses = makeStyles({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    ...shorthands.margin(0, 0),
-  },
-  typingIndicator: {
-    maxHeight: "28px",
-  },
-  content: {
-    ...shorthands.gap(tokens.spacingHorizontalM),
-    display: "flex",
-    flexDirection: "row",
-    width: "100%",
-    position: "relative",
-  },
-  input: {
-    width: "100%",
-  },
-  textarea: {
-    maxHeight: "90px",
-    borderBottomColor: "#DCE9FF",
-  },
-  sendbutton: {
-    position: "absolute",
-    right: "-1px",
-    bottom: "0",
-    zIndex: "100",
-  },
-  controls: {
-    display: "flex",
-    flexDirection: "row",
-  },
-  essentials: {
-    display: "flex",
-    flexDirection: "row",
-    marginLeft: "auto", // align to right
-  },
-  functional: {
-    display: "flex",
-    flexDirection: "row",
-  },
-  dragAndDrop: {
-    ...shorthands.border(
-      tokens.strokeWidthThick,
-      " solid",
-      tokens.colorBrandStroke1
-    ),
-    ...shorthands.padding("8px"),
-    textAlign: "center",
-    backgroundColor: tokens.colorNeutralBackgroundInvertedDisabled,
-    fontSize: tokens.fontSizeBase300,
-    color: tokens.colorBrandForeground1,
-    caretColor: "transparent",
-  },
-});
-
-// interface ChatInputProps {
-//     isDraggingOver?: boolean;
-//     onDragLeave: React.DragEventHandler<HTMLDivElement | HTMLTextAreaElement>;
-//     onSubmit: (options: GetResponseOptions) => Promise<void>;
-// }
+import styles from "./css/ChatInput.module.css";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 
 export const ChatInput = ({ isDraggingOver, onDragLeave, onSubmit }) => {
-  const classes = useClasses();
   const { instance, inProgress } = useMsal();
-  // const dispatch = useAppDispatch();
-  // const { conversations, selectedId } = useAppSelector(
-  //   (state) => state.conversations
-  // );
-  // const { activeUserInfo } = useAppSelector((state) => state.app);
-  //   const fileHandler = useFile();
 
   const [value, setValue] = useState("");
   const [recognizer, setRecognizer] = useState();
@@ -110,10 +17,6 @@ export const ChatInput = ({ isDraggingOver, onDragLeave, onSubmit }) => {
 
   // const documentFileRef = (useRef < HTMLInputElement) | (null > null);
   const textAreaRef = React.useRef < HTMLTextAreaElement > null;
-  // React.useEffect(() => {
-  // Focus on the text area when the selected conversation changes
-  // textAreaRef.current?.focus();
-  // }, [selectedId]);
 
   React.useEffect(() => {
     // async function initSpeechRecognizer() {
@@ -193,25 +96,20 @@ export const ChatInput = ({ isDraggingOver, onDragLeave, onSubmit }) => {
     //   };
 
     return (
-      <div className={classes.root}>
-        <div className={classes.typingIndicator}>
+      <div className={styles.root}>
+        <div className={styles.typingIndicator}>
           <ChatStatus />
         </div>
         {/* <Alerts /> */}
-        <div className={classes.content}>
-          <Textarea
+        <div className={styles.content}>
+          <TextField
             title="Chat input"
             aria-label="Chat input field. Click enter to submit input."
             ref={textAreaRef}
             id="chat-input"
             // resize="vertical"
             // disabled={conversations[selectedId].disabled}
-            textarea={{
-              className: isDraggingOver
-                ? mergeClasses(classes.dragAndDrop, classes.textarea)
-                : classes.textarea,
-            }}
-            className={classes.input}
+            className={styles.input}
             value={isDraggingOver ? "Drop your files here" : value}
             //   onDrop={handleDrop}
             onFocus={() => {
@@ -255,7 +153,7 @@ export const ChatInput = ({ isDraggingOver, onDragLeave, onSubmit }) => {
             }}
           />
           <Button
-            className={classes.sendbutton}
+            className={styles.sendbutton}
             title="Submit"
             aria-label="Submit message"
             appearance="transparent"

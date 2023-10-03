@@ -1,0 +1,41 @@
+.root {
+  display: flex;
+  flex-direction: row;
+  max-width: 75%;
+  border-radius: 10px;
+}
+
+.debug {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+}
+.alingEnd {
+  align-self: flex-end;
+}
+
+.item {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  background-color: white;
+  color: black;
+  border-color: transparent;
+  border-radius: 10px;
+  padding: 0 10px;
+}
+.me {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  background-image: linear-gradient(145deg, #00d2ff 0%, #3a47d5 100%);
+
+  color: white;
+  border-radius: 15px;
+  padding: 0 10px;
+}
+
+.header {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}

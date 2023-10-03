@@ -1,5 +1,3 @@
-import { Body1, tokens } from "@fluentui/react-components";
-
 /*
  * Function to check if date is today.
  */
@@ -56,7 +54,7 @@ export function formatParagraphTextContent(messageContent) {
   messageContent = messageContent.replaceAll("\r\n", "\n\r");
 
   return (
-    <Body1>
+    <div>
       {messageContent.split("\n").map((paragraph, idx) => (
         <p
           key={`paragraph-${idx}`}
@@ -64,7 +62,7 @@ export function formatParagraphTextContent(messageContent) {
             paragraph.includes("\r")
               ? {
                   display: "flex",
-                  marginLeft: tokens.spacingHorizontalL,
+                  marginLeft: "15px",
                 }
               : {
                   overflowWrap: "anywhere",
@@ -74,6 +72,6 @@ export function formatParagraphTextContent(messageContent) {
           {paragraph}
         </p>
       ))}
-    </Body1>
+    </div>
   );
 }
