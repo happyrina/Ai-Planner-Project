@@ -1,23 +1,12 @@
 // Copyright (c) Microsoft. All rights reserved.
 
-import { makeStyles } from "@fluentui/react-components";
+// import { makeStyles } from "@fluentui/react-components";
 import { Animation } from "@fluentui/react-northstar";
 import React from "react";
-// import { useAppSelector } from "../redux/app/hooks";
-import { TypingIndicator } from "../typing-indicator/TypingIndicator";
-
-const useClasses = makeStyles({
-  root: {
-    display: "flex",
-    columnGap: "7px",
-    alignItems: "center",
-    flexDirection: "row",
-  },
-});
+import styles from "./css/ChatStatus.module.css";
+// import { TypingIndicator } from "../typing-indicator/TypingIndicator";
 
 export const ChatStatus = () => {
-  const classes = useClasses();
-
   // const { conversations, selectedId } = useAppSelector(
   //   (state) => state.conversations
   // );
@@ -52,9 +41,9 @@ export const ChatStatus = () => {
 
   return (
     <Animation name="slideInCubic" keyframeParams={{ distance: "2.4rem" }}>
-      <div className={classes.root}>
+      <div className={styles.ChatStatusRoot}>
         <label>{message}</label>
-        <TypingIndicator />
+        {/* <TypingIndicator /> */}
       </div>
     </Animation>
   );

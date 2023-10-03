@@ -1,56 +1,14 @@
 // Copyright (c) Microsoft. All rights reserved.
 
-import { makeStyles, shorthands, tokens } from "@fluentui/react-components";
-import debug from "debug";
+// import { makeStyles, shorthands, tokens } from "@fluentui/react-components";
+import styles from "./css/ChatRoom.module.css";
 import React, { useEffect } from "react";
 // import { Constants } from "../Constants";
 import { useChat } from "../libs/hooks/useChat";
-// import { useAppDispatch, useAppSelector } from "../redux/app/hooks";
-// import { addMessageToConversationFromUser } from "../redux/features/conversations/conversationsSlice";
-import { SharedStyles } from "../styles";
 import { ChatInput } from "./ChatInput.jsx";
 import { ChatHistory } from "./chat-history/ChatHistory";
-import axios from "axios";
-// const log = debug(Constants.debug.root).extend("chat-room");
-const AuthorRoles = {
-  // The current user of the chat.
-  User: 0,
-
-  // The bot.
-  Bot: "Bot",
-
-  // The participant who is not the current user nor the bot of the chat.
-  Participant: "Participant",
-};
-const useClasses = makeStyles({
-  root: {
-    ...shorthands.overflow("hidden"),
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    height: "100%",
-  },
-  scroll: {
-    ...shorthands.margin(tokens.spacingVerticalXS),
-    ...SharedStyles.scroll,
-    ...shorthands.padding("0"),
-  },
-  history: {
-    ...shorthands.padding(tokens.spacingVerticalXS),
-    // marginLeft: '40px',
-    display: "flex",
-    justifyContent: "center",
-  },
-  input: {
-    ...shorthands.padding(tokens.spacingVerticalM),
-  },
-});
 
 export const ChatRoom = () => {
-  // const { conversations, selectedId } = useAppSelector((state: RootState) => state.conversations);
-  //   const { activeUserInfo } = useAppSelector(
-  //     (state /*: RootState*/) => state.app
-  //   );
   const content = `
 # heading 1
 ## heading 2
@@ -75,7 +33,6 @@ export const ChatRoom = () => {
     { content: "피곤하다", authorRole: 1 },
     { content: "나도", authorRole: 0 },
   ];
-  const classes = useClasses();
 
   //   const dispatch = useAppDispatch();
   // const scrollViewTargetRef = React.useRef < HTMLDivElement > null;
@@ -131,7 +88,7 @@ export const ChatRoom = () => {
       // userName: activeUserInfo?.username as string,
       content: options.value,
       // type: options.messageType,
-      authorRole: AuthorRoles.User,
+      authorRole: "AuthorRoles.User",
     };
 
     // dispatch(
@@ -145,17 +102,17 @@ export const ChatRoom = () => {
 
   return (
     <div
-      className={classes.root}
+      className={styles.ChatRoomRoot}
       onDragEnter={onDragEnter}
       onDragOver={onDragEnter}
       onDragLeave={onDragLeave}
     >
-      <div className={classes.scroll}>
-        <div className={classes.history}>
+      <div className={styles.ChatRoomScroll}>
+        <div className={styles.ChatRoomRootHistory}>
           <ChatHistory messages={messages} onGetResponse={handleSubmit} />
         </div>
       </div>
-      <div className={classes.input}>
+      <div className={styles.ChatRoomRootInput}>
         <ChatInput
           isDraggingOver={isDraggingOver}
           onDragLeave={onDragLeave}

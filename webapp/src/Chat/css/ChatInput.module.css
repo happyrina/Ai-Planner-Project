@@ -1,0 +1,59 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  margin: 0, 0;
+}
+
+.typingIndicator {
+  max-height: 28px;
+}
+
+.content {
+  gap: 10px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  position: relative;
+}
+
+.input {
+  width: 100%;
+}
+
+.textarea {
+  max-height: 90px;
+  border-bottom: #dce9ff;
+}
+
+.sendbutton {
+  position: absolute;
+  right: -1px;
+  bottom: 0;
+  z-index: 100;
+}
+/* controls: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  essentials: {
+    display: "flex",
+    flexDirection: "row",
+    marginLeft: "auto", // align to right
+  },
+  functional: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  dragAndDrop: {
+    ...shorthands.border(
+      tokens.strokeWidthThick,
+      " solid",
+      tokens.colorBrandStroke1
+    ),
+    ...shorthands.padding("8px"),
+    textAlign: "center",
+    backgroundColor: tokens.colorNeutralBackgroundInvertedDisabled,
+    fontSize: tokens.fontSizeBase300,
+    color: tokens.colorBrandForeground1,
+    caretColor: "transparent",
+  }, */

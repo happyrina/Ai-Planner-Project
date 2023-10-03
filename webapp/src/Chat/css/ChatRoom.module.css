@@ -1,0 +1,23 @@
+.ChatRoomRoot {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.ChatRoomScroll {
+  margin: 5px;
+  overflow-y: scroll;
+  padding: 0;
+}
+.ChatRoomRootHistory {
+  padding: 5px;
+  /* /marginLeft: '40px', */
+  display: flex;
+  /* justify-content: center; */
+}
+
+.ChatRoomRootInput {
+  padding: 10px;
+}

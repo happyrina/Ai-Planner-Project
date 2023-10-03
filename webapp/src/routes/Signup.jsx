@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import React from "react";
@@ -9,44 +8,54 @@ function Signup() {
   const navigate = useNavigate();
   const [id, setId] = useState();
   const [name, setName] = useState();
-  const [pw, setPw] = useState("");
-  const [pwcheck, setPwcheck] = useState(null);
-  const onChangeId = function(e) {
+  const [pw, setPw] = useState();
+  const [pwcheck, setPwcheck] = useState();
+  const onChangeId = function (e) {
     setId(e.target.value);
   };
-  const onChangeName = function(e) {
+  const onChangeName = function (e) {
     setName(e.target.value);
   };
-  const onChangePw = function(e) {
+  const onChangePw = function (e) {
     setPw(e.target.value);
   };
-  const onChangePwcheck = function(e) {
-    console.log(pw === pwcheck);
+  const onChangePwcheck = function (e) {
     setPwcheck(e.target.value);
+    console.log(pw === pwcheck);
   };
   // Users table에 아이디, 이름 존재 확인 후 가입 진행
-  const onSubmit = (data) => {
-    axios({
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    await axios({
       method: "post",
       url: "http://3.39.153.9:3000/account/signup",
       data: {
-        user_id: data.UserId,
-        password: data.Password,
-        user_name: data.UserName,
-        passwordcheck: data.PasswordCheck,
+        user_id: id,
+        password: pw,
+        user_name: name,
+        passwordcheck: pwcheck,
       },
       withCredentials: false,
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
     })
-      .then(function(response) {
+      .then(function (response) {
+        if ((response.data.detail = "이미 사용 중인 사용자 이름입니다.")) {
+          alert("이미 사용 중인 사용자 이름입니다.");
+        }
+        if ((response.data.detail = "이미 존재하는 사용자 ID입니다.")) {
+          alert("이미 존재하는 사용자 ID입니다.");
+        }
+        if ((response.data.detail = "패스워드가 일치하지 않습니다.")) {
+          alert("패스워드가 일치하지 않습니다.");
+        }
         if ((response.data.message = "사용자 등록 완료")) {
           alert("Welcome to Copple!");
           navigate("/");
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   };

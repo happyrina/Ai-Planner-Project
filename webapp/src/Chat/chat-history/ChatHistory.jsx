@@ -1,40 +1,16 @@
 // Copyright (c) Microsoft. All rights reserved.
-
-import { makeStyles, shorthands, tokens } from "@fluentui/react-components";
 import React from "react";
 import { ChatHistoryItem } from "./ChatHistoryItem";
+import styles from "../css/ChatHistory.module.css";
 
-const useClasses = makeStyles({
-  root: {
-    ...shorthands.gap(tokens.spacingVerticalM),
-    display: "flex",
-    flexDirection: "column",
-    maxWidth: "900px",
-    width: "100%",
-    justifySelf: "center",
-    ...shorthands.padding("0"),
-  },
-  item: {
-    display: "flex",
-    flexDirection: "column",
-  },
-});
-
-// interface ChatHistoryProps {
-//     messages: IChatMessage[];
-//     onGetResponse: (options: GetResponseOptions) => Promise<void>;
-// }
-
-export const ChatHistory = ({ messages, onGetResponse }) => {
-  const classes = useClasses();
-
+export const ChatHistory = ({ messages /*onGetResponse*/ }) => {
   return (
-    <div className={classes.root}>
+    <div className={styles.root}>
       {messages.map((message, index) => (
         <ChatHistoryItem
           // key={message.timestamp}
           message={message}
-          getResponse={onGetResponse}
+          // getResponse={onGetResponse}
           messageIndex={index}
         />
       ))}
