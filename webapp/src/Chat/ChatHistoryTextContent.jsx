@@ -8,7 +8,7 @@ import * as utils from "../utils/TextUtils";
 // markdown css
 const StyledContent = styled.div`
   word-wrap: break-word;
-padding:7px;
+  padding:7px 9px;
   }
 `;
 
