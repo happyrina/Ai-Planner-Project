@@ -25,7 +25,7 @@ export const ChatStatus = () => {
   //   checkAreTyping();
   // }, [activeUserInfo, users]);
 
-  let message = 1;
+  let message = null;
   const numberOfUsersTyping = typingUserList.length;
   if (numberOfUsersTyping === 1) {
     message = message ? `${message} and a user is typing` : "A user is typing";
@@ -34,7 +34,7 @@ export const ChatStatus = () => {
       ? `${message} and ${numberOfUsersTyping} users are typing`
       : `${numberOfUsersTyping} users are typing`;
   }
-  message = "Generating bot response";
+  // message = "Generating bot response";
   if (!message) {
     return null;
   }

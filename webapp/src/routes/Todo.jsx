@@ -162,7 +162,7 @@ function Todo() {
           ></input>
         </div>
         <span></span>
-        {mode === "update" || selectedgoal !== null ? (
+        {mode === "update" || selectedgoal ? (
           <></>
         ) : (
           <>

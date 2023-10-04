@@ -1,16 +1,16 @@
-.app {
+/* .app {
   width: 337px;
   margin: 0 auto;
   font-family: "Nanum Gothic", sans-serif;
   margin-left: 6px;
   margin-top: 10px;
   overflow-y: scroll;
-  -ms-overflow-style: none; /* IE, Edge 등 */
+  -ms-overflow-style: none; 
   scrollbar-width: none;
   padding-top: 10px;
   padding-bottom: 20px;
   height: 100%;
-}
+} */
 .app::-webkit-scrollbar {
   width: 3px; /* 스크롤 바의 너비 */
   display: none;
@@ -21,14 +21,16 @@
   border-radius: 2px; /* 스크롤 바의 모서리 둥글기 */
 }
 .event-list {
-  list-style: none;
   width: 337px;
   margin: 0 auto;
-  font-family: "Nanum Gothic", sans-serif;
+  margin-left: 6px;
+  margin-top: 10px;
   overflow-y: scroll;
-  height: 100%;
-  -ms-overflow-style: none; /* IE, Edge 등 */
+  max-height: 50%;
+  -ms-overflow-style: none;
   scrollbar-width: none;
+  padding-top: 10px;
+  padding-bottom: 20px;
 }
 .event-list::-webkit-scrollbar {
   width: 3px; /* 스크롤 바의 너비 */

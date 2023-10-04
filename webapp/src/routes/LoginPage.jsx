@@ -12,10 +12,10 @@ function LoginPage() {
   const [id, setId] = useState();
   const [pw, setPw] = useState();
   const navigate = useNavigate();
-  const onChangeId = function(e) {
+  const onChangeId = function (e) {
     setId(e.target.value);
   };
-  const onChangePw = function(e) {
+  const onChangePw = function (e) {
     setPw(e.target.value);
   };
 
@@ -134,7 +134,7 @@ const Input = styled.input`
   border-radius: 10px;
   margin: 12px 0px;
   outline: none;
-  font-family: "Noto Sans KR";
+  font-family: "AR One Sans", sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 15px;
