@@ -6,7 +6,7 @@
   height: "3px";
 }
 .ChatBar {
-  color: #a577d4;
+  color: #b28ed6;
   background-color: #ffffff;
   position: absolute;
   padding-left: 10px;
@@ -106,7 +106,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  padding-top: 3px;
+  padding-top: 4px;
   padding-right: 3px;
   cursor: pointer;
   background: transparent;

@@ -125,18 +125,18 @@ export const ChatRoom = () => {
       onDragOver={onDragEnter}
       onDragLeave={onDragLeave}
     >
-      <div className={styles.ChatRoomScroll}>
-        <div className={styles.ChatRoomRootHistory}>
-          <ChatHistory messages={messages} onGetResponse={handleSubmit} />
-        </div>
+      {/* <div className={styles.ChatRoomScroll}> */}
+      <div className={styles.ChatRoomRootHistory}>
+        <ChatHistory messages={messages} onGetResponse={handleSubmit} />
       </div>
-      <div className={styles.ChatRoomRootInput}>
-        <ChatInput
-          isDraggingOver={isDraggingOver}
-          onDragLeave={onDragLeave}
-          onSubmit={handleSubmit}
-        />
-      </div>
+      {/* </div> */}
+      {/* <div className={styles.ChatRoomRootInput}> */}
+      <ChatInput
+        isDraggingOver={isDraggingOver}
+        onDragLeave={onDragLeave}
+        onSubmit={handleSubmit}
+      />
+      {/* </div> */}
     </div>
   );
 };
