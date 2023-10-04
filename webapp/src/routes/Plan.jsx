@@ -200,7 +200,7 @@ function Plan() {
           />
         </div>
 
-        {mode === "update" || selectedgoal !== null ? (
+        {mode === "update" || selectedgoal ? (
           <></>
         ) : (
           <>

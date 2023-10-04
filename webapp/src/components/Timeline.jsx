@@ -108,50 +108,76 @@ const Timeline = ({ eventsProp = [] }) => {
   }, []);
 
   return (
-    <div className={styles.app}>
-      <ul className={styles["event-list"]}>
-        {eventsProp.map((event, index) => (
-          <PlanListItem
-            key={event.event_id}
-            className={styles["event-item"]}
-            style={{
-              backgroundColor: `${pickColor()}`,
-            }}
-          >
-            <div>
-              <span className={styles["event-time"]}>
-                {new Date(event.startDatetime).toLocaleTimeString("ko-KR", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: false,
-                })}
+    // <div className={styles.app}>
+    <ul className={styles["event-list"]}>
+      {eventsProp.map((event, index) => (
+        <PlanListItem
+          key={event.event_id}
+          className={styles["event-item"]}
+          style={{
+            backgroundColor: `${pickColor()}`,
+          }}
+        >
+          <div>
+            <span className={styles["event-time"]}>
+              {new Date(event.startDatetime).toLocaleTimeString("ko-KR", {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: false,
+              })}
+            </span>
+          </div>
+          <div className={styles.inputwrapper}>
+            {editIndex === event.event_id ? (
+              <div>
+                <input
+                  className={styles["edit-input"]}
+                  value={editingTitles[event.event_id] || ""}
+                  onChange={(e) =>
+                    setEditingTitles({
+                      ...editingTitles,
+                      [event.event_id]: e.target.value,
+                    })
+                  }
+                  onBlur={() =>
+                    finishEditing(event.event_id, editingTitles[event.event_id])
+                  }
+                  autoFocus
+                />
+              </div>
+            ) : (
+              <span
+                className={styles["event-title"]}
+                onDoubleClick={() => {
+                  setEditIndex(event.event_id);
+                  setEditingTitles({
+                    ...editingTitles,
+                    [event.event_id]: event.title,
+                  });
+                }}
+              >
+                {event.title}
               </span>
+            )}
+            <div>
+              <button
+                className={styles.completionbutton}
+                onClick={() =>
+                  setShowOptionsIndex(
+                    showOptionsIndex === event.event_id ? null : event.event_id
+                  )
+                }
+              >
+                {editIndex === event.event_id ? "완료" : "..."}
+              </button>
             </div>
-            <div className={styles.inputwrapper}>
-              {editIndex === event.event_id ? (
-                <div>
-                  <input
-                    className={styles["edit-input"]}
-                    value={editingTitles[event.event_id] || ""}
-                    onChange={(e) =>
-                      setEditingTitles({
-                        ...editingTitles,
-                        [event.event_id]: e.target.value,
-                      })
-                    }
-                    onBlur={() =>
-                      finishEditing(
-                        event.event_id,
-                        editingTitles[event.event_id]
-                      )
-                    }
-                    autoFocus
-                  />
-                </div>
-              ) : (
-                <span
-                  className={styles["event-title"]}
-                  onDoubleClick={() => {
+          </div>
+          {showOptionsIndex === event.event_id &&
+            editIndex !== event.event_id && (
+              <div className={styles["dropdown-options"]} ref={dropdownRef}>
+                <button
+                  className={styles["edit-btn"]}
+                  onClick={() => {
                     setEditIndex(event.event_id);
                     setEditingTitles({
                       ...editingTitles,
@@ -159,51 +185,20 @@ const Timeline = ({ eventsProp = [] }) => {
                     });
                   }}
                 >
-                  {event.title}
-                </span>
-              )}
-              <div>
+                  수정
+                </button>
                 <button
-                  className={styles.completionbutton}
-                  onClick={() =>
-                    setShowOptionsIndex(
-                      showOptionsIndex === event.event_id
-                        ? null
-                        : event.event_id
-                    )
-                  }
+                  className={styles["delete-btn"]}
+                  onClick={() => deleteEvent(index, event.event_id)}
                 >
-                  {editIndex === event.event_id ? "완료" : "..."}
+                  삭제
                 </button>
               </div>
-            </div>
-            {showOptionsIndex === event.event_id &&
-              editIndex !== event.event_id && (
-                <div className={styles["dropdown-options"]} ref={dropdownRef}>
-                  <button
-                    className={styles["edit-btn"]}
-                    onClick={() => {
-                      setEditIndex(event.event_id);
-                      setEditingTitles({
-                        ...editingTitles,
-                        [event.event_id]: event.title,
-                      });
-                    }}
-                  >
-                    수정
-                  </button>
-                  <button
-                    className={styles["delete-btn"]}
-                    onClick={() => deleteEvent(index, event.event_id)}
-                  >
-                    삭제
-                  </button>
-                </div>
-              )}
-          </PlanListItem>
-        ))}
-      </ul>
-    </div>
+            )}
+        </PlanListItem>
+      ))}
+    </ul>
+    // </div>
   );
 };
 
@@ -217,7 +212,6 @@ const PlanListItem = styled.li`
   width: 100%;
   position: relative;
   border-radius: 5px;
-  margin-right: 15px;
   font-weight: 400;
 `;
 

@@ -1,4 +1,4 @@
-import style from "../css/markdown-styles.module.css";
+import styles from "../css/markdown-styles.module.css";
 import styled from "styled-components";
 import remarkGfm from "remark-gfm";
 import ReactMarkdown from "react-markdown";
@@ -7,12 +7,16 @@ import * as utils from "../utils/TextUtils";
 
 // markdown css
 const StyledContent = styled.div`
-  wordbreak: "break-word";
+  word-wrap: break-word;
+padding:7px;
+  }
 `;
 
 const customRenderers = {
   // 원하는 요소에 스타일을 적용합니다.
-  p: ({ children }) => <p className={style.reactMarkDown}>{children}</p>,
+  p: ({ children }) => <p className={styles.reactMarkDown}>{children}</p>,
+  ul: ({ children }) => <ul className={styles.reactMarkDown}>{children}</ul>,
+  ol: ({ children }) => <ol className={styles.reactMarkDown}>{children}</ol>,
 };
 
 // const content = `

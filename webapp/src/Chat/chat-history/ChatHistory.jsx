@@ -5,7 +5,7 @@ import styles from "../css/ChatHistory.module.css";
 
 export const ChatHistory = ({ messages /*onGetResponse*/ }) => {
   return (
-    <div className={styles.root}>
+    <div className={styles.ChatHistoryRoot}>
       {messages.map((message, index) => (
         <ChatHistoryItem
           // key={message.timestamp}

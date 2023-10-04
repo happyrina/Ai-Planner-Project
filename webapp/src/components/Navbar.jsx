@@ -78,9 +78,11 @@ function NavBar() {
         </div>
         {showChat && (
           <div className={styles.chatWindow}>
-            <div>
-              <ChatRoom />
+            <div className={styles.ChatBar}>
+              <h3>Copple</h3>
             </div>
+            <ChatRoom />
+
             <button className={styles.closeButton} onClick={toggleChat}>
               <img src={closeIcon} alt="Close" />
             </button>

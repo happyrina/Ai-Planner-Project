@@ -37,9 +37,9 @@ export const ChatHistoryItem = ({ message, messageIndex }) => {
   return (
     <div
       className={
-        isMe
-          ? "ChatHistoryItemRoot" + "ChatStatusRootAlignEnd"
-          : "ChatStatusRootRoot"
+        isBot
+          ? styles.ChatHistoryItemRoot
+          : styles.ChatHistoryItemRootChatHistoryItemRootAlignEnd
       }
       // The following data attributes are needed for CI and testing
       data-testid={`chat-history-item-${messageIndex}`}
@@ -47,8 +47,12 @@ export const ChatHistoryItem = ({ message, messageIndex }) => {
       data-content={utils.formatChatTextContent(message.content)}
     >
       {/* class.item이 챗봇일떄!!! */}
-      <div className={isMe ? "me" : "item"}>
-        <div className={"header"}></div>
+      <div
+        className={
+          isBot ? styles.ChatHistoryItemItem : styles.ChatHistoryItemMe
+        }
+      >
+        {/* <div className={styles.ChatHistoryItemHeader}></div> */}
         {content}
       </div>
     </div>

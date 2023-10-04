@@ -30,11 +30,13 @@ function PlanListPage() {
       axios
         .get(url, {
           headers: {
+            "Access-Control-Allow-Origin": "*",
             Authorization: `Bearer ${token}`,
           },
         })
         .then((response) => {
           setData(response.data);
+          console.log(response);
         })
         .catch((error) => {
           console.error("There was an error!", error);

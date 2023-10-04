@@ -1,14 +1,14 @@
-.root {
+.ChatInputRoot {
   display: flex;
   flex-direction: column;
   margin: 0, 0;
 }
 
-.typingIndicator {
+.ChatInputTypingIndicator {
   max-height: 28px;
 }
 
-.content {
+.ChatInputContent {
   gap: 10px;
   display: flex;
   flex-direction: row;
@@ -16,44 +16,23 @@
   position: relative;
 }
 
-.input {
+.ChatInputInput {
   width: 100%;
 }
 
-.textarea {
+.ChatInputTextarea {
   max-height: 90px;
   border-bottom: #dce9ff;
 }
 
-.sendbutton {
+.ChatInputSendButton {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  width: 2.2em;
+  height: 2.2em;
   position: absolute;
-  right: -1px;
-  bottom: 0;
-  z-index: 100;
+  right: 4px;
+  bottom: 3px;
+  z-index: 1000;
 }
-/* controls: {
-    display: "flex",
-    flexDirection: "row",
-  },
-  essentials: {
-    display: "flex",
-    flexDirection: "row",
-    marginLeft: "auto", // align to right
-  },
-  functional: {
-    display: "flex",
-    flexDirection: "row",
-  },
-  dragAndDrop: {
-    ...shorthands.border(
-      tokens.strokeWidthThick,
-      " solid",
-      tokens.colorBrandStroke1
-    ),
-    ...shorthands.padding("8px"),
-    textAlign: "center",
-    backgroundColor: tokens.colorNeutralBackgroundInvertedDisabled,
-    fontSize: tokens.fontSizeBase300,
-    color: tokens.colorBrandForeground1,
-    caretColor: "transparent",
-  }, */

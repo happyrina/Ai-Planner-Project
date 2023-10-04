@@ -185,11 +185,10 @@ export default function Home() {
                 xmlns="http://www.w3.org/2000/svg"
                 height="1em"
                 viewBox="0 0 448 512"
-                style={{ fill: "white", height: "20" }}
+                style={{ fill: "#e0c3fc", height: "20" }}
               >
                 <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
               </svg>
-              추가
             </SBtn>
           </Index2>
           <div>
@@ -376,6 +375,7 @@ const Profile = styled.span`
 `;
 const ProfileMsg = styled.span`
   padding-left: 15px;
+  font-size: 13px;
 `;
 const SBtn = styled.button`
   font-weight: 600;
@@ -391,22 +391,20 @@ const SBtn = styled.button`
     cursor: pointer;
   }
   &.black {
-    font-size: 16px;
+    font-size: 14px;
     display: flex;
     align-items: center;
     gap: 5px;
     margin: 0px;
     font-weight: 600;
     line-height: 10px;
-    background-color: #b4daff;
-    background-image: linear-gradient(62deg, #b4daff 0%, #e0c3fc 100%);
-
-    color: white;
+    // background-color: #b4daff;
+    // background-image: linear-gradient(62deg, #b4daff 0%, #e0c3fc 100%);
+    // color: white;
     padding: 6px 10px;
     border-radius: 30px;
     &:hover {
       cursor: pointer;
-      background-image: linear-gradient(150deg, #b4daff 0%, #e0c3fc 100%);
     }
   }
   a {
