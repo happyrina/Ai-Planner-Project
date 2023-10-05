@@ -28,7 +28,7 @@ function Plan() {
 
   // const { title, endDatetime, startDatetime, location, goal, content } =
   //   planinfo;
-  let event_id = null;
+  // let event_id = null;
   const [selectedgoal, setSelectedgoal] = useRecoilState(selectedGoalState);
 
   let planState = {
@@ -44,8 +44,8 @@ function Plan() {
       console.log(planState);
       const tokenstring = document.cookie;
       const token = tokenstring.split("=")[1];
-      const url = event_id
-        ? `http://3.39.153.9:3000/event/${event}/${event_id}`
+      const url = selectedgoal
+        ? `http://3.39.153.9:3000/event/${event}/${selectedgoal}`
         : `http://3.39.153.9:3000/event/${event}`;
       await axios({
         method: method,
@@ -101,7 +101,7 @@ function Plan() {
       const method = "PUT";
       const event = "update";
       console.log(planinfo);
-      SendPlan(planinfo, event, method, event_id).then(navigate("/main"));
+      SendPlan(planinfo, event, method, selectedgoal).then(navigate("/main"));
     } else {
       const method = "POST";
       const event = "create";

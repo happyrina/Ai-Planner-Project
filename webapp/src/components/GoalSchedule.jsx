@@ -14,8 +14,10 @@ function GoalSchedule({ eventId }) {
   const [loadedData, setLoadedData] = useState({ schedules: [], todos: [] });
   const moveToCreatePage = () => {
     if (selectedCategory === "일정") {
+      setMode(null);
       navigate("/plan");
     } else if (selectedCategory === "할일") {
+      setMode(null);
       navigate("/todo");
     }
   };
