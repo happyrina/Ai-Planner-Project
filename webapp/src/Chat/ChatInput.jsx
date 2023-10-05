@@ -23,13 +23,20 @@ export const ChatInput = ({ isDraggingOver, onDragLeave, onSubmit }) => {
       </div>
       <div className={styles.ChatInputContent}>
         <TextField
-          maxRows={3}
-          minRows={2}
+          maxRows={2}
+          minRows={1}
           multiline
+          value={value}
           fullWidth
+          onChange={(e) => {
+            setValue(e.currentTarget.value);
+          }}
           variant="outlined"
           label=""
           type="text"
+          onClick={(e) => {
+            setValue("");
+          }}
           inputProps={{ maxLength: 1000 }}
           className={styles.ChatInputInput}
         />

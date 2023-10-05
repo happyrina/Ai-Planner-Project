@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 
 function Todo() {
   const [mode, setMode] = useRecoilState(modeState);
-  let event_id = null;
+  // let event_id = null;
   const [selectedgoal, setSelectedgoal] = useRecoilState(selectedGoalState);
   const navigate = useNavigate();
   const handleGoBack = () => {
@@ -106,7 +106,7 @@ function Todo() {
       const method = "PUT";
       const event = "update";
       console.log(todoinfo);
-      SendTodo(todoinfo, event, method, event_id).then(navigate("/main"));
+      SendTodo(todoinfo, event, method, selectedgoal).then(navigate("/main"));
     } else {
       const method = "POST";
       const event = "create";

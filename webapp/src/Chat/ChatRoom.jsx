@@ -2,7 +2,7 @@
 
 // import { makeStyles, shorthands, tokens } from "@fluentui/react-components";
 import styles from "./css/ChatRoom.module.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // import { Constants } from "../Constants";
 import { useChat } from "../libs/hooks/useChat";
 import { ChatInput } from "./ChatInput.jsx";
@@ -24,16 +24,9 @@ export const ChatRoom = () => {
 5. 울산 동백섬: 동백섬은 동백꽃으로 유명한 곳으로, 봄에는 화려한 동백꽃이 피어나는 경치를 감상할 수 있습니다. 또한, 섬 주변에는 해수욕장과 다양한 레스토랑이 있어 휴식과 식사를 즐길 수 있습니다.
 
 이런 명소들을 방문하면서 울산의 아름다운 자연과 역사를 경험해보세요. 즐거운 여행이 되길 바랍니다!`;
-  // const messages = conversations[selectedId].messages;
-  const messages = [
+  const [chatcontent, setChatcontent] = useState([
     { content: content, authorRole: 1 },
     { content: "안녕", authorRole: 0 },
-    {
-      content:
-        "안녕하세요! 어떤 도움이 필요하신가요? 저는 여러분의 계획을 관리하는 데 도움을 줄 수 있습니다. 어떤 일을 도와드릴까요?",
-      authorRole: 1,
-    },
-    { content: "여행 계획좀 짜려고 해", authorRole: 0 },
     {
       content:
         "안녕하세요! 어떤 도움이 필요하신가요? 저는 여러분의 계획을 관리하는 데 도움을 줄 수 있습니다. 어떤 일을 도와드릴까요?",
@@ -50,7 +43,23 @@ export const ChatRoom = () => {
       content: ulsan,
       authorRole: 1,
     },
-  ];
+  ]);
+  const [messages, setMessages] = useState([]);
+
+  // const messages = conversations[selectedId].messages;
+
+  useEffect(() => {
+    function addMessageWithDelay(index) {
+      if (index < chatcontent.length) {
+        setTimeout(() => {
+          setMessages((prevMessages) => [...prevMessages, chatcontent[index]]);
+          addMessageWithDelay(index + 1);
+        }, 3500); // 3-second delay in milliseconds
+      }
+    }
+
+    addMessageWithDelay(0);
+  }, [chatcontent]);
 
   //   const dispatch = useAppDispatch();
   // const scrollViewTargetRef = React.useRef < HTMLDivElement > null;
