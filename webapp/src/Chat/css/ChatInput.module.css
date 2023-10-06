@@ -26,6 +26,7 @@
 }
 
 .ChatInputSendButton {
+  font-family: "Gowun Dodum", sans-serif;
   border: none;
   background-color: transparent;
   cursor: pointer;

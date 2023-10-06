@@ -5,8 +5,8 @@ import CalendarThumbnail from "../components/CalendarThumbnail.jsx";
 import styles from "../styles/MainPage.module.css";
 import Category from "../components/Category.jsx";
 import Navbar from "../components/Navbar.jsx";
-import { infoState, nameState } from "../atoms";
-import { useRecoilValue } from "recoil";
+import { infoState, nameState, selectedGoalState } from "../atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { format } from "date-fns";
 
 export const CalendarContext = createContext();
@@ -15,6 +15,7 @@ export const useCalendar = () => useContext(CalendarContext);
 const MainPage = () => {
   const name = useRecoilValue(nameState);
   const info = useRecoilValue(infoState);
+  const [selectedgoal, setSelectedgoal] = useRecoilState(selectedGoalState);
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [goals, setGoals] = useState({});
@@ -29,6 +30,7 @@ const MainPage = () => {
   const [eventsForSelectedDate, setEventsForSelectedDate] = useState([]);
 
   useEffect(() => {
+    setSelectedgoal(null);
     fetchEventsForSelectedDate();
   }, [selectedDate]);
 

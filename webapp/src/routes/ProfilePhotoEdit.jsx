@@ -62,6 +62,9 @@ function ProfilePhotoEdit() {
     sessionStorage.removeItem("userId");
     navigate("/");
   };
+  const GoBackHandler = () => {
+    navigate("/home");
+  };
 
   // 파일 선택창 열기
   const handleFileSelect = () => {
@@ -213,13 +216,13 @@ function ProfilePhotoEdit() {
             className={styles.profiletextarea}
           ></textarea>
 
-          <button className={styles.backBtn}>
-            <Link
+          <button className={styles.backBtn} onClick={GoBackHandler}>
+            {/* <Link
               to={"/home"}
               style={{ textDecoration: "none", color: "#fff" }}
-            >
-              뒤로가기
-            </Link>
+            > */}
+            뒤로가기
+            {/* </Link> */}
           </button>
           <button className={styles.logoutBtn} onClick={handleLogout}>
             로그아웃

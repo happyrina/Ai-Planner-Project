@@ -79,7 +79,7 @@ function Todo() {
         }
       });
     } catch (error) {
-      console.error("An error occurred while updating profile:", error);
+      console.error("An error occurred", error);
     }
   };
   const TitleHandler = (e) => {
