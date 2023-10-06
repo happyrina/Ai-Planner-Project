@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { infoState } from "../atoms";
-import copple from "../assets/copple2.png";
+import real from "../assets/real.png";
 import axios from "axios";
 
 function LoginPage() {
@@ -67,11 +67,19 @@ function LoginPage() {
       console.error("click error");
     }
   };
+  const MoveToSignupHandler = () => {
+    navigate("/signup");
+  };
 
   return (
     <Background>
+      <div
+        style={{ display: "flex", width: "80%", flexDirection: "row-reverse" }}
+      >
+        <ButtonBig onClick={MoveToSignupHandler}>Sign up</ButtonBig>
+      </div>
       <Container onSubmit={onSubmit}>
-        <Img src={copple} alt="logoimg"></Img>
+        <Img src={real} alt="logoimg"></Img>
 
         <Input placeholder="ID" value={id} onChange={onChangeId}></Input>
         <Input
@@ -83,12 +91,10 @@ function LoginPage() {
         ></Input>
         <Button type="submit">login</Button>
       </Container>
-      <ButtonBig>
-        <Link to="/signup">Sign up</Link>
-      </ButtonBig>
-      <Find onClick={handleFind}>
-        <Link to="/find">Forgot your id/password?</Link>
-      </Find>
+
+      {/* <Find onClick={handleFind}> */}
+      {/* <Link to="/find">Forgot your id/password?</Link> */}
+      {/* </Find> */}
     </Background>
   );
 }
@@ -99,7 +105,7 @@ const Img = styled.img`
   width: 200px;
   height: auto;
   object-fit: cover;
-  margin: 15px 20px;
+  margin: 25px 25px;
 `;
 const Background = styled.div`
   box-sizing: border-box;
@@ -107,15 +113,17 @@ const Background = styled.div`
   height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
-  background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+  justify-content: center;
+  // background-color: #24a9e1;
+  // background-image: linear-gradient(120deg, #a1c4fd96 0%, #c2e9fb8f 100%);
   flex-direction: column;
   margin: 0px auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.15);
+  // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.15);
 `;
 const Container = styled.form`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.15);
-  padding: 30px 0px;
+  padding: 20px 0px;
+  padding-bottom: 10px;
   display: flex;
   width: 310px;
   background-color: white;
@@ -124,16 +132,15 @@ const Container = styled.form`
   flex-direction: column;
   gap: 12px;
   border-radius: 15px;
-  margin: 10px 0px;
 `;
 const Input = styled.input`
   width: 220px;
-  padding-left: 15px;
   height: 40px;
   border: 1px solid rgb(210, 210, 210);
   border-radius: 10px;
-  margin: 12px 0px;
+  margin: 10px 0px;
   outline: none;
+  text-align: center;
   font-family: "AR One Sans", sans-serif;
   font-style: normal;
   font-weight: 500;
@@ -145,7 +152,7 @@ const Input = styled.input`
   }
 
   &:hover {
-    border: 1px solid black;
+    border: 2px solid #b2e5fb;
   }
 
   &:focus {
@@ -162,58 +169,59 @@ const Title = styled.h1`
   padding: 0px;
 `;
 const Button = styled.button`
+  font-family: "AR One Sans", sans-serif;
   width: 150px;
   height: 48px;
   background-color: white;
-  border-radius: 12px;
-  border: 1.5px solid #d5d4d1;
   font-size: 18px;
-  font-weight: 200px;
+  border: none;
+  font-weight: 500px;
   margin: 15px;
-  color: #cccbc7;
+  margin-top: 0px;
+  color: #9d9d9d;
   padding: 7px 7px;
   &:hover {
     cursor: pointer;
     border: none;
-    background-color: #b2e5fb;
-    color: white;
-  }
-  a {
-    color: white;
-    text-decoration: none;
+    color: #b2e5fb;
   }
 `;
 const ButtonBig = styled.button`
-  box-shadow: 1px 2px #e4e3df;
-  width: 320px;
-  height: 65px;
-  padding: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.15);
-  margin-top: 15px;
+  font-family: "AR One Sans", sans-serif;
+  // box-shadow: 1px 2px #e4e3df;
+  // width: 320px;
+  // height: 65px;
+  cursor: pointer;
+  padding: 10px;
+  // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.15);
+  // margin-top: 15px;
   background-color: white;
   border-radius: 15px;
   border: none;
-  font-size: 18px;
-  font-weight: 200px;
-  color: #cccbc7;
+  font-size: 15px;
+  font-weight: 500;
+  color: #9d9d9d;
+  a {
+    text-decoration: none;
+  }
   &:hover {
-    cursor: pointer;
-    color: white;
-    border: none;
-    background-color: #b2e5fb;
-  }
-  a {
-    color: #cccbc7;
-    text-decoration: none;
-  }
-`;
-const Find = styled.span`
-  text-align: center;
-  color: #696969;
-  display: block;
-  margin-bottom: 30px;
-  a {
-    color: #696969;
-    text-decoration: none;
+    cursor: #9d9d9d;
+    // color: white;
+    color: #b2e5fb;
+    // border: solid 1px #b2e5fb;
+    & a {
+      color: #b2e5fb;
+      text-decoration: none;
+    }
   }
 `;
+// const Find = styled.span`
+//   text-align: center;
+//   color: #696969;
+//   display: block;
+//   margin-bottom: 30px;
+//   a {
+//     color: #696969;
+//     text-decoration: none;
+//   }
+// `;
