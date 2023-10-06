@@ -191,7 +191,14 @@ function WeeklyCalendar() {
 
       <div className={styles.addIconWrapper}>
         <div className={styles.addIcon} onClick={toggleAddModal}>
-          +
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="0.8em"
+            viewBox="0 0 448 512"
+            style={{ fill: "#9d9d9d", height: "20" }}
+          >
+            <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
+          </svg>
         </div>
         {showAddModal && (
           <div ref={addModalRef} className={styles.addModal}>
@@ -211,13 +218,29 @@ function WeeklyCalendar() {
       </div>
 
       <div className={styles.calendarNavigation}>
-        <button
+        {/* <button
           className={styles.calendarleftbutton}
           onClick={goToPreviousWeek}
+        > */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
         >
-          {" "}
-          ◀︎{" "}
-        </button>
+          <svg
+            onClick={goToPreviousWeek}
+            className={styles.calendarleftbutton}
+            xmlns="http://www.w3.org/2000/svg"
+            height="0.8em"
+            viewBox="0 0 320 512"
+            style={{ fill: "#9d9d9d;" }}
+          >
+            <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
+          </svg>
+        </div>
+        {/* </button> */}
         <div className={styles.calendarContainer}>
           {days.map((day, idx) => (
             <div
@@ -238,10 +261,26 @@ function WeeklyCalendar() {
             </div>
           ))}
         </div>
-        <button className={styles.calendarrightbutton} onClick={goToNextWeek}>
-          {" "}
-          ▶︎{" "}
-        </button>
+        {/* <button className={styles.calendarrightbutton} onClick={goToNextWeek}> */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <svg
+            onClick={goToNextWeek}
+            className={styles.calendarrightbutton}
+            xmlns="http://www.w3.org/2000/svg"
+            height="0.8em"
+            viewBox="0 0 320 512"
+            style={{ fill: "#9d9d9d;" }}
+          >
+            <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
+          </svg>
+        </div>
+        {/* </button> */}
       </div>
     </div>
   );

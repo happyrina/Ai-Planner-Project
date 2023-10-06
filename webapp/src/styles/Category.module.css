@@ -2,7 +2,7 @@ nav ul {
   list-style-type: none;
   display: flex;
   padding: 0;
-  font-size: 19px;
+  font-size: 20px;
   margin-top: 10px;
 }
 
@@ -32,6 +32,9 @@ nav li.active {
 .leftContainer {
   position: relative;
   left: -124px;
+}
+.leftContainer > ul > li {
+  font-family: "Gowun Dodum", sans-serif;
 }
 
 .content {

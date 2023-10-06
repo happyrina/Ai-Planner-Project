@@ -30,10 +30,12 @@ function Plan() {
   //   planinfo;
   // let event_id = null;
   const [selectedgoal, setSelectedgoal] = useRecoilState(selectedGoalState);
-
+  console.log(selectedgoal, "here");
   let planState = {
     title: "",
     goal: selectedgoal,
+    startDatetime: format(sdate, "yyyy-MM-dd ") + format(stime, "hh:mm:ss"),
+    endDatetime: format(edate, "yyyy-MM-dd ") + format(etime, "hh:mm:ss"),
     location: "",
     content: "",
   };
@@ -41,12 +43,9 @@ function Plan() {
   const SendPlan = async (data, event, method, event_id) => {
     setMode(null);
     try {
-      console.log(planState);
       const tokenstring = document.cookie;
       const token = tokenstring.split("=")[1];
-      const url = selectedgoal
-        ? `http://3.39.153.9:3000/event/${event}/${selectedgoal}`
-        : `http://3.39.153.9:3000/event/${event}`;
+      const url = `http://3.39.153.9:3000/event/${event}`;
       await axios({
         method: method,
         url: url,
@@ -66,7 +65,6 @@ function Plan() {
         withCredentials: false,
       }).then((response) => {
         if (response.status === 200) {
-          setSelectedgoal(null);
           setMode(null);
           alert("성공");
         }
@@ -200,7 +198,7 @@ function Plan() {
           />
         </div>
 
-        {mode === "update" || selectedgoal ? (
+        {mode === "update" || selectedgoal !== null ? (
           <></>
         ) : (
           <>

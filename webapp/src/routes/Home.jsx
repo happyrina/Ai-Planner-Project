@@ -103,12 +103,12 @@ export default function Home() {
         "Access-Control-Allow-Origin": "*",
         Authorization: `Bearer ${token}`,
       },
-    }).then(async (response) => {
+    }).then((response) => {
       if (response.data.detail === "목표가 없습니다.") return;
       else {
-        await setGoals(response.data ? response.data : null);
+        setGoals(response.data ? response.data : null);
         // await setGoalList(response.data);
-        await setMode(null);
+        setMode(null);
         const sortedGoals = [...response.data].sort((a, b) =>
           a.title.localeCompare(b.title)
         );
@@ -125,7 +125,6 @@ export default function Home() {
 
   useEffect(() => {
     getName(info);
-
     getData();
   }, [Goalitem]);
 

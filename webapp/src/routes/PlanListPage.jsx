@@ -9,7 +9,6 @@ import { selectedGoalState } from "../atoms";
 import { useRecoilState } from "recoil";
 
 function PlanListPage() {
-  const [selectedgoal, setSelectedgoal] = useRecoilState(selectedGoalState);
   const { state } = useLocation();
   const { event_id } = useParams();
   const [data, setData] = useState({
@@ -18,31 +17,26 @@ function PlanListPage() {
     schedules: [],
     tasks: [],
   });
+  const tokenstring = document.cookie;
+  const token = tokenstring.split("=")[1];
 
-  useEffect(() => {
-    setSelectedgoal(event_id);
-    const tokenstring = document.cookie;
-    const token = tokenstring.split("=")[1];
-
-    if (event_id) {
-      const url = `http://3.39.153.9:3000/event/groupByGoal/${event_id}`;
-
-      axios
-        .get(url, {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          setData(response.data);
-          console.log(response);
-        })
-        .catch((error) => {
-          console.error("There was an error!", error);
-        });
-    }
-  }, [event_id]);
+  if (event_id) {
+    const url = `http://3.39.153.9:3000/event/groupByGoal/${event_id}`;
+    axios
+      .get(url, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setData(response.data);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error("There was an error!", error);
+      });
+  }
 
   return (
     <div className={styles.PlanListWrapper}>

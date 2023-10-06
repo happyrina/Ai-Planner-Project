@@ -4,11 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import React from "react";
 import { useRecoilState } from "recoil";
-import { goalIdState, modeState } from "../atoms";
+import { goalIdState, modeState, selectedGoalState } from "../atoms";
 
 function Goal() {
   const [history, setHistory] = useState({});
   const navigate = useNavigate();
+  const [selectedgoal, setSelectedgoal] = useRecoilState(selectedGoalState);
   const [imageurl, setImageUrl] = useState();
   const [imagename, setImagename] = useState();
   const [imageFile, setImageFile] = useState();
@@ -172,7 +173,7 @@ function Goal() {
           <button className={styles.selected}>
             <Link to="/goal">목표</Link>
           </button>
-          <button className={styles.Btn}>
+          <button onClick={setSelectedgoal(null)} className={styles.Btn}>
             <Link to={"/plan"}>일정</Link>
           </button>
           <button className={styles.Btn}>

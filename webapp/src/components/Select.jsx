@@ -28,12 +28,12 @@ const Selectop = () => {
         "Access-Control-Allow-Origin": "*",
         Authorization: `Bearer ${token}`,
       },
-    }).then(async (response) => {
-      await setGoalList(response.data);
+    }).then((response) => {
+      setGoalList(response.data);
       console.log(goal);
     });
   }
-  function setData() {
+  async function setData() {
     if (goalList.length > 0) {
       const list = goalList.map((data) => ({
         value: data["event_id"],
