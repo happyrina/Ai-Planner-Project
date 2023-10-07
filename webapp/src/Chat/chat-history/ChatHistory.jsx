@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft. All rights reserved.
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ChatHistoryItem } from "./ChatHistoryItem";
 import styles from "../css/ChatHistory.module.css";
 
-export const ChatHistory = ({ messages /*onGetResponse*/ }) => {
+export const ChatHistory = ({ messages }) => {
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
   const scrollViewTargetRef = useRef();
-
   React.useEffect(() => {
     if (!shouldAutoScroll) return;
     scrollViewTargetRef.current?.scrollTo(

@@ -14,6 +14,7 @@ import {
   nameState,
   goalListState,
   goalState,
+  chatcontentState,
 } from "../atoms.js";
 import NavBar from "../components/Navbar";
 
@@ -232,7 +233,7 @@ export default function Home() {
                     ></Goalitem>
                   ))}
               </Row>
-              <div style={{ "margin-top": "40px" }}> </div>
+              <div style={{ marginTop: "40px" }}> </div>
             </ScrollableContainer>
           </div>
           <div>

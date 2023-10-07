@@ -6,44 +6,19 @@ import chatboticon from "../assets/chatboticon.svg";
 import closeIcon from "../assets/close-icon.svg";
 import copple from "../assets/cuteco.png";
 import highlight from "../assets/highlight.png";
+
 import profileIcon from "../assets/profileIcon.svg";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { ChatRoom } from "../Chat/ChatRoom";
-import axios from "axios";
+
 function NavBar() {
   const [showChat, setShowChat] = useState(false);
   const location = useLocation();
   console.log(location);
-
   const handleProfileClick = () => {
     console.log("Profile clicked");
   };
-
-  async function getChatList() {
-    axios({
-      method: "get",
-      url: `https://coppletest.azurewebsites.net/api/chat/wonbin`,
-      withCredentials: false,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        // Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error("Error making Axios request:", error);
-        if (error.response) {
-          console.error("Response data:", error.response.data);
-          console.error("Response status:", error.response.status);
-          console.error("Response headers:", error.response.headers);
-        }
-      });
-  }
-  getChatList();
 
   const toggleChat = () => {
     setShowChat(!showChat);

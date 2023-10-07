@@ -1,20 +1,30 @@
 // Copyright (c) Microsoft. All rights reserved.
 
 import { useMsal } from "@azure/msal-react";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { ChatStatus } from "./ChatStatus";
+
 import styles from "./css/ChatInput.module.css";
 import TextField from "@mui/material/TextField";
+// import { RequestAnswer, ChatHistoryCall } from "./ChatHistoryFunction";
 
 export const ChatInput = ({ isDraggingOver, onDragLeave, onSubmit }) => {
-  const { instance, inProgress } = useMsal();
-
-  const [value, setValue] = useState("");
-  const [recognizer, setRecognizer] = useState();
   // const { importingDocuments } = conversations[selectedId];
-
   // const documentFileRef = (useRef < HTMLInputElement) | (null > null);
-  const textAreaRef = React.useRef < HTMLTextAreaElement > null;
+  const [value, setValue] = useState("");
+  // const textAreaRef = React.useRef < HTMLTextAreaElement > null;
+  const handleSubmit = (value) => {
+    if (value.trim() === "") {
+      return; // only submit if value is not empty
+    }
+    setValue("");
+    // RequestAnswer(value).catch((error) => {
+    //   const message = `Error submitting chat input: ${error.message}`;
+    //   console.log(message);
+    // });
+    console.log("handling...", value);
+    onSubmit(value);
+  };
 
   return (
     <div className={styles.ChatInputRoot}>
@@ -23,10 +33,17 @@ export const ChatInput = ({ isDraggingOver, onDragLeave, onSubmit }) => {
       </div>
       <div className={styles.ChatInputContent}>
         <TextField
+          id="chat-input"
           maxRows={2}
           minRows={1}
           multiline
           value={value}
+          onFocus={() => {
+            const chatInput = document.getElementById("chat-input");
+            if (chatInput) {
+              setValue(chatInput.value);
+            }
+          }}
           fullWidth
           onChange={(e) => {
             setValue(e.currentTarget.value);
@@ -34,13 +51,22 @@ export const ChatInput = ({ isDraggingOver, onDragLeave, onSubmit }) => {
           variant="outlined"
           label=""
           type="text"
-          onClick={(e) => {
-            setValue("");
+          onKeyDown={(event) => {
+            if (event.key === "Enter" && !event.shiftKey) {
+              event.preventDefault();
+              handleSubmit(value);
+            }
           }}
           inputProps={{ maxLength: 1000 }}
           className={styles.ChatInputInput}
         />
-        <button className={styles.ChatInputSendButton} title="Submit">
+        <button
+          className={styles.ChatInputSendButton}
+          onClick={() => {
+            handleSubmit(value);
+          }}
+          title="Submit"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="1.6em"
