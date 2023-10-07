@@ -39,11 +39,14 @@ export function createCommandLink(command) {
  * Function to format chat text content to remove any html tags from it.
  */
 export function formatChatTextContent(messageContent) {
-  console.log(messageContent);
   const contentAsString = messageContent
     .trim()
-    .replace(/^sk:\/\/.*$/gm, (match) => createCommandLink(match))
-    .replace(/^!sk:.*$/gm, (match) => createCommandLink(match));
+    .replace(/^sk:\/\/.*$/gm, (match) => {
+      return createCommandLink(match); // Explicitly return a value
+    })
+    .replace(/^!sk:.*$/gm, (match) => {
+      return createCommandLink(match); // Explicitly return a value
+    });
   return contentAsString;
 }
 

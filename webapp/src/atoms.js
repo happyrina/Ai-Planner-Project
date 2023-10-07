@@ -22,12 +22,18 @@ export const goalState = atom({
     default: "",
 })
 
-
+export const chatcontentState = atom({
+    key: "chatcontent",
+    defulat: []
+})
 export const selectedGoalState = atom({
     key: "selectedgoal",
     default: "",
 })
-
+export const userInputState = atom({
+    key: 'userinput',
+    default: ""
+})
 export const goalListState = atom({
     key: "listofgoal",
     default: [],

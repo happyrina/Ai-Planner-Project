@@ -1,6 +1,6 @@
 import React from "react";
 
-import * as utils from "../../utils/TextUtils";
+// import * as utils from "../../utils/TextUtils";
 import styles from "../css/ChatHistoryItem.module.css";
 import { ChatHistoryTextContent } from "../ChatHistoryTextContent";
 export const DefaultChatUser = {
@@ -44,7 +44,7 @@ export const ChatHistoryItem = ({ message, messageIndex }) => {
       // The following data attributes are needed for CI and testing
       data-testid={`chat-history-item-${messageIndex}`}
       data-username={fullName}
-      data-content={utils.formatChatTextContent(message.content)}
+      data-content={message.content}
     >
       {/* class.item이 챗봇일떄!!! */}
       <div
