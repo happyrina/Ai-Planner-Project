@@ -17,12 +17,12 @@ const Category = ({ dataForSelectedDate }) => {
   return (
     <div className={styles.centeredContainer}>
       <nav className={styles.leftContainer}>
-        <ul>
+        <ul style={{ display: "flex", gap: "1.2em" }}>
           <li
             onClick={() => handleCategoryChange("일정")}
             className={selectedCategory === "일정" ? styles.active : ""}
           >
-            일정 &nbsp;&nbsp;&nbsp;
+            일정
           </li>
           <li
             onClick={() => handleCategoryChange("할일")}

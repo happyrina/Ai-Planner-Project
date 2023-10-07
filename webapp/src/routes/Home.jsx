@@ -283,7 +283,7 @@ const Background = styled.div`
   justify-content: center;
   overflow: hidden;
   margin: auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.05);
 `;
 
 const Container = styled.div`
