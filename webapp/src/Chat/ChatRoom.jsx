@@ -2,13 +2,16 @@
 
 // import { makeStyles, shorthands, tokens } from "@fluentui/react-components";
 import styles from "./css/ChatRoom.module.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import copple from "../assets/cuteco.png";
 // import { Constants } from "../Constants";
 import { useChat } from "../libs/hooks/useChat";
 import { ChatInput } from "./ChatInput.jsx";
 import { ChatHistory } from "./chat-history/ChatHistory";
 
 export const ChatRoom = () => {
+  const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
+  const scrollViewTargetRef = useRef();
   const content = `
   안녕하세요! 저는 Copple이라고 합니다. 어떤 도움이 필요하신가요?`;
   const ulsan = `울산은 아름다운 해안선과 역사적인 명소로 유명한 도시입니다. 2일 동안 울산에서 즐길 수 있는 몇 가지 추천 명소를 알려드릴게요:
@@ -50,22 +53,22 @@ export const ChatRoom = () => {
 
   useEffect(() => {
     function addMessageWithDelay(index) {
-      if (index < chatcontent.length) {
-        setTimeout(() => {
-          setMessages((prevMessages) => [...prevMessages, chatcontent[index]]);
-          addMessageWithDelay(index + 1);
-        }, 3500); // 3-second delay in milliseconds
-      }
+      // if (index < chatcontent.length) {
+      //   setTimeout(() => {
+      //     setMessages((prevMessages) => [...prevMessages, chatcontent[index]]);
+      //     addMessageWithDelay(index + 1);
+      //   }, 3500); // 3-second delay in milliseconds
+      // }
     }
 
     addMessageWithDelay(0);
   }, [chatcontent]);
 
   //   const dispatch = useAppDispatch();
-  // const scrollViewTargetRef = React.useRef < HTMLDivElement > null;
-  const [shouldAutoScroll, setShouldAutoScroll] = React.useState(true);
+  // const ViewTargetRef = React.useRef < HTMLDivElement > null;
 
-  const [isDraggingOver, setIsDraggingOver] = React.useState(false);
+  const [isDraggingOver, setIsDraggingOver] = useState(false);
+
   const onDragEnter = (e) => {
     e.preventDefault();
     setIsDraggingOver(true);
@@ -77,55 +80,52 @@ export const ChatRoom = () => {
 
   const chat = useChat();
 
-  // 이 코드 조각은 shouldAutoScroll이 true이고 새로운 메시지(messages 상태 변경)가 발생할 때마다 스크롤뷰를 자동으로 아래로 스크롤하여 사용자에게 가장 최신 메시지를 보여주는 리액트 컴포넌트의 일부입니다.
-  // React.useEffect(() => {
-  //   if (!shouldAutoScroll) return;
-  // scrollViewTargetRef.current?.scrollTo(
-  //     0,
-  // scrollViewTargetRef.current.scrollHeight
-  //   );
-  // }, [messages, shouldAutoScroll]);
+  // 이 코드 조각은 shouldAuto이 true이고 새로운 메시지(messages 상태 변경)가 발생할 때마다 스크롤뷰를 자동으로 아래로 스크롤하여 사용자에게 가장 최신 메시지를 보여주는 리액트 컴포넌트의 일부입니다.
+  React.useEffect(() => {
+    if (!shouldAutoScroll) return;
+    scrollViewTargetRef.current?.scrollTo(
+      0,
+      scrollViewTargetRef.current.scrollHeight
+    );
+  }, [messages, shouldAutoScroll]);
 
   //이 코드는 스크롤뷰의 스크롤 위치를 감지하고, 스크롤 위치가 화면 하단에서 10px 이내에 있는 경우 자동으로 스크롤을 하도록 설정하는 리액트 컴포넌트의 일부입니다. 또한 컴포넌트가 마운트되면 스크롤 이벤트 리스너가 추가되고, 컴포넌트가 언마운트되면 이벤트 리스너가 제거됩니다.
-  // React.useEffect(() => {
-  //   const onScroll = () => {
-  // if (!scrollViewTargetRef.current) return;
-  //     const { scrollTop, scrollHeight, clientHeight } =
-  // scrollViewTargetRef.current;
-  //     const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
-  //     setShouldAutoScroll(isAtBottom);
-  //   };
-
-  // if (!scrollViewTargetRef.current) return;
-
-  // const currentScrollViewTarget = scrollViewTargetRef.current;
-
-  //   currentScrollViewTarget.addEventListener("scroll", onScroll);
-  //   return () => {
-  //     currentScrollViewTarget.removeEventListener("scroll", onScroll);
-  //   };
-  // }, []);
-
-  const handleSubmit = async (options) => {
-    console.log("submitting user chat message");
-    const chatInput = {
-      // chatId: "우힝힝" as string,
-      // timestamp: new Date().getTime(),
-      // userId: activeUserInfo?.id as string,
-      // userName: activeUserInfo?.username as string,
-      content: options.value,
-      // type: options.messageType,
-      authorRole: "AuthorRoles.User",
+  React.useEffect(() => {
+    const on = () => {
+      if (!scrollViewTargetRef.current) return;
+      const { Top, Height, clientHeight } = scrollViewTargetRef.current;
+      const isAtBottom = Top + clientHeight >= Height - 10;
+      setShouldAutoScroll(isAtBottom);
     };
 
-    // dispatch(
-    //   addMessageToConversationFromUser({ message: chatInput, chatId: "우힝힝" })
-    // );
+    if (!scrollViewTargetRef.current) return;
 
-    await chat.getResponse(options);
+    const currentScrollViewTarget = scrollViewTargetRef.current;
 
-    setShouldAutoScroll(true);
-  };
+    currentScrollViewTarget.addEventListener("", on);
+    return () => {
+      currentScrollViewTarget.removeEventListener("", on);
+    };
+  }, []);
+
+  //   const handleSubmit = async (options: GetResponseOptions) => {
+  //     log('submitting user chat message');
+
+  //     const chatInput: IChatMessage = {
+  //         chatId: selectedId,
+  //         timestamp: new Date().getTime(),
+  //         userId: activeUserInfo?.id as string,
+  //         userName: activeUserInfo?.username as string,
+  //         content: options.value,
+  //         type: options.messageType,
+  //         authorRole: AuthorRoles.User,
+  //     };
+  //     dispatch(addMessageToConversationFromUser({ message: chatInput, chatId: selectedId }));
+
+  //     await chat.getResponse(options);
+
+  //     setShouldAuto(true);
+  // };
 
   return (
     <div
@@ -134,16 +134,22 @@ export const ChatRoom = () => {
       onDragOver={onDragEnter}
       onDragLeave={onDragLeave}
     >
-      {/* <div className={styles.ChatRoomScroll}> */}
-      <div className={styles.ChatRoomRootHistory}>
-        <ChatHistory messages={messages} onGetResponse={handleSubmit} />
+      {" "}
+      <div className={styles.ChatBar}>
+        <img style={{ height: "1.8em" }} src={copple}></img>
+        <h3>Copple</h3>
+      </div>
+      {/* <div className={styles.ChatRoom}> */}
+      <div ref={scrollViewTargetRef} className={styles.ChatRoomRootHistory}>
+        {/* <ChatHistory messages={chatcontent} onGetResponse={handleSubmit} /> */}
+        <ChatHistory messages={chatcontent} />
       </div>
       {/* </div> */}
       {/* <div className={styles.ChatRoomRootInput}> */}
       <ChatInput
         isDraggingOver={isDraggingOver}
         onDragLeave={onDragLeave}
-        onSubmit={handleSubmit}
+        // onSubmit={handleSubmit}
       />
       {/* </div> */}
     </div>

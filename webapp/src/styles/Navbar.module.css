@@ -5,16 +5,7 @@
   width: "22px";
   height: "3px";
 }
-.ChatBar {
-  color: #b28ed6;
-  background-color: #ffffff;
-  position: absolute;
-  padding-left: 10px;
-  top: 0;
-  right: 0;
-  height: 4%;
-  width: 100%;
-}
+
 .NavBarContainerWrap {
   width: 100%;
   height: 62px;

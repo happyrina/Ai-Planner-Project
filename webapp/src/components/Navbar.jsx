@@ -4,6 +4,7 @@ import calendaricon from "../assets/calendaricon.svg";
 import homeicon from "../assets/homeicon.svg";
 import chatboticon from "../assets/chatboticon.svg";
 import closeIcon from "../assets/close-icon.svg";
+import copple from "../assets/cuteco.png";
 import highlight from "../assets/highlight.png";
 import profileIcon from "../assets/profileIcon.svg";
 import { Link } from "react-router-dom";
@@ -78,9 +79,6 @@ function NavBar() {
         </div>
         {showChat && (
           <div className={styles.chatWindow}>
-            <div className={styles.ChatBar}>
-              <h3>Copple</h3>
-            </div>
             <ChatRoom />
 
             <button className={styles.closeButton} onClick={toggleChat}>

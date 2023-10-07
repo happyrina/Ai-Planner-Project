@@ -1,8 +1,25 @@
 .ChatHistoryRoot {
+  overflow-y: scroll;
+  /* max-height: 50%; */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   gap: 10px;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 110%;
   width: 362px;
   align-self: center;
+  &:last-child {
+    padding-bottom: 10px;
+  }
+}
+
+.ChatHistoryRoot::-webkit-scrollbar {
+  width: 3px; /* 스크롤 바의 너비 */
+  display: none;
+}
+
+.ChatHistoryRoot::-webkit-scrollbar-thumb {
+  background-color: darkgrey; /* 스크롤 바의 색상 */
+  border-radius: 2px; /* 스크롤 바의 모서리 둥글기 */
 }
