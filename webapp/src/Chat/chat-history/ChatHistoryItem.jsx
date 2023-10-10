@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "../css/ChatHistoryItem.module.css";
 import { ChatHistoryTextContent } from "../ChatHistoryTextContent";
+import { TypingIndicator } from "../Typingindicator";
 export const DefaultChatUser = {
   id: "c05c61eb-65e4-4223-915a-fe72b0c9ece1",
   emailAddress: "user@contoso.com",
@@ -22,7 +23,7 @@ const AuthorRoles = {
 };
 export const ChatHistoryItem = ({ message, messageIndex }) => {
   // const isMe = isDefaultUser || (message.authorRole === AuthorRoles.User && message.userId === activeUserInfo?.id);
-
+  const isBot = message.authorRole === AuthorRoles.Bot;
   const isDefaultUser = true;
 
   // displayedMessage
@@ -38,9 +39,13 @@ export const ChatHistoryItem = ({ message, messageIndex }) => {
   //       />
   //     ))
   //   : ();
+  // let content =
+  //   isBot && message.content.length === 0 ? (
+  //     <TypingIndicator />
+  //   ) : (
+  //     <ChatHistoryTextContent message={message} />
+  //   );
   let content = <ChatHistoryTextContent message={message} />;
-
-  const isBot = message.authorRole === AuthorRoles.Bot; //봇이면 true 아니면 false
   return (
     <div
       className={

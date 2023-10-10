@@ -27,6 +27,11 @@ export const chatState = atom({
     default: [{}]
 })
 
+export const responseState = atom({
+    key: "response",
+    default: false
+})
+
 export const questionState = atom({
     key: "question",
     default: ""

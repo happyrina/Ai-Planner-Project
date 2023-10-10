@@ -1,0 +1,4 @@
+.ChatStatusRoot {
+  display: flex;
+  flex-direction: row;
+}

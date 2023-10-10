@@ -1,0 +1,21 @@
+.IndicatorRoot {
+  contain: strict;
+  height: 28px;
+  overflow-y: hidden;
+  width: 28px;
+}
+.IndicatorImage {
+  animation-duration: 2.3s;
+  animation-iteration-count: infinite;
+  animation-name: slide;
+  animation-timing-function: steps(68);
+}
+
+@keyframes slide {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-1904px);
+  }
+}
