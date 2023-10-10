@@ -5,7 +5,7 @@ import { useCalendar } from "../routes/MainPage";
 import axios from "axios";
 import { infoState, nameState } from "../atoms";
 import { useRecoilValue } from "recoil";
-import defaultImage from "../assets/noimg.png";
+import defaultImage from "../assets/images/rabbit.jpeg";
 
 function ThumbnailList({ goals: initialGoals, id }) {
   const { selectedDate, dataForSelectedDate } = useCalendar();
@@ -57,7 +57,11 @@ function ThumbnailList({ goals: initialGoals, id }) {
             >
               <div className={styles.CalendarThumbnailthumbnailBox}>
                 <img
-                  src={goal.photoUrl || defaultImage}
+                  src={
+                    goal.photoUrl && goal.photoUrl !== null
+                      ? goal.photoUrl
+                      : defaultImage
+                  }
                   alt={`Goal ${goal.title}`}
                   className={styles.CalendarThumbnailthumbnail}
                 />

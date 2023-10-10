@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import React from "react";
-import omg from "../omg.jpg";
+import defaultImage from "../assets/images/smiile.jpeg";
 import { motion } from "framer-motion";
 import { useRecoilState } from "recoil";
 import { goalIdState, modeState } from "../atoms";
@@ -18,7 +18,7 @@ function Goalitem({ goaltitle, goalperiod, event_id, photoUrl, isCompleted }) {
   return (
     <GoalContainer onClick={movetoDetailHandler}>
       <Img
-        src={photoUrl && photoUrl !== null ? photoUrl : omg}
+        src={photoUrl && photoUrl !== null ? photoUrl : defaultImage}
         alt="goal"
       ></Img>
       <div className="title">{goaltitle}</div>

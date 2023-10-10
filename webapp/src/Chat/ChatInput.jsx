@@ -7,7 +7,7 @@ import TextField from "@mui/material/TextField";
 import { responseState } from "../atoms";
 import { useRecoilValue } from "recoil";
 
-export const ChatInput = ({ isDraggingOver, onDragLeave, onSubmit }) => {
+export const ChatInput = ({ onSubmit }) => {
   const iswaiting = useRecoilValue(responseState);
   const [value, setValue] = useState("");
   const handleSubmit = (value) => {
@@ -15,19 +15,11 @@ export const ChatInput = ({ isDraggingOver, onDragLeave, onSubmit }) => {
       return;
     }
     setValue("");
-    // RequestAnswer(value).catch((error) => {
-    //   const message = `Error submitting chat input: ${error.message}`;
-    //   console.log(message);
-    // });
     console.log("handling...", value);
     onSubmit(value);
   };
-
   return (
     <div className={styles.ChatInputRoot}>
-      {/* <div className={styles.ChatInputTypingIndicator}>
-       
-      </div> */}
       <div className={styles.ChatInputContent}>
         <TextField
           disabled={iswaiting ? true : false}

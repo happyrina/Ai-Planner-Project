@@ -3,6 +3,7 @@ import axios from "axios";
 import styles from "../styles/GoalPhoto.module.css";
 import defaultImage from "../assets/noimg.png";
 import threebutton from "../assets/more.svg";
+import replaceImage from "../assets/images/bright.jpeg";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   goalIdState,
@@ -71,7 +72,7 @@ function GoalPhoto({ eventId }) {
           const { photoUrl, title, startDatetime, endDatetime } =
             goalResponse.data;
           setData({
-            goalPhoto: photoUrl || defaultImage,
+            goalPhoto: photoUrl && photoUrl !== null ? photoUrl : replaceImage,
             goalTitle: title,
             startDatetime,
             endDatetime,
@@ -105,6 +106,7 @@ function GoalPhoto({ eventId }) {
   const backHandler = () => {
     navigate("/main");
     setSelectedgoal("");
+    setMode("");
   };
   const deleteGoalHandler = () => {
     deletePlan(eventId);
@@ -113,13 +115,18 @@ function GoalPhoto({ eventId }) {
 
   return (
     <div className={styles.goalPhoto}>
-      <img src={data.goalPhoto} alt="Goal Thumbnail" />
+      <img
+        src={
+          data.goalPhoto && data.goalPhoto !== null
+            ? data.goalPhoto
+            : replaceImage
+        }
+        alt="Goal Thumbnail"
+      />
       <div className={styles.overlay}>
         {data.goalTitle && <div className={styles.title}>{data.goalTitle}</div>}
         {data.startDatetime && data.endDatetime && (
-          <div className={styles.date}>
-            {data.startDatetime} ~ {data.endDatetime}
-          </div>
+          <div className={styles.date}>{data.startDatetime} </div>
         )}
         <div>
           <img

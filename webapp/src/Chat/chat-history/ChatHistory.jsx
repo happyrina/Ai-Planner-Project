@@ -3,8 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { ChatHistoryItem } from "./ChatHistoryItem";
 import styles from "../css/ChatHistory.module.css";
 
-// import { useSelector, useDispatch } from "react-redux";
-// import { addMessage } from "./actions";
 export const ChatHistory = ({ messages }) => {
   const scrollViewTargetRef = useRef();
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);

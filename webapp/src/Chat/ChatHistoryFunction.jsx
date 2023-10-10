@@ -1,11 +1,14 @@
 import axios from "axios";
 import { format } from "date-fns";
+import { useRecoilValue } from "recoil";
+import { infoState } from "../atoms";
 
 export const ChatHistoryCall = () => {
+  const info = useRecoilValue(infoState);
   try {
     const response = axios({
       method: "get",
-      url: `https://coppletest.azurewebsites.net/api/chat/wonbin`,
+      url: `https://coppletest.azurewebsites.net/api/chat/${info}`,
       withCredentials: false,
       headers: {
         "Access-Control-Allow-Origin": "*",
@@ -48,7 +51,7 @@ export const RequestAnswer = (question) => {
     },
     data: {
       id: "string",
-      parentId: "wonbin",
+      parentId: info,
       message: question,
       createdTime: formattedDate,
       role: 0,
