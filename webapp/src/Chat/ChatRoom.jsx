@@ -1,20 +1,83 @@
 // Copyright (c) Microsoft. All rights reserved.
 
-// import { makeStyles, shorthands, tokens } from "@fluentui/react-components";
 import styles from "./css/ChatRoom.module.css";
 import React, { useEffect, useRef, useState } from "react";
 import copple from "../assets/cuteco.png";
 import { ChatInput } from "./ChatInput.jsx";
+import {
+  setupSignalRConnectionToChatHub,
+  startSignalRConnection,
+} from "./ChatApp";
 import { ChatHistory } from "./chat-history/ChatHistory";
-import { chatcontentState } from "../atoms";
-import { useRecoilState } from "recoil";
 import { format } from "date-fns";
 import axios from "axios";
+// import { addMessage } from "./action";
+// import { useDispatch } from "react-redux";
+import { useRecoilState } from "recoil";
+import { chatState, questionState } from "../atoms";
 
 export const ChatRoom = () => {
-  const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
-  const [chatlist, setChatlist] = useState([]);
   const scrollViewTargetRef = useRef();
+
+  const [chatlist, setChatlist] = useRecoilState(chatState);
+  // const dispatch = useDispatch();
+  const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
+  const [displayedMessage, setDisplayedMessage] = useState("");
+  // const [newchatlist, setNewchatlist] = useState([]);
+  const [userquestion, setUserquestion] = useRecoilState(questionState);
+  // const conversations = useSelector((state) => state.messages);
+  const registerSignalREvents = (connection) => {
+    connection.on("ReceiveMessage", () => {
+      console.log("ReceiveMessage");
+    });
+    connection.on("ReceiveSystemMessage", () => {
+      const log = () => {
+        console.log("ReceiveSystemMessage");
+      };
+      log();
+    });
+    connection.on("ReceiveBotMessageStart", (message) => {
+      console.log("start");
+    });
+    connection.on("ReceiveBotMessage", (message) => {
+      const displayNextCharacter = () => {
+        if (message === undefined || message === null) return;
+        console.log(message);
+        setDisplayedMessage((prev) => prev + message);
+        setChatlist((prev) => {
+          let updatedChatlist = [...prev];
+          let lastMessage = updatedChatlist[updatedChatlist.length - 1];
+          lastMessage = {
+            ...lastMessage,
+            content: lastMessage.content + message,
+          };
+          updatedChatlist[updatedChatlist.length - 1] = lastMessage;
+
+          return updatedChatlist;
+        });
+      };
+      displayNextCharacter();
+      // setTimeout(displayNextCharacter, 1);
+    });
+
+    connection.on("ReceiveBotMessageComplete", () => {
+      console.log("ReceiveBotMessageComplete");
+      setUserquestion("");
+      setDisplayedMessage("");
+    });
+  };
+
+  useEffect(() => {
+    const connection = setupSignalRConnectionToChatHub();
+    startSignalRConnection(connection);
+    registerSignalREvents(connection);
+    return () => {
+      if (connection) {
+        connection.stop();
+      }
+    };
+  }, []);
+
   const ChatHistoryCall = async () => {
     try {
       const response = await axios.get(
@@ -32,7 +95,7 @@ export const ChatRoom = () => {
         content: item.message,
         authorRole: item.role,
       }));
-      console.log(messages);
+      console.log(messages[0]);
       return messages;
     } catch (error) {
       console.error("Error making Axios request:", error);
@@ -52,9 +115,11 @@ export const ChatRoom = () => {
       // Handle error
     }
   };
+
   useEffect(() => {
     fetchChatHistory();
   }, []);
+
   const RequestAnswer = async (question) => {
     try {
       const currentDate = new Date();
@@ -64,6 +129,7 @@ export const ChatRoom = () => {
         "https://coppletest.azurewebsites.net/api/chat",
         {
           id: "string",
+          userId: "wonbin",
           parentId: "wonbin",
           message: question,
           createdTime: formattedDate,
@@ -79,17 +145,17 @@ export const ChatRoom = () => {
       );
 
       console.log(response.data);
-      await fetchChatHistory();
+
+      // await fetchChatHistory();
     } catch (error) {
       console.error("Error making Axios request:", error);
-      if (error.response) {
-        console.error("Response data:", error.response.data);
-        console.error("Response status:", error.response.status);
-        console.error("Response headers:", error.response.headers);
-      }
-      throw error; // You can re-throw the error to handle it elsewhere if needed.
     }
+    //   if (error.response) {
+    //     console.error("Response data:", error.response.data);
+    //     console.error("Response status:", error.response.status);
+    //     console.error("Response headers:", error.response.headers);
   };
+  //   throw error; // You can re-throw the error to handle it elsewhere if needed.
 
   // Empty dependency array to run this effect only on mount
   // useEffect(() => {
@@ -157,9 +223,14 @@ export const ChatRoom = () => {
 
   const handleSubmit = (value) => {
     console.log("submitting user chat message");
-    setChatlist((prev) => [...prev, { content: value, authorRole: 0 }]);
+    setChatlist((prev) => [
+      ...prev,
+      { content: value, authorRole: 0 },
+      { content: "", authorRole: 1 },
+    ]);
+    setUserquestion(value);
+    // dispatch(addMessage(usernewMessage));
     RequestAnswer(value);
-
     setShouldAutoScroll(true);
   };
 
@@ -175,19 +246,14 @@ export const ChatRoom = () => {
         <img style={{ height: "1.8em" }} src={copple}></img>
         <h3>Copple</h3>
       </div>
-      {/* <div className={styles.ChatRoom}> */}
       <div ref={scrollViewTargetRef} className={styles.ChatRoomRootHistory}>
-        {/* <ChatHistory messages={chatcontent} onGetResponse={handleSubmit} /> */}
         <ChatHistory messages={chatlist} onGetResponse={handleSubmit} />
       </div>
-      {/* </div> */}
-      {/* <div className={styles.ChatRoomRootInput}> */}
       <ChatInput
         // isDraggingOver={isDraggingOver}
         // onDragLeave={onDragLeave}
         onSubmit={handleSubmit}
       />
-      {/* </div> */}
     </div>
   );
 };

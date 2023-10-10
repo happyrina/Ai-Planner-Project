@@ -1,17 +1,19 @@
 import { RecoilRoot } from "recoil";
-import { QueryClient, QueryClientProvider } from "react-query";
+
 import Router from "./Router";
 import "./css/App.css";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { ProfileProvider } from "./context/ProfileContext";
 import React from "react";
+import { Provider } from "react-redux";
+import store from "./Chat/store";
+
 function App() {
-  const queryClient = new QueryClient();
   return (
     <>
       {" "}
-      <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <ProfileProvider>
             <RecoilRoot>
@@ -19,7 +21,7 @@ function App() {
             </RecoilRoot>
           </ProfileProvider>
         </LocalizationProvider>
-      </QueryClientProvider>
+      </Provider>
     </>
   );
 }

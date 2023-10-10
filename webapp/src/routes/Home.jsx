@@ -14,7 +14,6 @@ import {
   nameState,
   goalListState,
   goalState,
-  chatcontentState,
 } from "../atoms.js";
 import NavBar from "../components/Navbar";
 

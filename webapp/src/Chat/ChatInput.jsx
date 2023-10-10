@@ -3,19 +3,14 @@
 import { useMsal } from "@azure/msal-react";
 import React, { useState } from "react";
 import { ChatStatus } from "./ChatStatus";
-
 import styles from "./css/ChatInput.module.css";
 import TextField from "@mui/material/TextField";
-// import { RequestAnswer, ChatHistoryCall } from "./ChatHistoryFunction";
 
 export const ChatInput = ({ isDraggingOver, onDragLeave, onSubmit }) => {
-  // const { importingDocuments } = conversations[selectedId];
-  // const documentFileRef = (useRef < HTMLInputElement) | (null > null);
   const [value, setValue] = useState("");
-  // const textAreaRef = React.useRef < HTMLTextAreaElement > null;
   const handleSubmit = (value) => {
     if (value.trim() === "") {
-      return; // only submit if value is not empty
+      return;
     }
     setValue("");
     // RequestAnswer(value).catch((error) => {
