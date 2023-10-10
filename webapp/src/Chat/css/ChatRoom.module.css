@@ -32,7 +32,8 @@
   /* max-height: 50%; */
   -ms-overflow-style: none;
   scrollbar-width: none;
-  max-width: 370.9px;
+  /* max-width: 370.9px; */
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   flex-grow: 4;
