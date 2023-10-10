@@ -14,21 +14,20 @@ import axios from "axios";
 // import { addMessage } from "./action";
 // import { useDispatch } from "react-redux";
 import { useRecoilState } from "recoil";
-import { chatState, questionState } from "../atoms";
+import { chatState, responseState } from "../atoms";
 
 export const ChatRoom = () => {
   const scrollViewTargetRef = useRef();
-
   const [chatlist, setChatlist] = useRecoilState(chatState);
-  // const dispatch = useDispatch();
+  const [iswaiting, setIswaiting] = useRecoilState(responseState);
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
   const [displayedMessage, setDisplayedMessage] = useState("");
-  // const [newchatlist, setNewchatlist] = useState([]);
-  const [userquestion, setUserquestion] = useRecoilState(questionState);
+  // const [userquestion, setUserquestion] = useRecoilState(questionState);
   // const conversations = useSelector((state) => state.messages);
   const registerSignalREvents = (connection) => {
     connection.on("ReceiveMessage", () => {
       console.log("ReceiveMessage");
+      setIswaiting(true);
     });
     connection.on("ReceiveSystemMessage", () => {
       const log = () => {
@@ -62,7 +61,7 @@ export const ChatRoom = () => {
 
     connection.on("ReceiveBotMessageComplete", () => {
       console.log("ReceiveBotMessageComplete");
-      setUserquestion("");
+      setIswaiting(false);
       setDisplayedMessage("");
     });
   };
@@ -228,7 +227,7 @@ export const ChatRoom = () => {
       { content: value, authorRole: 0 },
       { content: "", authorRole: 1 },
     ]);
-    setUserquestion(value);
+    // setUserquestion(value);
     // dispatch(addMessage(usernewMessage));
     RequestAnswer(value);
     setShouldAutoScroll(true);
