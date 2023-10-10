@@ -1,10 +1,9 @@
 import styles from "../css/markdown-styles.module.css";
 import styled from "styled-components";
+import React from "react";
 import remarkGfm from "remark-gfm";
 import ReactMarkdown from "react-markdown";
-
 import * as utils from "../utils/TextUtils";
-import { useEffect } from "react";
 
 // markdown css
 const StyledContent = styled.div`
@@ -39,9 +38,10 @@ const customRenderers = {
 // - unordered list`;
 
 export const ChatHistoryTextContent = ({ message }) => {
-  console.log(message);
+  const isBot = message.authorRole === 1;
 
   const content = utils.formatChatTextContent(message.content);
+
   return (
     <div>
       <StyledContent>

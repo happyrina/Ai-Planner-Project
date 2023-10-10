@@ -22,27 +22,25 @@ export const goalState = atom({
     default: "",
 })
 
-export const chatcontentState = atom({
-    key: "chatcontent",
-    defulat: []
+export const chatState = atom({
+    key: "chatlist",
+    default: [{}]
 })
+
+export const questionState = atom({
+    key: "question",
+    default: ""
+})
+
 export const selectedGoalState = atom({
     key: "selectedgoal",
     default: "",
 })
-export const userInputState = atom({
-    key: 'userinput',
-    default: ""
-})
+
 export const goalListState = atom({
     key: "listofgoal",
     default: [],
 })
-
-export const savedGoalsState = atom({
-    key: 'savedGoalsState',
-    default: [], // 기본값은 빈 배열
-});
 
 
 export const modeState = atom({

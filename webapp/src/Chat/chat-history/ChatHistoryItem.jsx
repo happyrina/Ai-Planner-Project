@@ -1,6 +1,5 @@
-import React from "react";
-
-// import * as utils from "../../utils/TextUtils";
+// Copyright (c) Microsoft. All rights reserved.
+import React, { useState, useEffect } from "react";
 import styles from "../css/ChatHistoryItem.module.css";
 import { ChatHistoryTextContent } from "../ChatHistoryTextContent";
 export const DefaultChatUser = {
@@ -22,18 +21,26 @@ const AuthorRoles = {
   Participant: 2,
 };
 export const ChatHistoryItem = ({ message, messageIndex }) => {
-  const isDefaultUser = true;
   // const isMe = isDefaultUser || (message.authorRole === AuthorRoles.User && message.userId === activeUserInfo?.id);
-  const isMe = isDefaultUser;
+
+  const isDefaultUser = true;
+
+  // displayedMessage
+  //   ? (content = (
+  //       <ChatHistoryTextContent
+  //         message={{ content: displayedMessage, authorRole: 1 }}
+  //       />
+  //     ))
+  //   : userquestion
+  //   ? (content = (
+  //       <ChatHistoryTextContent
+  //         message={{ content: userquestion, authorRole: 0 }}
+  //       />
+  //     ))
+  //   : ();
+  let content = <ChatHistoryTextContent message={message} />;
+
   const isBot = message.authorRole === AuthorRoles.Bot; //봇이면 true 아니면 false
-  const user = DefaultChatUser;
-
-  const fullName = user?.fullName ?? "최은재";
-
-  let content;
-
-  content = <ChatHistoryTextContent message={message} />;
-
   return (
     <div
       className={
@@ -43,7 +50,7 @@ export const ChatHistoryItem = ({ message, messageIndex }) => {
       }
       // The following data attributes are needed for CI and testing
       data-testid={`chat-history-item-${messageIndex}`}
-      data-username={fullName}
+      data-username={"user"}
       data-content={message.content}
     >
       {/* class.item이 챗봇일떄!!! */}
