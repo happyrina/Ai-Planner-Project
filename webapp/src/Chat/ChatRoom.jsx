@@ -4,6 +4,7 @@ import styles from "./css/ChatRoom.module.css";
 import React, { useEffect, useRef, useState } from "react";
 import copple from "../assets/cuteco.png";
 import { ChatInput } from "./ChatInput.jsx";
+
 import {
   setupSignalRConnectionToChatHub,
   startSignalRConnection,
@@ -12,7 +13,12 @@ import { ChatHistory } from "./chat-history/ChatHistory";
 import { format } from "date-fns";
 import axios from "axios";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { chatState, infoState, responseState } from "../atoms";
+import {
+  botResponseState,
+  chatState,
+  infoState,
+  responseState,
+} from "../atoms";
 
 export const ChatRoom = () => {
   const scrollViewTargetRef = useRef();
@@ -21,6 +27,8 @@ export const ChatRoom = () => {
   const [iswaiting, setIswaiting] = useRecoilState(responseState);
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
   const [displayedMessage, setDisplayedMessage] = useState("");
+  const [botresponse, setBotresponse] = useState(null);
+  const [firstlist, setFirstlist] = useState(null);
 
   // Signalr related functions
   const registerSignalREvents = (connection) => {
@@ -36,11 +44,12 @@ export const ChatRoom = () => {
     });
     connection.on("ReceiveBotMessageStart", (message) => {
       console.log("start");
+      // setChatlist((prev) => [...prev, { content: "", authorRole: 1 }]);
     });
     connection.on("ReceiveBotMessage", (message) => {
+      console.log(message);
       const displayNextCharacter = () => {
         if (message === undefined || message === null) return;
-        console.log(message);
         setDisplayedMessage((prev) => prev + message);
         setChatlist((prev) => {
           let updatedChatlist = [...prev];
@@ -48,39 +57,53 @@ export const ChatRoom = () => {
           lastMessage = {
             ...lastMessage,
             content: lastMessage.content + message,
+            authorRole: 1,
           };
           updatedChatlist[updatedChatlist.length - 1] = lastMessage;
-
           return updatedChatlist;
         });
       };
       displayNextCharacter();
-      // setTimeout(displayNextCharacter, 1);
     });
     connection.on("receivecompletedbotmessage", (message) => {
-      console.log(message);
       const deliver = message.message;
       const displayNextCharacter = () => {
         if (deliver === undefined || deliver === null) return;
-        console.log(deliver);
-        setDisplayedMessage((prev) => prev + deliver);
         setChatlist((prev) => {
           let updatedChatlist = [...prev];
           let lastMessage = updatedChatlist[updatedChatlist.length - 1];
           lastMessage = {
             ...lastMessage,
-            content: lastMessage.content + deliver,
+            content: deliver,
+            authorRole: 1,
           };
           updatedChatlist[updatedChatlist.length - 1] = lastMessage;
-
           return updatedChatlist;
         });
       };
       displayNextCharacter();
+      console.log(message);
+      if (message.contextData !== null) {
+        const jsonString = message.contextData;
+        const jsonObject = JSON.parse(jsonString);
+        setChatlist((prev) => [
+          ...prev,
+          {
+            title: jsonObject.Title,
+            period: jsonObject.StartDatetime,
+            location: jsonObject.Location,
+            authorRole: 2,
+          },
+        ]);
+        console.log(jsonObject.Title);
+        console.log(jsonObject.StartDatetime);
+        console.log(jsonObject.Location);
+      }
     });
 
     connection.on("ReceiveBotMessageComplete", () => {
       console.log("ReceiveBotMessageComplete");
+
       setIswaiting(false);
       setDisplayedMessage("");
     });
@@ -132,6 +155,7 @@ export const ChatRoom = () => {
     try {
       const messages = await ChatHistoryCall();
       setChatlist(messages);
+      setFirstlist(messages);
     } catch (error) {
       // Handle error
     }
@@ -175,14 +199,17 @@ export const ChatRoom = () => {
     }
   };
 
-  const handleSubmit = (value) => {
+  const handleSubmit = async (value) => {
+    setBotresponse(null);
     console.log("submitting user chat message");
     setChatlist((prev) => [
       ...prev,
       { content: value, authorRole: 0 },
       { content: "", authorRole: 1 },
     ]);
+
     RequestAnswer(value);
+
     setShouldAutoScroll(true);
   };
 
