@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import axios from "axios";
 import React from "react";
 import shortid from "shortid";
@@ -46,8 +46,6 @@ export default function Home() {
     "#b8c0ff",
     "#bbd0ff",
   ];
-  const toggleLeaving = () => setLeaving((prev) => !prev);
-
   const getName = async (id) => {
     try {
       const response1 = await axios({
@@ -107,7 +105,7 @@ export default function Home() {
       if (response.data.detail === "목표가 없습니다.") return;
       else {
         setGoals(response.data ? response.data : null);
-        // await setGoalList(response.data);
+
         setMode(null);
         const sortedGoals = [...response.data].sort((a, b) =>
           a.title.localeCompare(b.title)
@@ -193,8 +191,6 @@ export default function Home() {
           <div>
             <ScrollableContainer>
               <Row
-                // Keep the animation and transition props if needed
-                // variants={rowVariants}
                 initial="hidden"
                 animate="visible"
                 exit="exit"

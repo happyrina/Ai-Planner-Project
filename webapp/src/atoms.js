@@ -3,7 +3,7 @@ import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist({
     key: "userinfo", // 고유한 key 값
-    storage: sessionStorage,
+    storage: localStorage,
 })
 
 

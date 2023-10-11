@@ -4,7 +4,6 @@ import styles from "./css/ChatRoom.module.css";
 import React, { useEffect, useRef, useState } from "react";
 import copple from "../assets/cuteco.png";
 import { ChatInput } from "./ChatInput.jsx";
-
 import {
   setupSignalRConnectionToChatHub,
   startSignalRConnection,
@@ -13,12 +12,7 @@ import { ChatHistory } from "./chat-history/ChatHistory";
 import { format } from "date-fns";
 import axios from "axios";
 import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  botResponseState,
-  chatState,
-  infoState,
-  responseState,
-} from "../atoms";
+import { chatState, infoState, responseState } from "../atoms";
 
 export const ChatRoom = () => {
   const scrollViewTargetRef = useRef();
@@ -28,7 +22,6 @@ export const ChatRoom = () => {
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
   const [displayedMessage, setDisplayedMessage] = useState("");
   const [botresponse, setBotresponse] = useState(null);
-  const [firstlist, setFirstlist] = useState(null);
 
   // Signalr related functions
   const registerSignalREvents = (connection) => {
@@ -44,7 +37,6 @@ export const ChatRoom = () => {
     });
     connection.on("ReceiveBotMessageStart", (message) => {
       console.log("start");
-      // setChatlist((prev) => [...prev, { content: "", authorRole: 1 }]);
     });
     connection.on("ReceiveBotMessage", (message) => {
       console.log(message);
@@ -95,15 +87,16 @@ export const ChatRoom = () => {
             authorRole: 2,
           },
         ]);
-        console.log(jsonObject.Title);
-        console.log(jsonObject.StartDatetime);
-        console.log(jsonObject.Location);
+        console.log(
+          jsonObject.Title,
+          jsonObject.StartDatetime,
+          jsonObject.Location
+        );
       }
     });
 
     connection.on("ReceiveBotMessageComplete", () => {
       console.log("ReceiveBotMessageComplete");
-
       setIswaiting(false);
       setDisplayedMessage("");
     });
@@ -111,7 +104,7 @@ export const ChatRoom = () => {
 
   useEffect(() => {
     const connection = setupSignalRConnectionToChatHub();
-    startSignalRConnection(connection);
+    startSignalRConnection(connection, info);
     registerSignalREvents(connection);
     return () => {
       if (connection) {
@@ -122,7 +115,7 @@ export const ChatRoom = () => {
 
   // Api functions
   const ChatHistoryCall = async () => {
-    console.log(info);
+    console.log(`calling ${info}'s history...`);
     try {
       const response = await axios.get(
         `https://coppletest.azurewebsites.net/api/chat/${info}`,
@@ -134,12 +127,11 @@ export const ChatRoom = () => {
           },
         }
       );
-
       const messages = response.data.map((item) => ({
         content: item.message,
         authorRole: item.role,
       }));
-      console.log(messages[0]);
+      console.log(`메시지 총 ${messages.length}개`);
       return messages;
     } catch (error) {
       console.error("Error making Axios request:", error);
@@ -148,16 +140,15 @@ export const ChatRoom = () => {
         console.error("Response status:", error.response.status);
         console.error("Response headers:", error.response.headers);
       }
-      throw error; // You can re-throw the error to handle it elsewhere if needed.
+      throw error;
     }
   };
   const fetchChatHistory = async () => {
     try {
       const messages = await ChatHistoryCall();
       setChatlist(messages);
-      setFirstlist(messages);
     } catch (error) {
-      // Handle error
+      console.log(error);
     }
   };
 
@@ -169,7 +160,6 @@ export const ChatRoom = () => {
     try {
       const currentDate = new Date();
       const formattedDate = format(currentDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-
       const response = await axios.post(
         `https://coppletest.azurewebsites.net/api/chat`,
         {
@@ -188,7 +178,7 @@ export const ChatRoom = () => {
           },
         }
       );
-      console.log(response.data);
+      console.log(`requesting for ${response.data}`);
     } catch (error) {
       console.error("Error making Axios request:", error);
       if (error.response) {
@@ -207,15 +197,12 @@ export const ChatRoom = () => {
       { content: value, authorRole: 0 },
       { content: "", authorRole: 1 },
     ]);
-
     RequestAnswer(value);
-
     setShouldAutoScroll(true);
   };
 
   return (
     <div className={styles.ChatRoomRoot}>
-      {" "}
       <div className={styles.ChatBar}>
         <img style={{ height: "1.8em" }} src={copple}></img>
         <h3>Copple</h3>

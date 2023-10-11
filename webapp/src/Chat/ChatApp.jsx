@@ -18,16 +18,14 @@ export const setupSignalRConnectionToChatHub = () => {
   return connection;
 };
 export const registerCommonSignalConnectionEvents = (connection) => {
-  // Re-establish the connection if connection dropped
-  // connection.onclose()
   if (connection.state === "Disconnected") {
     const errorMessage =
       "Connection closed due to error. Try refreshing this page to restart the connection";
-    // alert(errorMessage);
+
     console.log(errorMessage);
   } else if (connection.state === "Reconnecting") {
     const errorMessage = "Connection lost due to error. Reconnecting...";
-    // alert(errorMessage);
+
     console.log(errorMessage);
   } else if (connection.state === "Connected") {
     const message =
@@ -36,14 +34,13 @@ export const registerCommonSignalConnectionEvents = (connection) => {
   }
 };
 
-export const startSignalRConnection = (connection) => {
-  // registerCommonSignalConnectionEvents(connection);
+export const startSignalRConnection = (connection, id) => {
   connection
     .start()
     .then(() => {
       console.assert(connection.state === "Connected");
       console.log("SignalR connection established");
-      connection.send("JoinChatRoom", "Copple");
+      connection.send("JoinChatRoom", id);
     })
     .catch((err) => {
       console.assert(connection.state === "Disconnected");
@@ -53,12 +50,3 @@ export const startSignalRConnection = (connection) => {
       }, 5000);
     });
 };
-
-// export const registerSignalREvents = (connection) => {
-//   connection.on("ReceiveBotMessage", (message) => {
-//     setChatlist((prevMessages) => [
-//       ...prevMessages,
-//       `{content: ${message}, authorRole:1}`,
-//     ]);
-//   });
-// };

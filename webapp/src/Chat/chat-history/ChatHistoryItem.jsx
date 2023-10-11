@@ -13,20 +13,15 @@ export const DefaultChatUser = {
 };
 
 const AuthorRoles = {
-  // The current user of the chat.
   User: 0,
 
-  // The bot.
   Bot: 1,
 
-  // The participant who is not the current user nor the bot of the chat.
   Suggestion: 2,
 };
 export const ChatHistoryItem = ({ message, messageIndex }) => {
-  // console.log(message);
-  // const isMe = isDefaultUser || (message.authorRole === AuthorRoles.User && message.userId === activeUserInfo?.id);
   const isBot = message.authorRole === AuthorRoles.Bot;
-  const isDefaultUser = true;
+
   return message.authorRole === 2 ? (
     <GoalContainer>
       <Img src={defaultImage} alt="goal"></Img>
@@ -105,6 +100,6 @@ const Addbutton = styled.button`
   background-color: #6cd3ff;
   border: none;
   cursor: pointer;
-  padding: 5px 5px;
+  padding: 4px 6px;
   color: white;
 `;
