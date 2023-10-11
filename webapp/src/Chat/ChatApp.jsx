@@ -43,7 +43,7 @@ export const startSignalRConnection = (connection) => {
     .then(() => {
       console.assert(connection.state === "Connected");
       console.log("SignalR connection established");
-      connection.send("JoinChatRoom", "wonbin");
+      connection.send("JoinChatRoom", "Copple");
     })
     .catch((err) => {
       console.assert(connection.state === "Disconnected");

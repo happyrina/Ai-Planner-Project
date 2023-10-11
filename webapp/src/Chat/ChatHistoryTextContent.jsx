@@ -39,7 +39,7 @@ const customRenderers = {
 
 export const ChatHistoryTextContent = ({ message }) => {
   const isBot = message.authorRole === 1;
-
+  if (message.content === null) return;
   const content = utils.formatChatTextContent(message.content);
 
   return (

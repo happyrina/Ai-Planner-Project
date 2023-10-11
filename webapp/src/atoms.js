@@ -6,6 +6,7 @@ const { persistAtom } = recoilPersist({
     storage: sessionStorage,
 })
 
+
 export const infoState = atom({
     key: "infoState",
     default: "",
