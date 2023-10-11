@@ -9,7 +9,6 @@ import Goal from "./routes/Goal"
 import ProfilePhotoEdit from './routes/ProfilePhotoEdit.jsx';
 import MainPage from './routes/MainPage.jsx';
 import PlanListPage from './routes/PlanListPage.jsx';
-import { Suspense } from "react";
 
 function Router() {
   return (
@@ -17,9 +16,7 @@ function Router() {
       <Routes >
         <Route path="/" element={<LoginPage />} />
         <Route path="/signup" element={<Signup />} />
-
         <Route path="/home" element={<Home />} />
-
         <Route path="/todo" element={<Todo />} />
         <Route path="/plan" element={<Plan />} />
         <Route path="/goal" element={<Goal />} />

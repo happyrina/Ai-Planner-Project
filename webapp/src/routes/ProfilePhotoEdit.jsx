@@ -18,6 +18,8 @@ function ProfilePhotoEdit() {
   const name = useRecoilValue(nameState);
   const info = useRecoilValue(infoState);
   const navigate = useNavigate();
+  const tokenstring = document.cookie;
+  const token = tokenstring.split("=")[1];
 
   useEffect(() => {
     async function fetchUserProfile() {
@@ -56,10 +58,24 @@ function ProfilePhotoEdit() {
   }, [profileImage]);
 
   // 로그아웃 처리
-  const handleLogout = () => {
-    localStorage.removeItem("userId");
-    localStorage.removeItem("userToken");
-    sessionStorage.removeItem("userId");
+  const handleLogout = async () => {
+    try {
+      await axios
+        .post(`http://3.39.153.9:3000/account/logout`, null, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Access-Control-Allow-Origin": "*",
+          },
+        })
+        .then((response) => console.log(response));
+    } catch (error) {
+      console.error(
+        "An error occurred while fetching user information:",
+        error
+      );
+    }
+    localStorage.removeItem("userinfo");
+
     navigate("/");
   };
   const GoBackHandler = () => {
@@ -217,10 +233,6 @@ function ProfilePhotoEdit() {
           ></textarea>
 
           <button className={styles.backBtn} onClick={GoBackHandler}>
-            {/* <Link
-              to={"/home"}
-              style={{ textDecoration: "none", color: "#fff" }}
-            > */}
             뒤로가기
             {/* </Link> */}
           </button>

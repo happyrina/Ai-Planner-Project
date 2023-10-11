@@ -12,6 +12,7 @@ function LoginPage() {
   const [id, setId] = useState();
   const [pw, setPw] = useState();
   const navigate = useNavigate();
+
   const onChangeId = function (e) {
     setId(e.target.value);
   };

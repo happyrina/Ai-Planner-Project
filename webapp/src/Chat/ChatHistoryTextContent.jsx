@@ -19,27 +19,8 @@ const customRenderers = {
   ol: ({ children }) => <ol className={styles.reactMarkDown}>{children}</ol>,
 };
 
-// const content = `
-// # heading 1
-// ## heading 2
-// ### heading 3
-// ~~strikethrough~~
-
-// > Blockquote
-
-// **strong**
-// *italics*
-// ***
-// [Gmail](https://gmail.com)
-// ***
-// 1. ordered list
-// 2. ordered list
-// - unordered list
-// - unordered list`;
-
 export const ChatHistoryTextContent = ({ message }) => {
-  const isBot = message.authorRole === 1;
-  if (message.content === null) return;
+  if (message.content === null || message.content === undefined) return;
   const content = utils.formatChatTextContent(message.content);
 
   return (

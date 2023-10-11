@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft. All rights reserved.
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { ChatHistoryItem } from "./ChatHistoryItem";
 import styles from "../css/ChatHistory.module.css";
 
@@ -32,18 +32,15 @@ export const ChatHistory = ({ messages }) => {
       currentScrollViewTarget.removeEventListener("", on);
     };
   }, []);
-
   return (
     <div ref={scrollViewTargetRef} className={styles.ChatHistoryRoot}>
-      {messages.length > 1 &&
+      {messages.length > 1 ? (
         messages.map((message, index) => (
-          <ChatHistoryItem
-            // key={message.timestamp}
-            message={message}
-            // getResponse={onGetResponse}
-            messageIndex={index}
-          />
-        ))}
+          <ChatHistoryItem message={message} key={index} messageIndex={index} />
+        ))
+      ) : (
+        <ChatHistoryItem message={messages[0]} key={-1} messageIndex={1} />
+      )}
     </div>
   );
 };
