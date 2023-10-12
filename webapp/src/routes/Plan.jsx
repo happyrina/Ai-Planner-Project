@@ -34,8 +34,8 @@ function Plan() {
   let planState = {
     title: "",
     goal: selectedgoal,
-    startDatetime: format(sdate, "yyyy-MM-dd ") + format(stime, "hh:mm:ss"),
-    endDatetime: format(edate, "yyyy-MM-dd ") + format(etime, "hh:mm:ss"),
+    startDatetime: format(sdate, "yyyy-MM-dd ") + format(stime, "hh:mm:ss a"),
+    endDatetime: format(edate, "yyyy-MM-dd ") + format(etime, "hh:mm:ss a"),
     location: "",
     content: "",
   };

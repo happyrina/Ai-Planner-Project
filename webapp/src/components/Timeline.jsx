@@ -17,6 +17,39 @@ const Timeline = ({ eventsProp = [] }) => {
     let random_color = colors[Math.floor(Math.random() * colors.length)];
     return random_color;
   };
+  useEffect(() => {
+    const fetchMoreEvents = async () => {
+      if (isLoading) return;
+      setIsLoading(true);
+      try {
+        const tokenString = document.cookie;
+        const token = tokenString.split("=")[1];
+        const response = await axios.get(
+          // `http://3.39.153.9:3000/todo/read?page=${page}`,
+          `http://3.39.153.9:3000/todo/read`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setEvents((prevEvents) => {
+          return response.data.length > 0
+            ? [...prevEvents, ...response.data]
+            : [...prevEvents];
+        });
+        setPage((prevPage) => prevPage + 1);
+        console.log(response);
+      } catch (error) {
+        console.error("Error fetching more events", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchMoreEvents();
+  }, [editingTitles]);
   const fetchMoreEvents = async () => {
     if (isLoading) return;
     setIsLoading(true);
@@ -40,7 +73,24 @@ const Timeline = ({ eventsProp = [] }) => {
       setIsLoading(false);
     }
   };
-
+  const finishEditing = async (eventId, newTitle) => {
+    try {
+      const tokenString = document.cookie;
+      const token = tokenString.split("=")[1];
+      await axios.put(
+        `http://3.39.153.9:3000/event/update/${eventId}`,
+        { title: newTitle },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setEditIndex(null);
+    } catch (error) {
+      console.error("Could not finish editing", error);
+    }
+  };
   const handleScroll = () => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
     if (scrollHeight - (scrollTop + clientHeight) < 50) {
@@ -71,25 +121,6 @@ const Timeline = ({ eventsProp = [] }) => {
       } catch (error) {
         console.error("Could not delete event", error);
       }
-    }
-  };
-
-  const finishEditing = async (eventId, newTitle) => {
-    try {
-      const tokenString = document.cookie;
-      const token = tokenString.split("=")[1];
-      await axios.put(
-        `http://3.39.153.9:3000/event/update/${eventId}`,
-        { title: newTitle },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setEditIndex(null);
-    } catch (error) {
-      console.error("Could not finish editing", error);
     }
   };
 
@@ -177,7 +208,8 @@ const Timeline = ({ eventsProp = [] }) => {
               <div className={styles["dropdown-options"]} ref={dropdownRef}>
                 <button
                   className={styles["edit-btn"]}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     setEditIndex(event.event_id);
                     setEditingTitles({
                       ...editingTitles,

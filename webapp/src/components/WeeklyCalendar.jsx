@@ -36,7 +36,22 @@ function WeeklyCalendar() {
   const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
 
   useEffect(() => {
-    setSelectedDate(startDate);
+    console.log(eventsProp);
+  }, [eventsProp]);
+
+  useEffect(() => {
+    const days = Array.from({ length: 7 }).map((_, idx) =>
+      addDays(startDate, idx)
+    );
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (days.some((day) => isToday(day))) {
+      setSelectedDate(today);
+    } else {
+      setSelectedDate(startDate);
+    }
   }, [startDate, setSelectedDate]);
 
   useEffect(() => {
@@ -46,8 +61,9 @@ function WeeklyCalendar() {
         const token = tokenstring.split("=")[1];
         const formattedDay = selectedDate
           ? format(selectedDate, "yyyy-MM-dd HH:mm:ss")
-          : null;
-        console.log("여기 :", formattedDay);
+          : format(new Date(), "yyyy-MM-dd HH:mm:ss");
+        console.log("여기 : formattedDay", formattedDay);
+        console.log("여기 : selectedDate", selectedDate);
         if (formattedDay) {
           // if (selectedDate) {
           const response = await axios({
@@ -98,6 +114,7 @@ function WeeklyCalendar() {
   const days = Array.from({ length: 7 }).map((_, idx) =>
     addDays(startDate, idx)
   );
+  console.log("days", days);
   const goToPreviousWeek = () =>
     setStartDate((prevStartDate) => addDays(prevStartDate, -7));
   const goToNextWeek = () =>
@@ -105,6 +122,7 @@ function WeeklyCalendar() {
 
   const handleDayClick = (day) => {
     setSelectedDate(day);
+    console.log("selectedDate : ", day);
   };
 
   const toggleAddModal = () => {
@@ -245,15 +263,17 @@ function WeeklyCalendar() {
           {days.map((day, idx) => (
             <div
               key={idx}
-              className={`${styles.calendarDay} ${
-                isEqual(selectedDate, day) ? styles.selectedDay : ""
-              }`}
+              className={styles.calendarDay}
               onClick={() => handleDayClick(day)}
             >
               <div className={styles.calendarDayName}>{format(day, "E")}</div>
               <div
                 className={`${styles.calendarDayNumber} ${
-                  isToday(day) ? styles.today : ""
+                  isToday(day)
+                    ? styles.today
+                    : "" || isEqual(selectedDate, day)
+                    ? styles.selectedDay
+                    : ""
                 }`}
               >
                 {format(day, "d")}

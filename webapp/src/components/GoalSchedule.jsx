@@ -28,7 +28,6 @@ function GoalSchedule({ eventId }) {
       const token = tokenstring.split("=")[1];
 
       const url = `http://3.39.153.9:3000/event/groupByGoal/${eventId}`;
-
       axios
         .get(url, {
           headers: {
@@ -55,7 +54,6 @@ function GoalSchedule({ eventId }) {
           });
 
           schedules.sort((a, b) => new Date(a.day) - new Date(b.day));
-
           setLoadedData((prevState) => ({ ...prevState, schedules }));
         })
 
