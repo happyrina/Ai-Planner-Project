@@ -36,10 +36,6 @@ function WeeklyCalendar() {
   const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
 
   useEffect(() => {
-    console.log(eventsProp);
-  }, [eventsProp]);
-
-  useEffect(() => {
     const days = Array.from({ length: 7 }).map((_, idx) =>
       addDays(startDate, idx)
     );

@@ -1,0 +1,17 @@
+.SummaryPageContainer {
+  width: 325px;
+  background-color: #f1efef;
+  border-radius: 10px;
+  margin: 0px auto;
+  position: relative;
+  top: 0px;
+  padding: 20px;
+}
+
+.SummaryPageWrapper {
+  width: 100%;
+  height: auto;
+  text-align: center;
+  line-height: normal;
+  font-size: 14px;
+}

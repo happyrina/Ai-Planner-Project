@@ -1,0 +1,37 @@
+.profileImageSection {
+  display: flex;
+  align-items: center;
+  margin: 20px;
+}
+
+.imageCircle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid #b0ccf5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-size: contain;
+  background-position: center;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.imageAction {
+  width: 10px;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-right: 20px;
+}
+
+.imageAction p {
+  color: #000000;
+  margin: 0;
+  padding: 0px;
+  font-size: 13px;
+  font-weight: 700;
+}

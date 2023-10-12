@@ -40,12 +40,12 @@ function NavBar() {
           )}
         </Link>
         <Link
-          to="/profile"
+          to="/userinfo"
           className={styles.profileIcon}
           onClick={handleProfileClick}
         >
-          <img src={profileIcon} className={styles.Icon} alt="Profile" />
-          {location.pathname === "/profile" && (
+          <img src={profileIcon} className={styles.Icon} alt="userinfo" />
+          {location.pathname === "/userinfo" && (
             <img src={highlight} className={styles.Underline} alt="selected" />
           )}
         </Link>

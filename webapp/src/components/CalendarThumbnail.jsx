@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/CalendarThumbnail.module.css";
-import { useCalendar } from "../routes/MainPage";
 import axios from "axios";
-import { infoState, nameState } from "../atoms";
-import { useRecoilValue } from "recoil";
 import defaultImage from "../assets/images/rabbit.jpeg";
 
 function ThumbnailList({ goals: initialGoals, id }) {
-  const { selectedDate, dataForSelectedDate } = useCalendar();
-  const name = useRecoilValue(nameState);
-  const info = useRecoilValue(infoState);
   const navigate = useNavigate();
   const [goals, setGoals] = useState(initialGoals || []);
 
@@ -28,7 +22,10 @@ function ThumbnailList({ goals: initialGoals, id }) {
         });
 
         if (Array.isArray(response.data)) {
-          setGoals(response.data);
+          const sortedGoals = [...response.data].sort((a, b) =>
+            a.title.localeCompare(b.title)
+          );
+          setGoals(sortedGoals);
         } else {
           console.error("Received data is not an array");
         }
@@ -57,11 +54,7 @@ function ThumbnailList({ goals: initialGoals, id }) {
             >
               <div className={styles.CalendarThumbnailthumbnailBox}>
                 <img
-                  src={
-                    goal.photoUrl && goal.photoUrl !== null
-                      ? goal.photoUrl
-                      : defaultImage
-                  }
+                  src={goal.photoUrl || defaultImage}
                   alt={`Goal ${goal.title}`}
                   className={styles.CalendarThumbnailthumbnail}
                 />
