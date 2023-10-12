@@ -6,6 +6,7 @@ import LoginPage from "./routes/LoginPage"
 import Home from "./routes/Home"
 import Plan from "./routes/Plan"
 import Goal from "./routes/Goal"
+import UserInfo from "./routes/UserInfo"
 import ProfilePhotoEdit from './routes/ProfilePhotoEdit.jsx';
 import MainPage from './routes/MainPage.jsx';
 import PlanListPage from './routes/PlanListPage.jsx';
@@ -15,6 +16,7 @@ function Router() {
     <BrowserRouter>
       <Routes >
         <Route path="/" element={<LoginPage />} />
+        <Route path="/userinfo" element={<UserInfo />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/home" element={<Home />} />
         <Route path="/todo" element={<Todo />} />

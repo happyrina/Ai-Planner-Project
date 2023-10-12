@@ -11,46 +11,50 @@ const Timeline = ({ eventsProp = [] }) => {
   const [editIndex, setEditIndex] = useState(null);
   const [editingTitles, setEditingTitles] = useState({});
   const dropdownRef = useRef();
+  useEffect(() => {
+    setEvents(eventsProp);
+  }, [eventsProp]);
+
+  useEffect(() => {
+    const sortedEvents = [...eventsProp].sort((a, b) => {
+      return new Date(a.startDatetime) - new Date(b.startDatetime);
+    });
+    setEvents(sortedEvents);
+  }, [eventsProp]);
+
   const pickColor = () => {
     // Array containing colors
     let colors = ["rgb(255 236 247)", "rgb(247 240 255)", "#EDF3FF"];
     let random_color = colors[Math.floor(Math.random() * colors.length)];
     return random_color;
   };
-  useEffect(() => {
-    const fetchMoreEvents = async () => {
-      if (isLoading) return;
-      setIsLoading(true);
-      try {
-        const tokenString = document.cookie;
-        const token = tokenString.split("=")[1];
-        const response = await axios.get(
-          // `http://3.39.153.9:3000/todo/read?page=${page}`,
-          `http://3.39.153.9:3000/todo/read`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setEvents((prevEvents) => {
-          return response.data.length > 0
-            ? [...prevEvents, ...response.data]
-            : [...prevEvents];
-        });
-        setPage((prevPage) => prevPage + 1);
-        console.log(response);
-      } catch (error) {
-        console.error("Error fetching more events", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
 
-    fetchMoreEvents();
-  }, [editingTitles]);
-  const fetchMoreEvents = async () => {
+  const finishEditing = async (eventId, newTitle) => {
+    try {
+      const tokenString = document.cookie;
+      const token = tokenString.split("=")[1];
+      await axios.put(
+        `http://3.39.153.9:3000/event/update/${eventId}`,
+        { title: newTitle },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const updatedEvents = events.map((event) =>
+        event.event_id === eventId ? { ...event, title: newTitle } : event
+      );
+
+      setEvents(updatedEvents);
+      setEditIndex(null);
+      setShowOptionsIndex(null);
+    } catch (error) {
+      console.error("Could not finish editing", error);
+    }
+  };
+
+  const MoreEvents = async () => {
     if (isLoading) return;
     setIsLoading(true);
     try {
@@ -73,29 +77,11 @@ const Timeline = ({ eventsProp = [] }) => {
       setIsLoading(false);
     }
   };
-  const finishEditing = async (eventId, newTitle) => {
-    try {
-      const tokenString = document.cookie;
-      const token = tokenString.split("=")[1];
-      await axios.put(
-        `http://3.39.153.9:3000/event/update/${eventId}`,
-        { title: newTitle },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setEditIndex(null);
-    } catch (error) {
-      console.error("Could not finish editing", error);
-    }
-  };
+
   const handleScroll = () => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
     if (scrollHeight - (scrollTop + clientHeight) < 50) {
-      // Adjust as needed
-      fetchMoreEvents();
+      MoreEvents();
     }
   };
 
@@ -117,13 +103,19 @@ const Timeline = ({ eventsProp = [] }) => {
             Authorization: `Bearer ${token}`,
           },
         });
+        const updatedEvents = events.filter(
+          (event) => event.event_id !== eventId
+        );
+        setEvents(updatedEvents);
         setShowOptionsIndex(null);
       } catch (error) {
         console.error("Could not delete event", error);
       }
     }
   };
-
+  const handleCompleteEdit = (eventId, newTitle) => {
+    finishEditing(eventId, newTitle);
+  };
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -141,7 +133,7 @@ const Timeline = ({ eventsProp = [] }) => {
   return (
     // <div className={styles.app}>
     <ul className={styles["event-list"]}>
-      {eventsProp.map((event, index) => (
+      {events.map((event, index) => (
         <PlanListItem
           key={event.event_id}
           className={styles["event-item"]}
@@ -191,16 +183,32 @@ const Timeline = ({ eventsProp = [] }) => {
               </span>
             )}
             <div>
-              <button
-                className={styles.completionbutton}
-                onClick={() =>
-                  setShowOptionsIndex(
-                    showOptionsIndex === event.event_id ? null : event.event_id
-                  )
-                }
-              >
-                {editIndex === event.event_id ? "완료" : "..."}
-              </button>
+              {editIndex === event.event_id ? (
+                <button
+                  className={styles.completionbutton}
+                  onClick={() =>
+                    handleCompleteEdit(
+                      event.event_id,
+                      editingTitles[event.event_id]
+                    )
+                  }
+                >
+                  완료
+                </button>
+              ) : (
+                <button
+                  className={styles.completionbutton}
+                  onClick={() =>
+                    setShowOptionsIndex(
+                      showOptionsIndex === event.event_id
+                        ? null
+                        : event.event_id
+                    )
+                  }
+                >
+                  ...
+                </button>
+              )}
             </div>
           </div>
           {showOptionsIndex === event.event_id &&

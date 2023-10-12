@@ -1,0 +1,10 @@
+.CalendarThumnailTitle {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.CalendarThumnailContainer {
+  position: relative;
+  top: 160px;
+  right: 20px;
+}
