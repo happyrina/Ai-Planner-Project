@@ -13,7 +13,7 @@ const Category = ({ dataForSelectedDate }) => {
   };
 
   const eventsProp = useRecoilValue(eventsPropState);
-
+  useEffect(() => {}, [eventsProp]);
   return (
     <div className={styles.centeredContainer}>
       <nav className={styles.leftContainer}>

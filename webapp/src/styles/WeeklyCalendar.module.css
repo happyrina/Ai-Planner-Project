@@ -4,7 +4,7 @@
   justify-content: space-between;
   align-items: center;
   position: relative;
-  bottom: 20px;
+  bottom: 30px;
 }
 
 .calendarWrapper {
@@ -53,22 +53,27 @@
 
 .calendarDayNumber {
   text-align: center;
+  display: flex;
+  width: 30px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
   margin: 0px;
   /* font-weight: 600; */
 }
 
 .calendarDayNumber.today {
   background-color: #ebd7ff;
-  width: 20px;
+  width: 30px;
   color: black;
-  height: 20px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
   /* font-weight: 600; */
   text-align: center;
-  box-shadow: 0 0 0 5px #ebd7ff;
+  /* box-shadow: 0 0 0 5px #ebd7ff; */
 }
 .calendarDay:hover .calendarDayNumber {
   font-weight: 600;
@@ -163,7 +168,16 @@
 }
 
 .selectedDay {
-  /* font-weight: bold; */
+  border: 0.5px solid #ebd7ff;
+  width: 30px;
+  color: black;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  text-align: center;
+  /* box-shadow: 0 0 0 5px #ebd7ff; */
 }
 
 .addIcon {
