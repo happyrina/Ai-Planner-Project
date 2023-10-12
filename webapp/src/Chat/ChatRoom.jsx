@@ -84,13 +84,15 @@ export const ChatRoom = () => {
             title: jsonObject.Title,
             period: jsonObject.StartDatetime,
             location: jsonObject.Location,
+            content: jsonObject.Content,
             authorRole: 2,
           },
         ]);
         console.log(
           jsonObject.Title,
           jsonObject.StartDatetime,
-          jsonObject.Location
+          jsonObject.Location,
+          jsonObject.Content
         );
       }
     });
@@ -146,7 +148,7 @@ export const ChatRoom = () => {
   const fetchChatHistory = async () => {
     try {
       const messages = await ChatHistoryCall();
-      setChatlist(messages);
+      messages.length !== 0 && setChatlist(messages);
     } catch (error) {
       console.log(error);
     }

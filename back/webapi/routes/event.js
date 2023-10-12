@@ -538,7 +538,7 @@ app.get("/goal/isCompleted/:event_id", requireLogin, async (req, res) => {
 });
 
 // 8) 일정 생성
-app.post("/event/create", requireLogin, async (req, res) => {
+app.post("/", requireLogin, async (req, res) => {
   const user = req.user;
   console.log(req.ueser, req.body, '/event/create');
   const { title, startDatetime, endDatetime, goal, location, content } = req.body;

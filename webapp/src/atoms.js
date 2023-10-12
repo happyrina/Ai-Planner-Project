@@ -25,7 +25,7 @@ export const goalState = atom({
 
 export const chatState = atom({
     key: "chatlist",
-    default: [{}]
+    default: [{ content: "안녕하세요? 무엇을 도와드릴까요?", authorRole: 1 }]
 })
 
 export const responseState = atom({

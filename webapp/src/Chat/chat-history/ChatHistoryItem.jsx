@@ -4,6 +4,8 @@ import styles from "../css/ChatHistoryItem.module.css";
 import { ChatHistoryTextContent } from "../ChatHistoryTextContent";
 import defaultImage from "../../assets/images/smile.jpeg";
 import styled from "styled-components";
+import axios from "axios";
+import { format } from "date-fns";
 export const DefaultChatUser = {
   id: "c05c61eb-65e4-4223-915a-fe72b0c9ece1",
   emailAddress: "user@contoso.com",
@@ -21,14 +23,44 @@ const AuthorRoles = {
 };
 export const ChatHistoryItem = ({ message, messageIndex }) => {
   const isBot = message.authorRole === AuthorRoles.Bot;
-
+  const plan = message;
+  const SendPlan = async () => {
+    try {
+      const tokenstring = document.cookie;
+      const token = tokenstring.split("=")[1];
+      const url = `http://3.39.153.9:3000/event/create`;
+      await axios({
+        method: "post",
+        url: url,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization: `Bearer ${token}`,
+        },
+        data: {
+          title: plan.title,
+          startDatetime: plan.period.replace("T", " "),
+          endDatetime: plan.period.replace("T", " "),
+          goal: null,
+          location: plan.location,
+          content: plan.content,
+        },
+        withCredentials: false,
+      }).then((response) => {
+        if (response.status === 200) {
+          console.log("creating plan success");
+        }
+      });
+    } catch (error) {
+      console.error("An error occurred while updating profile:", error);
+    }
+  };
   return message.authorRole === 2 ? (
     <GoalContainer>
       <Img src={defaultImage} alt="goal"></Img>
       <div className="title">{message.title}</div>
       <div className="period">{message.period}</div>
       <div>
-        <Addbutton>추가</Addbutton>
+        <Addbutton onClick={SendPlan}>추가</Addbutton>
       </div>
     </GoalContainer>
   ) : (
